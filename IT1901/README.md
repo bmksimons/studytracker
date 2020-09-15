@@ -12,7 +12,7 @@ Prosjektet er organisert med 2 kildekodemapper, en for koden og en for testene:
 ## Domenelaget
 
 Vår app handler om å kunne legge til fag man har et semester og hvor manage timer man bruker på å jobbe med faget. For å
-håndtere tilhørende informasjon har vi course og semseter klasser. Disse ligger i 
+håndtere tilhørende informasjon har vi course og semseter klasser. Disse ligger i [studyTracker.core](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2066/gr2066/-/tree/NewStart/IT1901%2Fsrc%2Fmain%2Fjava%2FstudyTracker%2Fcore)-pakken
 
 I domenelaget har vi klassene som omhandler logikk og objektene som applikasjoenen bruker. Dette laget fungerer uavhengig
 av resten av koden. 
