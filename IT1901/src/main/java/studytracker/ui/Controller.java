@@ -1,4 +1,4 @@
-package studyTracker.ui;
+package studytracker.ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-import studyTracker.filehandling.Load;
-import studyTracker.filehandling.Save;
+import studytracker.filehandling.Load;
+import studytracker.filehandling.Save;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

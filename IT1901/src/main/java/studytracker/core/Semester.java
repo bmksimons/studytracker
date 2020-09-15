@@ -1,4 +1,4 @@
-package studyTracker.core;
+package studytracker.core;
 
 import java.util.ArrayList;
 import java.util.Arrays;

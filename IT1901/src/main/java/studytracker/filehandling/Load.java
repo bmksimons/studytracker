@@ -1,4 +1,4 @@
-package studyTracker.filehandling;
+package studytracker.filehandling;
 
 /**
  * Loads the content from a file with formate .txt.
@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class Load {
 	
-    public final static String SAVE_FOLDER = "src/";
+    public final static String SAVE_FOLDER = "src/main/java/studytracker/filehandling/";
     
 /**
  *

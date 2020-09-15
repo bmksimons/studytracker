@@ -1,4 +1,4 @@
-package studyTracker.filehandling;
+package studytracker.filehandling;
 
 /**
  * Saves or removes the information from the strudytrackerapp in a file with formate .txt.
@@ -12,7 +12,7 @@ import javafx.scene.control.Label;
 
 public class Save {
 	
-	public final static String SAVE_FOLDER = "src/";
+	public final static String SAVE_FOLDER = "src/main/java/studytracker/filehandling/";
     
      /**
      * Saves the information from the studytrackerapp.

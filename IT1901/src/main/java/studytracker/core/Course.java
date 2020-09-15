@@ -1,4 +1,4 @@
-package studyTracker.core;
+package studytracker.core;
 
 public class Course {
     private String courseName;

@@ -1,6 +1,6 @@
-/workspace/gr2066/IT1901/src/main/java/studyTracker/core/Semester.java
-/workspace/gr2066/IT1901/src/main/java/studyTracker/ui/Controller.java
-/workspace/gr2066/IT1901/src/main/java/studyTracker/filehandling/Load.java
-/workspace/gr2066/IT1901/src/main/java/studyTracker/ui/App.java
-/workspace/gr2066/IT1901/src/main/java/studyTracker/filehandling/Save.java
-/workspace/gr2066/IT1901/src/main/java/studyTracker/core/Course.java
+/workspace/gr2066/IT1901/src/main/java/studytracker/core/Semester.java
+/workspace/gr2066/IT1901/src/main/java/studytracker/ui/Controller.java
+/workspace/gr2066/IT1901/src/main/java/studytracker/filehandling/Save.java
+/workspace/gr2066/IT1901/src/main/java/studytracker/filehandling/Load.java
+/workspace/gr2066/IT1901/src/main/java/studytracker/ui/App.java
+/workspace/gr2066/IT1901/src/main/java/studytracker/core/Course.java
