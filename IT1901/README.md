@@ -27,4 +27,4 @@ I brukergrensesnittlaget ligger også koden for å håndtere inputs fra brukeren
 ## Persistenslaget
 
 I persistenslaget ligger klasser og logikk tilknyttet lagring og lesing fra fil. For øyeblikket baserer vi oss på scanner- og 
-printWriter-klassene. Videre planlegger vi å implementere JSON. Koden for fillagring liiger her. 
+printWriter-klassene. Videre planlegger vi å implementere JSON. Koden for fillagring liiger i [studyTracker.filehandeling](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2066/gr2066/-/tree/NewStart/IT1901%2Fsrc%2Fmain%2Fjava%2FstudyTracker%2Ffilehandling). 
