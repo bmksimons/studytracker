@@ -17,8 +17,14 @@ public class Save {
      /**
      * Saves the information from the studytrackerapp.
      * 
-     * @param labels  an array with the name of the courses and the time spent on each course.
-     * 
+     * format: { courseName1
+     *           courseName2
+     *           courseName3
+     *           courseName4
+     *           courseTimer1
+     *           courseTimer2
+     *           courseTimer3
+     *           courseTimer4 }
      */
 
 	public void saveInFile(ArrayList<Label> labels) throws IOException {
@@ -31,11 +37,7 @@ public class Save {
 		}
     }
     
-    /**
-     * Clears all information saved in the .txt-file.
-     * 
-     */
-	public void saveEmptyFile() throws IOException {
+	public void emptyFile() throws IOException {
 		try (PrintWriter writer = new PrintWriter(getFilePath("savedStudyPlanner"))){
 			writer.print("");
 			writer.flush();

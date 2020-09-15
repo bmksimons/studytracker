@@ -180,7 +180,7 @@ public class Controller {
         courseList.clear();
         pickCourse.setItems(courseList);
 		try {
-			save.saveEmptyFile();
+			save.emptyFile();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
