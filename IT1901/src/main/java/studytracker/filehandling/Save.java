@@ -1,7 +1,7 @@
 package studytracker.filehandling;
 
 /**
- * Saves or removes the information from the strudytrackerapp in a file with formate .txt.
+ * Saves or removes the information from the strudytracker in a file with formate .txt.
  *
  */
 import java.io.IOException;
@@ -15,7 +15,7 @@ public class Save {
 	public final static String SAVE_FOLDER = "src/main/java/studytracker/filehandling/";
     
      /**
-     * Saves the information from the studytrackerapp.
+     * Saves the information from the studytracker.
      * 
      * format: { courseName1
      *           courseName2

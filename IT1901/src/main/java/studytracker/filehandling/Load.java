@@ -11,14 +11,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Load {
-	
+    
     public final static String SAVE_FOLDER = "src/main/java/studytracker/filehandling/";
     
-/**
- *
- * @param filename the name of the file
- * @return an arrayList with the information from the file
- */
+    /**
+     *
+    * @param filename the name of the file
+    * @return an arrayList with the information from the file
+    */
 	public ArrayList<String> loadFromFile(String filename) throws IOException {
 		try (Scanner scanner = new Scanner(new File(getFilePath(filename)))){
 			ArrayList<String> labels = new ArrayList<>();

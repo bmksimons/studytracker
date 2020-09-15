@@ -1,5 +1,9 @@
 package studytracker.core;
 
+/**
+ * An object of the class represents a course, with its name, value and time spent studying the course.  
+ *
+ */
 public class Course {
     private String courseName;
     private double points;
