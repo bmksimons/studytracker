@@ -21,7 +21,7 @@ av resten av koden.
 
 I brukergrensesnittlaget har vi klasser og logikk som er knyttet opp mot visning av appen,
 samt håndtering av informasjon brukeren legger inn. I vår app handler dette om å vise brukeren hvilke fag som er lagt inn, og hvor mye tid man har brukt på hvert fag. 
-I brukergrensesnittlaget ligger også koden for å håndtere inputs fra brukeren. Koden finnes i 
+I brukergrensesnittlaget ligger også koden for å håndtere inputs fra brukeren. Koden finnes i [studyTracker.ui](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2066/gr2066/-/tree/NewStart/IT1901%2Fsrc%2Fmain%2Fjava%2FstudyTracker%2Ffilehandling).
 
 
 ## Persistenslaget
