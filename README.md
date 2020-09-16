@@ -5,4 +5,7 @@ Kodeprosjektet ligger i mappa "studytracker-app". Inni mappa "studytracker-app" 
 
 
 
+Welcome to IT1901 course fall 2020
 
+Good luck!
+fjaeøfjapewjfoia
