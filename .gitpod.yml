@@ -1,14 +1,11 @@
 image:
-  file: .gitpod.dockerfile
+  file: .gitpod.Dockerfile
 
 tasks:
   - init: sdk use java 14.0.2.j9-adpt
-    command: cd javafx-app
+    command: cd IT1901
 
 ports:
   # used by virtual desktop and vnc, supports JavaFX
   - port: 6080
-
-vscode:
-  extensions:
-    - vsls-contrib.codetour@0.0.33:iE864lCLSbwy9cG9lCgaYw==
+ 
