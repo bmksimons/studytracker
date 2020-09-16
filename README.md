@@ -2,10 +2,3 @@
 
 Repositoriet består av en README.md fil (denne fila), en .md fil for brukerhistorier og en .md fil for beskrivelse av applikasjon.
 Kodeprosjektet ligger i mappa "studytracker-app". Inni mappa "studytracker-app" finnes det en egen mappe "studytrackerapp" som består av alt av domenelogikk, brukergrensesnitt og persistens. En egen "test"-mappe inneholder mvn-test.
-
-
-
-Welcome to IT1901 course fall 2020
-
-Good luck!
-fjaeøfjapewjfoia
