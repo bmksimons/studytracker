@@ -58,5 +58,11 @@ public class Semester implements Iterable<Course> {
         Collection<Object> courses1 = Arrays.stream(courses).collect(Collectors.toUnmodifiableList());
 		return (int) courses1.stream().distinct().count() == courses.length;
 	}
-	
+    
+    public void removeCourse(Course course) {
+        if (this.semester.contains(course)) {
+            this.semester.remove(course); 
+        }
+        throw new IllegalArgumentException("This semster does not contain this course");    
+    }
 }
