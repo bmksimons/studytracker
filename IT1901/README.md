@@ -7,8 +7,8 @@ Appen er en trelagsapplikasjoen som består av domenelag, brukergrensesnitt og p
 ## Organisering av koden
 Prosjektet er organisert med 2 kildekodemapper, en for koden og en for testene:
 - **src/main/java** for koden til applikasjonene
+- **src/main/resources** for FXML-filen
 - **src/test/java** for testkoden
-- 
 ## Domenelaget
 
 Vår app handler om å kunne legge til fag man har et semester og hvor manage timer man bruker på å jobbe med faget. For å
