@@ -28,3 +28,8 @@ I brukergrensesnittlaget ligger også koden for å håndtere inputs fra brukeren
 
 I persistenslaget ligger klasser og logikk tilknyttet lagring og lesing fra fil. For øyeblikket baserer vi oss på scanner- og 
 printWriter-klassene. Videre planlegger vi å implementere JSON. Koden for fillagring ligger i [studytracker.filehandeling](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2066/gr2066/-/tree/NewStart/IT1901%2Fsrc%2Fmain%2Fjava%2FstudyTracker%2Ffilehandling). 
+
+
+## Utseende
+
+Når appen er er ferdig ønsker vi at appen skal se slik ![ut](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2066/gr2066/-/blob/NewStart/IMG_9364.JPG)
