@@ -15,11 +15,21 @@ public class Course {
         this.timeSpent = 0;
     }
 
+    public Course() {
+        this.courseName = "";
+        this.points = 0.0;
+        this.timeSpent = 0;
+    }
+
     public void addTime(double timeSpent) {
         if (timeSpent <= 0) {
             throw new IllegalArgumentException("You must add a positive number");
         }
         this.timeSpent += timeSpent;
+    }
+
+    public void setCourseName(String name){
+        this.courseName = name;
     }
 
     public String getCourseName() {
@@ -32,5 +42,5 @@ public class Course {
 
     public double getTimeSpent() {
         return this.timeSpent;
-    } 
+    }
 }

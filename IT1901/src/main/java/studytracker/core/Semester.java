@@ -90,5 +90,4 @@ public class Semester implements Iterable<Course> {
 		}
 		return false;
     }
-    
 }
