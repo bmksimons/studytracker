@@ -12,7 +12,8 @@ class SemesterTest{
   @Test
   public void addCourseTest(){
       Course c1 = new Course("matte", 2);
-      Semester s1 = new Semester(c1);
+      Semester s1 = new Semester();
+      s1.addCourse(c1);
       try {
           s1.addCourse(c1);
           fail();

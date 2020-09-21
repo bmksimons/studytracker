@@ -18,29 +18,14 @@ import java.util.stream.Collectors;
 public class Semester implements Iterable<Course> {
 
     final List<Course> semester = new ArrayList<>();
-    
-    public Semester(){
-    }
-
-	public Semester(Collection<Course> courses) {
-		if (!checkIfEqual(courses.toArray())) {
-			throw new IllegalArgumentException();
-        }
-        semester.addAll(courses);
-    }
-
-    public Semester(Course course) {
-		if (checkIfEqual1(course)) {
-			throw new IllegalArgumentException("Dette faget er allerede lagt til");
-        }
-        semester.add(course);
-    }
+    private Collection<SemesterListener> semesterListeners = new ArrayList<>();
 	
 	public void addCourse(Course course) {
 		if (checkIfEqual1(course)) {
 			throw new IllegalArgumentException("Dette faget er allerede lagt til");
         }
         semester.add(course);
+        this.fireSemesterChanged();
 	}
 	
 	public int getSemesterSize() {
@@ -48,7 +33,8 @@ public class Semester implements Iterable<Course> {
 	}
 	
 	public void removeCourse(int index) {
-		semester.remove(index);
+        semester.remove(index);
+        this.fireSemesterChanged();
 	}
 	
 	public boolean removeCourse(String name) {
@@ -56,7 +42,8 @@ public class Semester implements Iterable<Course> {
 		while (it1.hasNext()) {
 			Course tmp = it1.next();
 			if (name.equals(tmp.getCourseName())) {
-				semester.remove(tmp);
+                semester.remove(tmp);
+                this.fireSemesterChanged();
 				return true;
 			}
 		}
@@ -66,8 +53,13 @@ public class Semester implements Iterable<Course> {
     public void removeCourse(Course course) {
         if (this.semester.contains(course)) {
             this.semester.remove(course); 
+            this.fireSemesterChanged();
         }
         throw new IllegalArgumentException("This semster does not contain this course");    
+    }
+    
+    public List<Course> getCourses(){
+        return this.semester;
     }
 
 	@Override
@@ -90,4 +82,20 @@ public class Semester implements Iterable<Course> {
 		}
 		return false;
     }
+
+    public void addSemesterListener(SemesterListener semesterListener){
+        this.semesterListeners.add(semesterListener);
+    }
+
+    public void removeSemesterListener(SemesterListener semesterListener){
+
+    }
+
+    protected void fireSemesterChanged(){
+        for (SemesterListener listener : this.semesterListeners){
+            listener.SemesterChanged(this);
+        }
+        //this.semesterListeners.stream().map(l -> l.SemesterChanged(this));
+    }
+
 }

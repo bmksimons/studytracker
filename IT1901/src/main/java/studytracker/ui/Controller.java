@@ -4,23 +4,41 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import studytracker.core.Semester;
+import studytracker.core.Course;
 import studytracker.filehandling.Load;
 import studytracker.filehandling.Save;
-
+import studytracker.json.StudyTrackerModule;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Controller {
 
-	private ObservableList<String> courseList = FXCollections.observableArrayList();
+    private static final String semesterWithTwoCourses =
+      "{\"items\":[{\"text\":\"Øl\",\"checked\":false},{\"text\":\"Pizza\",\"checked\":true}]}";
+
+    private Semester semester;
+    private ObjectMapper mapper = new ObjectMapper();
+    private ObservableList<String> courseList = FXCollections.observableArrayList();
 	private Load load = new Load();
-	private Save save = new Save();
+	private Save save = new Save(); 
+    
+    @FXML
+    ListView<Course> semesterView;
 
 	@FXML
 	private Label courseName1;
@@ -60,13 +78,26 @@ public class Controller {
 	private Button addTime;
 
 	@FXML
-	private Label showInformation;
+    private Label showInformation;
+
+    public Controller() {
+    // setter opp data
+    mapper.registerModule(new StudyTrackerModule());
+    Reader reader = null;
+    } 
 
 	@FXML
 	public void initialize() {
 		timeToAdd.setText("0 t");
-		showInformation.setText("");
-	}
+        showInformation.setText("");
+        semester.addSemesterListener(semester -> this.updateSemesterView());
+    }
+    
+    protected void updateSemesterView(){
+        List<Course> viewList = semesterView.getItems();
+        viewList.clear();
+        viewList.addAll(semester.getCourses());
+    }
 
 	@FXML
 	public void addCourse() {
@@ -99,7 +130,7 @@ public class Controller {
                 courseTimer4.setText("0 t");
 			} else {
 				showInformation.setText("Du kan kun legge til 4 fag");
-			}
+            }
 		}
 	}
 
@@ -110,7 +141,8 @@ public class Controller {
 
 		double currentTime = Double.parseDouble(partition[0]);
 		currentTime = currentTime + 0.25;
-		timeToAdd.setText(currentTime + " t");
+        timeToAdd.setText(currentTime + " t");
+        
 	}
 
 	@FXML
@@ -124,8 +156,7 @@ public class Controller {
 		} else {
 			currentTime = currentTime - 0.25;
 			timeToAdd.setText(currentTime + " t");
-		}
-
+        }
 	}
 
 	@FXML
@@ -166,7 +197,7 @@ public class Controller {
 				courseTimer4.setText(hoursStudied + " t");
 			} else {
 				showInformation.setText("Noe gikk galt");
-			}
+            }
 		}
 	}
 
@@ -179,8 +210,8 @@ public class Controller {
         timeToAdd.setText("0 t");
         courseList.clear();
         pickCourse.setItems(courseList);
-		try {
-			save.emptyFile();
+		try { //ha denne før alt det andre?
+            save.emptyFile();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
