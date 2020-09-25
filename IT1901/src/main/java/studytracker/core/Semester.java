@@ -24,7 +24,7 @@ public class Semester implements Iterable<Course> {
 		if (checkIfEqual1(course)) {
 			throw new IllegalArgumentException("Dette faget er allerede lagt til");
         }
-        semester.add(course);
+        this.semester.add(course);
         this.fireSemesterChanged();
 	}
 	
@@ -51,11 +51,11 @@ public class Semester implements Iterable<Course> {
     }
     
     public void removeCourse(Course course) {
-        if (this.semester.contains(course)) {
-            this.semester.remove(course); 
-            this.fireSemesterChanged();
-        }
-        throw new IllegalArgumentException("This semster does not contain this course");    
+        if (!this.semester.contains(course)) {
+            throw new IllegalArgumentException("This semster does not contain this course"); 
+        } 
+        this.semester.remove(course); 
+        this.fireSemesterChanged();   
     }
     
     public List<Course> getCourses(){
@@ -65,12 +65,17 @@ public class Semester implements Iterable<Course> {
 	@Override
 	public Iterator<Course> iterator() {
 		return semester.iterator();	
-	}
-
-	private boolean checkIfEqual(Object...courses) {
-        Collection<Object> courses1 = Arrays.stream(courses).collect(Collectors.toUnmodifiableList());
-		return (int) courses1.stream().distinct().count() == courses.length;
     }
+    
+    public void clearSemester(){
+        this.semester.clear();
+        this.fireSemesterChanged();
+    }
+
+	//private boolean checkIfEqual(Object...courses) {
+    //    Collection<Object> courses1 = Arrays.stream(courses).collect(Collectors.toUnmodifiableList());
+	//	return (int) courses1.stream().distinct().count() == courses.length;
+    //}
     
     private boolean checkIfEqual1(Course course){
         Iterator<Course> it1 = iterator();
@@ -88,7 +93,10 @@ public class Semester implements Iterable<Course> {
     }
 
     public void removeSemesterListener(SemesterListener semesterListener){
-
+        if (!this.semesterListeners.contains(semesterListener)){
+            throw new IllegalArgumentException("This object does not listen do the semesterclass");
+        }
+        this.semesterListeners.remove(semesterListener);
     }
 
     protected void fireSemesterChanged(){
@@ -97,5 +105,4 @@ public class Semester implements Iterable<Course> {
         }
         //this.semesterListeners.stream().map(l -> l.SemesterChanged(this));
     }
-
 }

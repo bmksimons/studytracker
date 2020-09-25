@@ -8,17 +8,18 @@ public class Course {
     private String courseName;
     private double points;
     private double timeSpent;
+    private Semester semester;
 
-    public Course(String courseName, double points) {
+    public Course(String courseName, Semester semester) {
         this.courseName = courseName;
-        this.points = points;
         this.timeSpent = 0;
+        this.semester = semester;
     }
 
     public Course() {
-        this.courseName = "";
-        this.points = 0.0;
-        this.timeSpent = 0;
+       this.courseName = "";
+       this.points = 0.0;
+       this.timeSpent = 0;
     }
 
     public void addTime(double timeSpent) {
@@ -26,6 +27,7 @@ public class Course {
             throw new IllegalArgumentException("You must add a positive number");
         }
         this.timeSpent += timeSpent;
+        this.semester.fireSemesterChanged();
     }
 
     public void setCourseName(String name){
