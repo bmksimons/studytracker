@@ -63,21 +63,19 @@ public class Controller {
     public Controller() {
         mapper.registerModule(new StudyTrackerModule());
         try{
-        this.semester = mapper.readValue(semesterWithTwoCourses, Semester.class);
+            this.semester = mapper.readValue(semesterWithTwoCourses, Semester.class);
         }catch(JsonProcessingException e){
-
+            this.semester = new Semester();
         }
     } 
 
 	@FXML
 	public void initialize() {
-		timeToAdd.setText("0 t");
+        timeToAdd.setText("0 t");
+        this.updateSemesterView();
         semester.addSemesterListener(semester -> this.updateSemesterView());
+        this.semesterView.setCellFactory(listeView -> new SemesterCell());
     }
-
-    private void initializeSemester(){
-    }
-
     
     protected void updateSemesterView(){
         List<Course> viewList = semesterView.getItems();
