@@ -6,28 +6,23 @@ package studytracker.core;
  */
 public class Course {
     private String courseName;
-    private double points;
-    private double timeSpent;
-    private Semester semester;
+    private Double timeSpent;
 
-    public Course(String courseName, Semester semester) {
+    public Course(String courseName) {
         this.courseName = courseName;
-        this.timeSpent = 0;
-        this.semester = semester;
+        this.timeSpent = 0.0;
     }
 
     public Course() {
        this.courseName = "";
-       this.points = 0.0;
-       this.timeSpent = 0;
+       this.timeSpent = 0.0;
     }
 
-    public void addTime(double timeSpent) {
-        if (timeSpent <= 0) {
+    public void addTime(Double timeSpent) {
+        if (timeSpent < 0) {
             throw new IllegalArgumentException("You must add a positive number");
         }
         this.timeSpent += timeSpent;
-        this.semester.fireSemesterChanged();
     }
 
     public void setCourseName(String name){
@@ -38,11 +33,7 @@ public class Course {
         return this.courseName;
     }
 
-    public double getPoints() {
-        return this.points;
-    }
-
-    public double getTimeSpent() {
+    public Double getTimeSpent() {
         return this.timeSpent;
     }
 }

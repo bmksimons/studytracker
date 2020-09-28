@@ -4,13 +4,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
-import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -58,33 +55,44 @@ public class Controller {
     @FXML private Button reset;
 
     @FXML private Label showInformation;
-    
-    @FXML private ListView<Course> semesterView;
-
-    private final static String semesterWithTwoCourses = "{\"semester\":[{\"courseName\":\"matte\",\"courseTimer\":2.0}]}"; 
 
 	@FXML
 	public void initialize() {
         mapper.registerModule(new StudyTrackerModule());
+        this.courseNames.add(this.courseName1);
+        this.courseNames.add(this.courseName2);
+        this.courseNames.add(this.courseName3);
+        this.courseNames.add(this.courseName4);
+        this.courseTimers.add(this.courseTimer1);
+        this.courseTimers.add(this.courseTimer2);
+        this.courseTimers.add(this.courseTimer3);
+        this.courseTimers.add(this.courseTimer4);
         try{
-            this.semester = mapper.readValue(semesterWithTwoCourses, Semester.class);
-            Iterator<Course> semesterIterator = this.semester.iterator();
-            for (Label label: courseNames){
-                if (semesterIterator.hasNext()){
-                    label.setText(semesterIterator.next().getCourseName());
+            this.semester = mapper.readValue(new File("semester.json"), Semester.class);
+            Iterator<Course> semesterIt = this.semester.iterator();
+            for (Label label: this.courseNames){
+                if (semesterIt.hasNext()){
+                    String name = semesterIt.next().getCourseName();
+                    label.setText(name);
+                    this.courseList.add(name);
+                    this.pickCourse.setItems(this.courseList);
                 }
             }
-            for (Label label: courseTimers){
-                if (semesterIterator.hasNext()){
-                    label.setText(String.valueOf(semesterIterator.next().getTimeSpent()));
+            Iterator<Course> semesterIt2 = this.semester.iterator();
+            for (Label label: this.courseTimers){
+                if (semesterIt2.hasNext()){
+                    label.setText(String.valueOf(semesterIt2.next().getTimeSpent()));
                 }
             }
+            System.out.println("alt gikk bra");
         }catch(JsonProcessingException e){
             this.semester = new Semester();
-            System.out.println(this.semester.toString());
+            System.out.println("json processing exception");
+        }catch(IOException e){
+            System.out.println("IOException");
         }
         timeToAdd.setText("0 t");
-        semester.addSemesterListener(semester -> this.saveSemester());
+        this.semester.addSemesterListener(semester -> this.saveSemester());
     }
 
     public void saveSemester(){
@@ -124,7 +132,7 @@ public class Controller {
 		pickCourse.setItems(this.courseList);
 		newCourse.setText("");
         timer.setText("0 t");
-        this.semester.addCourse(new Course(name.getText(), this.semester));
+        this.semester.addCourse(new Course(name.getText()));
     }
 
 	@FXML
@@ -132,7 +140,7 @@ public class Controller {
 		String currentTimeString = timeToAdd.getText();
 		String[] partition = currentTimeString.split(Pattern.quote(" "));
 
-		double currentTime = Double.parseDouble(partition[0]);
+		Double currentTime = Double.parseDouble(partition[0]);
 		currentTime = currentTime + 0.25;
         timeToAdd.setText(currentTime + " t"); 
 	}
@@ -142,7 +150,7 @@ public class Controller {
 		String currentTimeString = timeToAdd.getText();
 		String[] partition = currentTimeString.split(Pattern.quote(" "));
 
-		double currentTime = Double.parseDouble(partition[0]);
+		Double currentTime = Double.parseDouble(partition[0]);
 		if (currentTime == 0) {
 			showInformation.setText("Kan ikke være negativt antall timer");
 		} else {
@@ -158,28 +166,28 @@ public class Controller {
 			showInformation.setText("Du må velge et fag");
 		} else {
             if (courseChosen.equals(courseName1.getText())) {
-                this.makeStudyHours(courseTimer1);
+                this.makeStudyHours(courseName1, courseTimer1);
 			} else if (courseChosen.equals(courseName2.getText())) {
-                this.makeStudyHours(courseTimer2);
+                this.makeStudyHours(courseName2, courseTimer2);
 			} else if (courseChosen.equals(courseName3.getText())) {
-                this.makeStudyHours(courseTimer3);
+                this.makeStudyHours(courseName3, courseTimer3);
 			} else if (courseChosen.equals(courseName4.getText())) {
-                this.makeStudyHours(courseTimer4);
+                this.makeStudyHours(courseName4, courseTimer4);
             }
 		}
     }
     
     @FXML
-    private void makeStudyHours(Label timer){
+    private void makeStudyHours(Label name, Label timer){
         String currentTimeString = timeToAdd.getText();
 		String[] partition = currentTimeString.split(Pattern.quote(" "));
-		double hoursToAdd = Double.parseDouble(partition[0]);
+		Double hoursToAdd = Double.parseDouble(partition[0]);
         String currentStudyTime = timer.getText();
 		String[] partition2 = currentStudyTime.split(Pattern.quote(" "));
-		double beforeHoursStudied = Double.parseDouble(partition2[0]);
-		double hoursStudied = beforeHoursStudied + hoursToAdd;
+		Double beforeHoursStudied = Double.parseDouble(partition2[0]);
+		Double hoursStudied = beforeHoursStudied + hoursToAdd;
         timer.setText(hoursStudied + " t");
-        this.semester.getCourses().get(3).addTime(hoursToAdd);
+        this.semester.addTimeToCourse(name.getText(), hoursToAdd);
         System.out.println(this.semester.toString());
     }
 
@@ -188,7 +196,7 @@ public class Controller {
 		for (Label label : combineLabels()) {
 			label.setText("");
 		}
-		courseName1.setText("");
+		courseName1.setText(""); //hvorfor måtte jeg legge til denne?
         timeToAdd.setText("0 t");
         courseList.clear();
         pickCourse.setItems(courseList);
@@ -198,14 +206,8 @@ public class Controller {
 	
 	private ArrayList<Label> combineLabels() {
 		ArrayList<Label> tmp = new ArrayList<>();
-		tmp.add(courseName1);
-		tmp.add(courseName2);
-		tmp.add(courseName3);
-		tmp.add(courseName4);
-		tmp.add(courseTimer1);
-		tmp.add(courseTimer2);
-		tmp.add(courseTimer3);
-		tmp.add(courseTimer4);
+		tmp.addAll(this.courseNames);
+		tmp.addAll(this.courseTimers);
 		return tmp;
     }
 }

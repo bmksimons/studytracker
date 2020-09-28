@@ -14,7 +14,7 @@ public class CourseSerializer extends JsonSerializer<Course> {
    * format:
    * {
    *    "courseName": "...",
-   *    "courseTimer": double 
+   *    "courseTimer": Double 
    * }
    */
   @Override

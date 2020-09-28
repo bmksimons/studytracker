@@ -11,7 +11,7 @@ import studytracker.core.Semester;
 public class SemesterTest{
 
     private Semester s1 = new Semester();
-    private Course c1 = new Course("matte", s1);
+    private Course c1 = new Course("matte");
 
     private int recievedNotificationCount = 0;
     
@@ -21,7 +21,6 @@ public class SemesterTest{
         try {
             s1.addCourse(c1);
             fail();
-          ///Her er det noe feil
       } catch (Exception e) {
           
       }

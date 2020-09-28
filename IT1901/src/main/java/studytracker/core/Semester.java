@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Semester implements Iterable<Course> {
 
-    final List<Course> semester = new ArrayList<>();
+    private List<Course> semester = new ArrayList<>();
     private Collection<SemesterListener> semesterListeners = new ArrayList<>();
 	
 	public void addCourse(Course course) {
@@ -24,11 +24,12 @@ public class Semester implements Iterable<Course> {
         }
         this.semester.add(course);
         this.fireSemesterChanged();
-	}
-	
-	public int getSemesterSize() {
-		return semester.size();
-	}
+    }
+    
+    @Override
+	public Iterator<Course> iterator() {
+		return this.semester.iterator();	
+    }
 	
 	public void removeCourse(int index) {
         semester.remove(index);
@@ -36,18 +37,18 @@ public class Semester implements Iterable<Course> {
 	}
 	
 	public boolean removeCourse(String name) {
-		Iterator<Course> it1 = iterator();
+		Iterator<Course> it1 = this.iterator();
 		while (it1.hasNext()) {
 			Course tmp = it1.next();
 			if (name.equals(tmp.getCourseName())) {
-                semester.remove(tmp);
+                this.semester.remove(tmp);
                 this.fireSemesterChanged();
 				return true;
 			}
 		}
 		return false;
     }
-    
+
     public void removeCourse(Course course) {
         if (!this.semester.contains(course)) {
             throw new IllegalArgumentException("This semster does not contain this course"); 
@@ -55,14 +56,20 @@ public class Semester implements Iterable<Course> {
         this.semester.remove(course); 
         this.fireSemesterChanged();   
     }
+
+    public void addTimeToCourse(String name, Double time){
+        Iterator<Course> it1 = iterator();
+		while (it1.hasNext()) {
+			Course tmp = it1.next();
+			if (name.equals(tmp.getCourseName())) {
+                tmp.addTime(time);
+                this.fireSemesterChanged();
+			}
+		}
+    }
     
     public List<Course> getCourses(){
         return this.semester;
-    }
-
-	@Override
-	public Iterator<Course> iterator() {
-		return semester.iterator();	
     }
     
     public void clearSemester(){
@@ -102,7 +109,7 @@ public class Semester implements Iterable<Course> {
      public String toString() {
          String resultat = "";
          for (Course course: this.semester){
-             resultat += course.getCourseName() + " tid: " + String.valueOf(course.getTimeSpent());
+             resultat += course.getCourseName() + " t: " + String.valueOf(course.getTimeSpent()) + ", ";
          }
          return resultat;
      }
