@@ -1,11 +1,9 @@
 package studytracker.core;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Contains a List with all the Course-objects. 
@@ -21,7 +19,7 @@ public class Semester implements Iterable<Course> {
     private Collection<SemesterListener> semesterListeners = new ArrayList<>();
 	
 	public void addCourse(Course course) {
-		if (checkIfEqual1(course)) {
+		if (checkIfEqual(course)) {
 			throw new IllegalArgumentException("Dette faget er allerede lagt til");
         }
         this.semester.add(course);
@@ -71,17 +69,11 @@ public class Semester implements Iterable<Course> {
         this.semester.clear();
         this.fireSemesterChanged();
     }
-
-	//private boolean checkIfEqual(Object...courses) {
-    //    Collection<Object> courses1 = Arrays.stream(courses).collect(Collectors.toUnmodifiableList());
-	//	return (int) courses1.stream().distinct().count() == courses.length;
-    //}
     
-    private boolean checkIfEqual1(Course course){
-        Iterator<Course> it1 = iterator();
+    private boolean checkIfEqual(Course course){
+        Iterator<Course> it1 = this.iterator();
 		while (it1.hasNext()) {
-			Course tmp = it1.next();
-			if (course.getCourseName().equals(tmp.getCourseName())) {
+			if (course.getCourseName().equals(it1.next().getCourseName())) {
 				return true;
 			}
 		}
@@ -105,4 +97,13 @@ public class Semester implements Iterable<Course> {
         }
         //this.semesterListeners.stream().map(l -> l.SemesterChanged(this));
     }
+
+     @Override
+     public String toString() {
+         String resultat = "";
+         for (Course course: this.semester){
+             resultat += course.getCourseName() + " tid: " + String.valueOf(course.getTimeSpent());
+         }
+         return resultat;
+     }
 }
