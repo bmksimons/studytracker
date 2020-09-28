@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * Contains a List with all the Course-objects. 
  * 
- * Temporarly this class contains 3 constructors, 3 removeCourse functions and 2 checkIfEqual functions.
- * We will figure out which ones we will be using when we implement this class in the app.
+ * Temporarly this class contains 3 removeCourse functions.
+ * We will figure out which ones we will be using when we implement this function in the app.
  *
  */
 

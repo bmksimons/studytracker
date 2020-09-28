@@ -19,7 +19,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import studytracker.core.Semester;
 import studytracker.core.Course;
-import studytracker.json.SemesterDeserializer;
 import studytracker.json.StudyTrackerModule;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,7 +28,6 @@ public class Controller {
     private Semester semester;
     private ObjectMapper mapper = new ObjectMapper();
     private ObservableList<String> courseList = FXCollections.observableArrayList();
-    SemesterDeserializer semesterDeserializer = new SemesterDeserializer();
 
 	@FXML private Label courseName1;
 	@FXML private Label courseName2;

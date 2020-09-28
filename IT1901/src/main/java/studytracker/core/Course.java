@@ -1,7 +1,7 @@
 package studytracker.core;
 
 /**
- * An object of the class represents a course, with its name, value and time spent studying the course.  
+ * An object of the class represents a course, with its name and time spent studying the course.  
  *
  */
 public class Course {
