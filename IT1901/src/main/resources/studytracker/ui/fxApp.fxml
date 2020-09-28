@@ -56,6 +56,4 @@
    <TextField fx:id="timeToAdd" layoutX="184.0" layoutY="201.0" onAction="#initialize" prefHeight="27.0" prefWidth="42.0" />
    <Button fx:id="addTime" layoutX="310.0" layoutY="201.0" mnemonicParsing="false" onAction="#addStudyHours" text="Legg til" />
    <Label fx:id="showInformation" layoutX="19.0" layoutY="286.0" prefHeight="27.0" prefWidth="350.0" />
-   <Button layoutX="270.0" layoutY="331.0" mnemonicParsing="false" onAction="#save" text="Lagre data" />
-   <Button layoutX="270.0" layoutY="362.0" mnemonicParsing="false" onAction="#load" prefHeight="25.0" prefWidth="110.0" text="Last opp data" />
 </Pane>

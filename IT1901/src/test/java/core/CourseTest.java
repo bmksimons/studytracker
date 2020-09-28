@@ -12,11 +12,11 @@ class CourseTest {
 
 @Test
 public void testAddTime(){
-    Course c1 = new Course("matte1", 7.5);
-    c1.addTime(100);
-    assertEquals(100, c1.getTimeSpent());
+    Course c1 = new Course("matte1");
+    c1.addTime(100.0);
+    assertEquals(100.0, c1.getTimeSpent());
     try {
-        c1.addTime(-1);
+        c1.addTime(-1.0);
         fail("argument must be positive");
     }
     catch(IllegalArgumentException e){        

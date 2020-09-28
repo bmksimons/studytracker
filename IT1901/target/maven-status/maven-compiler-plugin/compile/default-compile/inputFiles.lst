@@ -1,6 +1,13 @@
-/workspace/gr2066/IT1901/src/main/java/studytracker/core/Semester.java
-/workspace/gr2066/IT1901/src/main/java/studytracker/ui/Controller.java
-/workspace/gr2066/IT1901/src/main/java/studytracker/filehandling/Save.java
-/workspace/gr2066/IT1901/src/main/java/studytracker/filehandling/Load.java
+/workspace/gr2066/IT1901/src/main/java/studytracker/json/CourseDeserializer.java
+/workspace/gr2066/IT1901/src/main/java/studytracker/json/CourseSerializer.java
+/workspace/gr2066/IT1901/src/main/java/studytracker/json/SemesterDeserializer.java
 /workspace/gr2066/IT1901/src/main/java/studytracker/ui/App.java
 /workspace/gr2066/IT1901/src/main/java/studytracker/core/Course.java
+/workspace/gr2066/IT1901/src/main/java/studytracker/core/SemesterListener.java
+/workspace/gr2066/IT1901/src/main/java/studytracker/ui/SemesterCell.java
+/workspace/gr2066/IT1901/src/main/java/studytracker/core/Semester.java
+/workspace/gr2066/IT1901/src/main/java/studytracker/ui/Controller.java
+/workspace/gr2066/IT1901/src/main/java/studytracker/filehandling/Load.java
+/workspace/gr2066/IT1901/src/main/java/studytracker/filehandling/Save.java
+/workspace/gr2066/IT1901/src/main/java/studytracker/json/StudyTrackerModule.java
+/workspace/gr2066/IT1901/src/main/java/studytracker/json/SemesterSerializer.java
