@@ -2,6 +2,6 @@ package studytracker.core;
 
 public interface SemesterListener {
 
-    public void SemesterChanged(Semester semester);
+  public void semesterChanged(Semester semester);
 
 }
