@@ -80,14 +80,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-				<groupId>org.openjfx</groupId>
-				<artifactId>javafx-maven-plugin</artifactId>
-				<version>0.0.4</version>
-				<configuration>
-					<mainClass>studytracker.ui.App</mainClass>
-				</configuration>
-            </plugin>
             <!--Configure jacoco code coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
