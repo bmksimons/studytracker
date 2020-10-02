@@ -205,7 +205,7 @@ public class Controller {
   }
 
   @FXML
-  public void OnResetButtonClick() {
+  public void onResetButtonClick() {
     for (Label label : combineLabels()) {
       label.setText("");
     }
