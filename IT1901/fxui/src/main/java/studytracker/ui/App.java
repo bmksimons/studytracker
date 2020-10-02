@@ -1,5 +1,9 @@
 package studytracker.ui;
 
+import java.io.File;
+import java.net.URL;
+import java.nio.file.Paths;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,7 +14,8 @@ public class App extends Application {
 
   @Override
   public void start(final Stage primaryStage) throws Exception {
-    final Parent parent = FXMLLoader.load(getClass().getResource("IT1901/src/main/resources/studytracker/ui/fxApp.fxml"));
+    
+    final Parent parent = FXMLLoader.load(getClass().getResource("fxApp.fxml"));
     primaryStage.setScene(new Scene(parent));
     primaryStage.show();
   }

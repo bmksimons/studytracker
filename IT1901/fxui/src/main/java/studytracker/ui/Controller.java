@@ -104,7 +104,7 @@ public class Controller {
       System.out.println("IOException");
     }
     timeToAdd.setText("0 t");
-    this.semester.addSemesterListener(semester -> this.saveSemester());
+    //this.semester.addSemesterListener(semester -> this.saveSemester());
   }
 
   public void saveSemester() {
@@ -205,7 +205,7 @@ public class Controller {
   }
 
   @FXML
-  public void onResetButtonClick() {
+  public void OnResetButtonClick() {
     for (Label label : combineLabels()) {
       label.setText("");
     }
