@@ -1,5 +1,8 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
+    "[java]": {
+        "editor.tabSize" : 2
+    },
     "files.exclude": {
         "**/.classpath": true,
         "**/.project": true,
