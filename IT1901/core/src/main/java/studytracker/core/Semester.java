@@ -25,6 +25,15 @@ public class Semester implements Iterable<Course> {
     this.fireSemesterChanged();
   }
 
+  private boolean checkIfEqual(Course course) {
+    for (Course excistingCourse: this.semester){
+      if (course.getCourseName().equals(excistingCourse.getCourseName())){
+        return true;
+      }
+    }
+    return false;
+  }
+
   @Override
   public Iterator<Course> iterator() {
     return this.semester.iterator();
@@ -76,23 +85,13 @@ public class Semester implements Iterable<Course> {
     this.fireSemesterChanged();
   }
 
-  private boolean checkIfEqual(Course course) {
-    Iterator<Course> it1 = this.iterator();
-    while (it1.hasNext()) {
-      if (course.getCourseName().equals(it1.next().getCourseName())) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   public void addSemesterListener(SemesterListener semesterListener) {
     this.semesterListeners.add(semesterListener);
   }
 
   public void removeSemesterListener(SemesterListener semesterListener) {
     if (!this.semesterListeners.contains(semesterListener)) {
-      throw new IllegalArgumentException("This object does not listen do the semesterclass");
+      throw new IllegalArgumentException("This object does not listen to the semesterclass");
     }
     this.semesterListeners.remove(semesterListener);
   }

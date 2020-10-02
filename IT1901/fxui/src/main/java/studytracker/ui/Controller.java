@@ -25,6 +25,7 @@ public class Controller {
   private Semester semester;
   private ObjectMapper mapper = new ObjectMapper();
   private ObservableList<String> courseList = FXCollections.observableArrayList();
+  private static Integer countSave = 1;
 
   @FXML
   private Label courseName1;
@@ -96,21 +97,22 @@ public class Controller {
           label.setText(String.valueOf(semesterIt2.next().getTimeSpent()));
         }
       }
-      System.out.println("alt gikk bra");
     } catch (JsonProcessingException e) {
       this.semester = new Semester();
-      System.out.println("json processing exception");
+      this.showInformation.setText("Json error, klarte ikke laste opp semesteret");
     } catch (IOException e) {
-      System.out.println("IOException");
+      this.semester = new Semester();
+      this.showInformation.setText("IO error, klarte ikke laste opp semesteret");
     }
     timeToAdd.setText("0 t");
-    //this.semester.addSemesterListener(semester -> this.saveSemester());
+    this.semester.addSemesterListener(semester -> this.saveSemester());
   }
 
   public void saveSemester() {
     try {
       mapper.writeValue(Paths.get("semester.json").toFile(), this.semester);
-      this.showInformation.setText("lagrer...");
+      this.showInformation.setText("lagrer..." + Controller.countSave);
+      Controller.countSave += 1;
     } catch (JsonProcessingException e) {
       this.showInformation.setText("Klarte ikke lagre jsonData til fil");
     } catch (IOException e) {
@@ -140,12 +142,25 @@ public class Controller {
 
   @FXML
   private void makeCourse(Label name, Label timer) {
-    name.setText(newCourse.getText());
-    courseList.add(newCourse.getText());
-    pickCourse.setItems(this.courseList);
-    newCourse.setText("");
-    timer.setText("0 t");
-    this.semester.addCourse(new Course(name.getText()));
+    if (checkifEqual(newCourse.getText())){
+      this.showInformation.setText("Dette faget er allerede lagt til");
+    }
+    else{
+      name.setText(newCourse.getText());
+      courseList.add(newCourse.getText());
+      pickCourse.setItems(this.courseList);
+      newCourse.setText("");
+      timer.setText("0 t");
+      this.semester.addCourse(new Course(name.getText()));
+  }
+}
+
+  private boolean checkifEqual(String name){
+    for (Label labelName: this.courseNames){
+      if (name.equals(labelName.getText())){
+        return true;
+      }
+    } return false;
   }
 
   @FXML
@@ -192,29 +207,27 @@ public class Controller {
 
   @FXML
   private void makeStudyHours(Label name, Label timer) {
-    String currentTimeString = timeToAdd.getText();
-    String[] partition = currentTimeString.split(Pattern.quote(" "));
-    Double hoursToAdd = Double.parseDouble(partition[0]);
-    String currentStudyTime = timer.getText();
-    String[] partition2 = currentStudyTime.split(Pattern.quote(" "));
-    Double beforeHoursStudied = Double.parseDouble(partition2[0]);
-    Double hoursStudied = beforeHoursStudied + hoursToAdd;
-    timer.setText(hoursStudied + " t");
-    this.semester.addTimeToCourse(name.getText(), hoursToAdd);
-    System.out.println(this.semester.toString());
+      String currentTimeString = timeToAdd.getText();
+      String[] partition = currentTimeString.split(Pattern.quote(" "));
+      Double hoursToAdd = Double.parseDouble(partition[0]);
+      String currentStudyTime = timer.getText();
+      String[] partition2 = currentStudyTime.split(Pattern.quote(" "));
+      Double beforeHoursStudied = Double.parseDouble(partition2[0]);
+      Double hoursStudied = beforeHoursStudied + hoursToAdd;
+      timer.setText(hoursStudied + " t");
+      this.semester.addTimeToCourse(name.getText(), hoursToAdd);
   }
 
   @FXML
   public void onResetButtonClick() {
     for (Label label : combineLabels()) {
       label.setText("");
-    }
-    courseName1.setText(""); // hvorfor måtte jeg legge til denne?
+    } 
     timeToAdd.setText("0 t");
     courseList.clear();
     pickCourse.setItems(courseList);
     this.semester.clearSemester();
-    System.out.println(this.semester.toString());
+    Controller.countSave = 1;
   }
 
   private ArrayList<Label> combineLabels() {
