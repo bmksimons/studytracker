@@ -9,18 +9,17 @@ import studytracker.core.Course;
 
 class CourseTest {
 
-
-@Test
-public void testAddTime(){
+  @Test
+  public void testAddTime() {
     Course c1 = new Course("matte1");
+    assertEquals(0.0, c1.getTimeSpent());
     c1.addTime(100.0);
     assertEquals(100.0, c1.getTimeSpent());
     try {
-        c1.addTime(-1.0);
-        fail("argument must be positive");
+      c1.addTime(-1.0);
+      fail("argument must be positive");
+    } catch (IllegalArgumentException e) {
     }
-    catch(IllegalArgumentException e){        
-    }
-}
-    
+  }
+
 }
