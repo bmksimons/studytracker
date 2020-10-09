@@ -54,12 +54,12 @@
 			<version>14.0.1</version>
         </dependency>
         <!-- Test with TextFX -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.testfx</groupId>
 			<artifactId>testfx-core</artifactId>
 			<version>4.0.16-alpha</version>
 			<scope>test</scope>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>org.testfx</groupId>
 			<artifactId>testfx-junit5</artifactId>
@@ -75,10 +75,10 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
             </plugin>
             <!-- Run the spotbugs code quality tool -->
-            <plugin>
+            <!-- <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-            </plugin>
+            </plugin> -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>

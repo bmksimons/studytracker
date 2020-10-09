@@ -28,7 +28,7 @@ public class Controller {
   private static Integer countSave = 1;
 
   @FXML
-  private Label courseName1;
+  public Label courseName1;
   @FXML
   private Label courseName2;
   @FXML
@@ -38,7 +38,7 @@ public class Controller {
   private List<Label> courseNames = new ArrayList<>();
 
   @FXML
-  private Label courseTimer1;
+  public Label courseTimer1;
   @FXML
   private Label courseTimer2;
   @FXML
