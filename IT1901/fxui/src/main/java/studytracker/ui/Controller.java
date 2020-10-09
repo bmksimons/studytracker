@@ -145,6 +145,7 @@ public class Controller {
       } else {
         showInformation.setText("Du kan kun legge til 4 fag");
       }
+      this.newCourse.setText("");
     }
   }
 
@@ -155,7 +156,6 @@ public class Controller {
       courseName.setText(newCourse.getText());
       courseList.add(newCourse.getText());
       updateCourseList();
-      newCourse.setText("");
       courseTime.setText("0 t");
     } catch (IllegalArgumentException e) {
       this.showInformation.setText("Kan ikke legge til et fag flere ganger");
@@ -208,6 +208,7 @@ public class Controller {
         this.makeStudyHours(courseName4, courseTimer4);
       }
       timeToAdd.setText("0 t");
+      pickCourse.setValue("");
     }
   }
 
