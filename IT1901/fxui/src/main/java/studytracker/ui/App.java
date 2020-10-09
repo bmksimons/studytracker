@@ -1,9 +1,5 @@
 package studytracker.ui;
 
-import java.io.File;
-import java.net.URL;
-import java.nio.file.Paths;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
