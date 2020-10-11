@@ -33,3 +33,35 @@ printWriter-klassene. Videre planlegger vi å implementere JSON. Koden for filla
 ## Utseende
 
 Når appen er er ferdig ønsker vi at appen skal se slik ![ut](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2066/gr2066/-/blob/master/IMG_9364.JPG)
+
+## plantUML diagramkode
+
+@startUML
+
+class Semester {
+
+List<Course> semester
+
+Collection<SemesterListener> semesterListeners
+
+}
+
+class Course {
+
+String courseName
+
+Double timeSpent
+
+}
+
+interface SemesterListeners {
+
+void SemesterChanged()
+
+}
+
+Semester "owner: 1" -- "Course: *" Course 
+
+Semester "" -- "semesterlisteners: *" SemesterListeners 
+
+@enduml
