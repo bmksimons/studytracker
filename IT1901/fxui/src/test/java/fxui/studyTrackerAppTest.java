@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import studytracker.core.Course;
 import studytracker.core.Semester;
@@ -35,6 +36,7 @@ public class studyTrackerAppTest extends ApplicationTest{
 
   @BeforeEach
   public void setup(){
+    clickOn("#reset");
     //course1 = new Course("Matte 1");
     course2 = new Course("Algdat");
     //semester = new Semester();
@@ -67,16 +69,30 @@ public class studyTrackerAppTest extends ApplicationTest{
   
 
   @Test
-  public void testAddTime(){
+  public void testAddTimePlusButton(){
     clickOn("#newCourse").write("matte 1");
     clickOn("#addCourse");
-    clickOn("#pickCourse").clickOn("matte 1");
-    clickOn("#timeToAdd").write("10");
+    clickOn("#pickCourse");
+    type(KeyCode.DOWN);
+    type(KeyCode.ENTER);
+    clickOn("#plusTime");
     clickOn("#addTime");
-    assertEquals(controller.getCourseTimer1().getText(), "10 t");
-  //   clickOn("#plusTime");
-  //   clickOn("#addTime");
-  //   assertEquals(this.controller.courseTimer1.getText(), "20.25 t");
-  // }
+    assertEquals(controller.getCourseTimer1().getText(), "0.25 t");
+  
+  }
+
+  @Test
+  public void testAddTimeMinusButton(){
+    clickOn("#newCourse").write("matte 1");
+    clickOn("#addCourse");
+    clickOn("#pickCourse");
+    type(KeyCode.DOWN);
+    type(KeyCode.ENTER);
+    for (int i=0 ; i<10 ; i++){
+    clickOn("#plusTime");
+    }
+    clickOn("#minusTime");
+    clickOn("#addTime");
+    assertEquals("2.25 t", controller.getCourseTimer1().getText());
   }
 }
