@@ -28,7 +28,7 @@ public class Controller {
   private static Integer countSave = 1;
 
   @FXML
-  public Label courseName1;
+  private Label courseName1;
   @FXML
   private Label courseName2;
   @FXML
@@ -38,7 +38,7 @@ public class Controller {
   private List<Label> courseNames = new ArrayList<>();
 
   @FXML
-  public Label courseTimer1;
+  private Label courseTimer1;
   @FXML
   private Label courseTimer2;
   @FXML
@@ -139,7 +139,9 @@ public class Controller {
       System.out.println(this.semester.toString());
     }
   }
-
+  public Label getShowInformation(){
+    return this.showInformation;
+  }
   @FXML
   private void makeCourse(Label name, Label timer) {
     if (checkifEqual(newCourse.getText())){
@@ -235,5 +237,15 @@ public class Controller {
     tmp.addAll(this.courseNames);
     tmp.addAll(this.courseTimers);
     return tmp;
+  }
+
+  public Label getCourseName1(){
+    return this.courseName1;
+  }
+  public Label getCourseName2(){
+    return this.courseName2;
+  }
+  public Label getCourseTimer1(){
+    return this.courseTimer1;
   }
 }
