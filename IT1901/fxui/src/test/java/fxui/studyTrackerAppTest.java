@@ -43,7 +43,7 @@ public class studyTrackerAppTest extends ApplicationTest{
   }
 
   @Test
-  public void testController_todoList() {
+  public void testController_studyTracker() {
     assertNotNull(this.controller);
     // assertNotNull(this.semester);
   }

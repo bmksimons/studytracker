@@ -76,7 +76,7 @@ public class Controller {
   public Controller() {
     this.semester = null;
     this.mapper = new ObjectMapper();
-    this.courseList = FXCollections.observableArrayList();
+    //this.courseList = FXCollections.observableArrayList();
     this.courseNames = new ArrayList<>();
     this.courseTimers = new ArrayList<>();
   }
