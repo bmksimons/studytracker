@@ -23,8 +23,8 @@ import studytracker.json.StudyTrackerModule;
 public class Controller {
 
   private Semester semester;
-  private ObjectMapper mapper;
-  private ObservableList<String> courseList;
+  private ObjectMapper mapper = new ObjectMapper();
+  private ObservableList<String> courseList = FXCollections.observableArrayList();
 
   @FXML
   private Label courseName1;
@@ -147,6 +147,10 @@ public class Controller {
       }
       this.newCourse.setText("");
     }
+  }
+
+  public Label getShowInformation() {
+    return this.showInformation;
   }
 
   @FXML
@@ -275,5 +279,17 @@ public class Controller {
     tmp.addAll(this.courseNames);
     tmp.addAll(this.courseTimers);
     return tmp;
+  }
+
+  public Label getCourseName1() {
+    return this.courseName1;
+  }
+
+  public Label getCourseName2() {
+    return this.courseName2;
+  }
+
+  public Label getCourseTimer1() {
+    return this.courseTimer1;
   }
 }
