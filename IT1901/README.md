@@ -46,31 +46,26 @@ enklere og mer brukervennlig.
 ## plantUML diagramkode
 
 @startUML
-
-class Semester {
-
-List<Course> semester
-
-Collection<SemesterListener> semesterListeners
-
+component Core {
+    package studyTracker.core{
+        [Course]
+        [Semester]
+    }
+    package studyTracker.JSON
 }
-
-class Course {
-
-String courseName
-
-Double timeSpent
-
+component jackson{
 }
-
-interface SemesterListeners {
-
-void SemesterChanged()
-
+studyTracker.JSON ..> jackson
+component fxui {
+    package studyTracker.fxui
 }
-
-Semester "owner: 1" -- "Course: *" Course 
-
-Semester "" -- "semesterlisteners: *" SemesterListeners 
-
-@enduml
+studyTracker.fxui ..> studyTracker.core
+studyTracker.fxui ..> studyTracker.JSON
+component javafx{
+    component fxml{
+    }
+}
+fxui ..> javafx
+[Course] ..> [Semester] : owner:1
+[Semester]..> [Course] : 0-4
+@endum
