@@ -34,7 +34,7 @@ public class Controller {
   private Label courseName3;
   @FXML
   private Label courseName4;
-  private List<Label> courseNames = new ArrayList<>();
+  private List<Label> courseNames;
 
   @FXML
   private Label courseTimer1;
@@ -44,7 +44,7 @@ public class Controller {
   private Label courseTimer3;
   @FXML
   private Label courseTimer4;
-  private List<Label> courseTimers = new ArrayList<>();
+  private List<Label> courseTimers;
 
   @FXML
   private ChoiceBox<String> pickCourse;
@@ -69,6 +69,19 @@ public class Controller {
   private Label showInformation;
 
   @FXML
+  private Button delete;
+  @FXML
+  private ChoiceBox<String> pickCourseDelete;
+
+  public Controller() {
+    this.semester = null;
+    this.mapper = new ObjectMapper();
+    this.courseList = FXCollections.observableArrayList();
+    this.courseNames = new ArrayList<>();
+    this.courseTimers = new ArrayList<>();
+  }
+
+  @FXML
   public void initialize() {
     mapper.registerModule(new StudyTrackerModule());
     this.courseNames.add(this.courseName1);
@@ -84,10 +97,10 @@ public class Controller {
       Iterator<Course> semesterIt = this.semester.iterator();
       for (Label label : this.courseNames) {
         if (semesterIt.hasNext()) {
-          String name = semesterIt.next().getCourseName();
-          label.setText(name);
-          this.courseList.add(name);
-          this.pickCourse.setItems(this.courseList);
+          String courseName = semesterIt.next().getCourseName();
+          label.setText(courseName);
+          this.courseList.add(courseName);
+          this.updateCourseList();
         }
       }
       Iterator<Course> semesterIt2 = this.semester.iterator();
@@ -98,10 +111,9 @@ public class Controller {
       }
     } catch (JsonProcessingException e) {
       this.semester = new Semester();
-      this.showInformation.setText("Json error, klarte ikke laste opp semesteret");
+      this.showInformation.setText("json processing exception");
     } catch (IOException e) {
-      this.semester = new Semester();
-      this.showInformation.setText("IO error, klarte ikke laste opp semesteret");
+      this.showInformation.setText("IOException");
     }
     timeToAdd.setText("0 t");
     this.semester.addSemesterListener(semester -> this.saveSemester());
@@ -133,7 +145,7 @@ public class Controller {
       } else {
         showInformation.setText("Du kan kun legge til 4 fag");
       }
-      System.out.println(this.semester.toString());
+      this.newCourse.setText("");
     }
   }
 
@@ -142,26 +154,22 @@ public class Controller {
   }
 
   @FXML
-  private void makeCourse(Label name, Label timer) {
-    if (checkifEqual(newCourse.getText())) {
-      this.showInformation.setText("Dette faget er allerede lagt til");
-    } else {
-      name.setText(newCourse.getText());
+  private void makeCourse(Label courseName, Label courseTime) {
+    try {
+      this.semester.addCourse(new Course(newCourse.getText()));
+      courseName.setText(newCourse.getText());
       courseList.add(newCourse.getText());
-      pickCourse.setItems(this.courseList);
-      newCourse.setText("");
-      timer.setText("0 t");
-      this.semester.addCourse(new Course(name.getText()));
+      updateCourseList();
+      courseTime.setText("0 t");
+    } catch (IllegalArgumentException e) {
+      this.showInformation.setText("Kan ikke legge til et fag flere ganger");
     }
   }
 
-  private boolean checkifEqual(String name) {
-    for (Label labelName : this.courseNames) {
-      if (name.equals(labelName.getText())) {
-        return true;
-      }
-    }
-    return false;
+  @FXML
+  private void updateCourseList() {
+    pickCourse.setItems(this.courseList);
+    pickCourseDelete.setItems(this.courseList);
   }
 
   @FXML
@@ -203,20 +211,22 @@ public class Controller {
       } else if (courseChosen.equals(courseName4.getText())) {
         this.makeStudyHours(courseName4, courseTimer4);
       }
+      timeToAdd.setText("0 t");
+      pickCourse.setValue("");
     }
   }
 
   @FXML
-  private void makeStudyHours(Label name, Label timer) {
+  private void makeStudyHours(Label courseName, Label courseTime) {
     String currentTimeString = timeToAdd.getText();
     String[] partition = currentTimeString.split(Pattern.quote(" "));
     Double hoursToAdd = Double.parseDouble(partition[0]);
-    String currentStudyTime = timer.getText();
+    String currentStudyTime = courseTime.getText();
     String[] partition2 = currentStudyTime.split(Pattern.quote(" "));
     Double beforeHoursStudied = Double.parseDouble(partition2[0]);
     Double hoursStudied = beforeHoursStudied + hoursToAdd;
-    timer.setText(hoursStudied + " t");
-    this.semester.addTimeToCourse(name.getText(), hoursToAdd);
+    courseTime.setText(hoursStudied + " t");
+    this.semester.addTimeToCourse(courseName.getText(), hoursToAdd);
   }
 
   @FXML
@@ -226,8 +236,42 @@ public class Controller {
     }
     timeToAdd.setText("0 t");
     courseList.clear();
-    pickCourse.setItems(courseList);
+    updateCourseList();
     this.semester.clearSemester();
+  }
+
+  @FXML
+  private void setFieldsEmpty(Label courseName, Label courseTime) {
+    courseName.setText("");
+    courseTime.setText("");
+  }
+
+  @FXML
+  public void deleteCourse() {
+    String courseChosenDelete = pickCourseDelete.getValue();
+
+    if (courseChosenDelete == null) {
+      showInformation.setText("Du må velge et fag først");
+    } else {
+      if (courseChosenDelete.equals(courseName1.getText())) {
+        this.makeDeleteCourse(courseName1, courseTimer1);
+      } else if (courseChosenDelete.equals(courseName2.getText())) {
+        this.makeDeleteCourse(courseName2, courseTimer2);
+      } else if (courseChosenDelete.equals(courseName3.getText())) {
+        this.makeDeleteCourse(courseName3, courseTimer3);
+        showInformation.setText("Faget er slettet");
+      } else if (courseChosenDelete.equals(courseName4.getText())) {
+        this.makeDeleteCourse(courseName4, courseTimer4);
+      }
+    }
+  }
+
+  private void makeDeleteCourse(Label courseName, Label courseTime) {
+    courseList.remove(courseName.getText());
+    updateCourseList();
+    this.semester.removeCourse(courseName.getText());
+    this.setFieldsEmpty(courseName, courseTime);
+    showInformation.setText("Faget er slettet");
   }
 
   private ArrayList<Label> combineLabels() {
