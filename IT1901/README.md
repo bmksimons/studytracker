@@ -46,6 +46,7 @@ enklere og mer brukervennlig.
 ## plantUML diagramkode
 
 @startUML
+
 component Core {
     package studyTracker.core{
         [Course]
@@ -53,19 +54,28 @@ component Core {
     }
     package studyTracker.JSON
 }
+
 component jackson{
 }
+
 studyTracker.JSON ..> jackson
+
 component fxui {
     package studyTracker.fxui
 }
+
 studyTracker.fxui ..> studyTracker.core
 studyTracker.fxui ..> studyTracker.JSON
+
 component javafx{
     component fxml{
     }
 }
+
 fxui ..> javafx
+
 [Course] ..> [Semester] : owner:1
 [Semester]..> [Course] : 0-4
+
+
 @endum
