@@ -12,10 +12,14 @@ import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import studytracker.core.Course;
 import studytracker.core.Semester;
 import studytracker.json.StudyTrackerModule;
@@ -56,6 +60,8 @@ public class Controller {
   private Button minusTime;
   @FXML
   private Button addTime;
+  @FXML
+  private Button statistic;
 
   @FXML
   private TextField newCourse;
@@ -180,6 +186,22 @@ public class Controller {
     Double currentTime = Double.parseDouble(partition[0]);
     currentTime = currentTime + 0.25;
     timeToAdd.setText(currentTime + " t");
+  }
+
+  @FXML
+  public void onOpenStatisticsClick() throws Exception{
+     try {
+      final FXMLLoader loader = new FXMLLoader(getClass().getResource("fxStatistic .fxml"));
+      final Parent root = loader.load();
+      Stage stage = new Stage();
+      // this.controller = loader.getController();
+      stage.setScene(new Scene(root));
+      stage.show();
+    } catch(Exception e) {
+        e.printStackTrace();
+    }
+      
+    
   }
 
   @FXML
