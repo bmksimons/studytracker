@@ -10,25 +10,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-//@Path(StudyTrackerModelService.STUDYTRACKER_MODEL_SERVICE_PATH)
+@Path(StudyTrackerModelService.STUDYTRACKER_MODEL_SERVICE_PATH)
 public class StudyTrackerModelService {
   
-  // private static final Logger LOG = LoggerFactory.getLogger(StudyTrackerModelService.class);
-  // public static final String STUDYTRACKER_MODEL_SERVICE_PATH = "studyTracker";
+  private static final Logger LOG = LoggerFactory.getLogger(StudyTrackerModelService.class);
+  public static final String STUDYTRACKER_MODEL_SERVICE_PATH = "studyTracker";
 
-  // @inject
-  // private StudyTrackerModel studyTrackerModel;
+  @Inject
+  private StudyTrackerModel studyTrackerModel;
   
 
-  // @GET
-  // @Produces(MediaType.APPLICTION_JSON)
-  // public StudyTrackerModel getStudyTrackerModel() {
-  //     return this.studyTrackerModel;
-  // }
-  // @Path("/{name}")
-  // public StudyTrackerResource getStudyTrackerList(@PathParam("name") String name) {
-  //   Semester semester = getStudyTrackerModel().getStudyTrackerList();
-  //   LOG.debug("Sub-resource for TodoList " + name + ": " + semester);
-  //   return new TodoListResource(studyTrackerModel, name, semester);
-  // }
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public StudyTrackerModel getStudyTrackerModel() {
+    return this.studyTrackerModel;
+  }
+  
+  @Path("/{name}")
+  public StudyTrackerResource getStudyTrackerList(@PathParam("name") String name) {
+    Semester semester = getStudyTrackerModel().getStudyTrackerList();
+    LOG.debug("Sub-resource for TodoList " + name + ": " + semester);
+    return new TodoListResource(studyTrackerModel, name, semester);
+  }
 }
