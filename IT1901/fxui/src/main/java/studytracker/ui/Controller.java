@@ -81,6 +81,10 @@ public class Controller {
     this.courseTimers = new ArrayList<>();
   }
 
+  public Semester getSemester() {
+    return this.semester;
+  }
+
   @FXML
   public void initialize() {
     mapper.registerModule(new StudyTrackerModule());
