@@ -19,11 +19,12 @@ import javafx.scene.control.TextField;
 import studytracker.core.Course;
 import studytracker.core.Semester;
 import studytracker.json.StudyTrackerModule;
+import studytracker.json.StudyTrackerPersistence;
 
 public class Controller {
 
   private Semester semester;
-  private ObjectMapper mapper = new ObjectMapper();
+  private StudyTrackerPersistence studyTrackerPersistence = new StudyTrackerPersistence();
   private ObservableList<String> courseList = FXCollections.observableArrayList();
 
   @FXML
@@ -75,7 +76,6 @@ public class Controller {
 
   public Controller() {
     this.semester = null;
-    this.mapper = new ObjectMapper();
     //this.courseList = FXCollections.observableArrayList();
     this.courseNames = new ArrayList<>();
     this.courseTimers = new ArrayList<>();
@@ -87,7 +87,6 @@ public class Controller {
 
   @FXML
   public void initialize() {
-    mapper.registerModule(new StudyTrackerModule());
     this.courseNames.add(this.courseName1);
     this.courseNames.add(this.courseName2);
     this.courseNames.add(this.courseName3);
@@ -97,7 +96,7 @@ public class Controller {
     this.courseTimers.add(this.courseTimer3);
     this.courseTimers.add(this.courseTimer4);
     try {
-      this.semester = mapper.readValue(new File("semester.json"), Semester.class);
+      this.semester = studyTrackerPersistence.readSemester("semester.json");
       Iterator<Course> semesterIt = this.semester.iterator();
       for (Label label : this.courseNames) {
         if (semesterIt.hasNext()) {
@@ -125,7 +124,7 @@ public class Controller {
 
   public void saveSemester() {
     try {
-      mapper.writeValue(Paths.get("semester.json").toFile(), this.semester);
+      this.studyTrackerPersistence.writeSemester("semester.json", this.semester);
     } catch (JsonProcessingException e) {
       this.showInformation.setText("Klarte ikke lagre jsonData til fil");
     } catch (IOException e) {
