@@ -2,6 +2,7 @@ package studytracker.json;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Reader;
 import java.nio.file.Paths;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import studytracker.core.Semester;
+import studytracker.core.StudyTrackerModel;
 
 public class StudyTrackerPersistence {
 
@@ -27,5 +29,9 @@ public class StudyTrackerPersistence {
   public void writeSemester(String fileName, Semester semester)
       throws JsonGenerationException, JsonMappingException, IOException {
     mapper.writeValue(Paths.get(fileName).toFile(), semester);
+  }
+
+  public StudyTrackerModel readTodoModel(Reader reader) throws IOException {
+    return mapper.readValue(reader, StudyTrackerModel.class);
   }
 }

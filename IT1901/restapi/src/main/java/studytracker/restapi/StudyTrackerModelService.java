@@ -9,6 +9,9 @@ import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import studytracker.core.Semester;
+import studytracker.core.StudyTrackerModel;
+
 
 @Path(StudyTrackerModelService.STUDYTRACKER_MODEL_SERVICE_PATH)
 public class StudyTrackerModelService {
@@ -28,8 +31,8 @@ public class StudyTrackerModelService {
   
   @Path("/{name}")
   public StudyTrackerResource getStudyTrackerList(@PathParam("name") String name) {
-    Semester semester = getStudyTrackerModel().getStudyTrackerList();
+    Semester semester = getStudyTrackerModel().getSemester();
     LOG.debug("Sub-resource for TodoList " + name + ": " + semester);
-    return new TodoListResource(studyTrackerModel, name, semester);
+    return new StudyTrackerResource(this.studyTrackerModel, semester);
   }
 }

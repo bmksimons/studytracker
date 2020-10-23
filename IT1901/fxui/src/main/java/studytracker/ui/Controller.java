@@ -1,10 +1,7 @@
 package studytracker.ui;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,7 +15,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import studytracker.core.Course;
 import studytracker.core.Semester;
-import studytracker.json.StudyTrackerModule;
 import studytracker.json.StudyTrackerPersistence;
 
 public class Controller {
