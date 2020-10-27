@@ -1,4 +1,4 @@
-package main.java.studytracker.restserver;
+package studytracker.restserver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.ws.rs.Consumes;

@@ -50,6 +50,7 @@
 
         <!-- Her kommer web-server-avhengighetene -->
 
+
         <!-- Logging med slf4j -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -161,7 +162,7 @@
             </plugin>
             
              <!-- Reservere porter og tilordne dem til variabler -->
-            <plugin>
+            <!-- <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <version>3.2.0</version>
@@ -208,7 +209,26 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin> -->
+             <!-- <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                            System.getProperty("todo.port") gir riktig port
+                            <systemPropertyVariables>
+                                <studytracker.port>${jetty.port}</studytracker.port>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin> -->
             <!--
             https://pragmaticintegrator.wordpress.com/2010/10/22/using-a-war-module-as-dependency-in-maven/
             <plugin>

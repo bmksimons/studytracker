@@ -1,4 +1,4 @@
-package main.java.studytracker.restserver;
+package studytracker.restserver;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,13 +9,10 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import studytracker.core.Semester;
-import studytracker.core.StudyTrackerModel;
 import studytracker.json.StudyTrackerPersistence;
-import studytracker.restapi.StudyTrackerModelService;
+import studytracker.restapi.SemesterService;
 
 public class StudyTrackerConfig extends ResourceConfig {
-
-  private StudyTrackerModel studyTrackerModel;
 
   private Semester semester;
 
@@ -24,15 +21,15 @@ public class StudyTrackerConfig extends ResourceConfig {
    *
    * @param StudyTrackerModel todoModel instance to serve
    */
-  public StudyTrackerConfig(StudyTrackerModel studyTrackerModel) {
-    setStudyTrackerModel(studyTrackerModel);
-    register(StudyTrackerModelService.class);
+  public StudyTrackerConfig(Semester semester) {
+    setSemester(semester);
+    register(SemesterService.class);
     register(StudyTrackerModuleObjectMapperProvider.class);
     register(JacksonFeature.class);
     register(new AbstractBinder() {
       @Override
       protected void configure() {
-        bind(StudyTrackerConfig.this.studyTrackerModel);
+        bind(StudyTrackerConfig.this.semester);
       }
     });
   }
@@ -41,39 +38,25 @@ public class StudyTrackerConfig extends ResourceConfig {
    * Initialize this TodoConfig with a default TodoModel.
    */
   public StudyTrackerConfig() {
-    this(createDefaultStudyTrackerModel());
+    this.createDefaultSemester();
   }
 
-  public StudyTrackerModel getStudyTrackerModel() {
-    return studyTrackerModel;
+  public Semester getSemester() {
+    return this.semester;
   }
 
-  public void setStudyTrackerModel(StudyTrackerModel studyTrackerModel) {
-    this.studyTrackerModel = studyTrackerModel;
+  public void setSemester(Semester semester) {
+    this.semester = semester;
   }
 
-  private static StudyTrackerModel createDefaultStudyTrackerModel() {
-    StudyTrackerPersistence studyTrackerPersistence = new StudyTrackerPersistence();
-    URL url = StudyTrackerConfig.class.getResource("default-studytrackermodel.json");
-    if (url != null) {
-      try (Reader reader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)) {
-        return studyTrackerPersistence.readStudyTrackerModel(reader);
-      } catch (IOException e) {
-        System.out.println("Couldn't read default-studytrackermodel.json, so rigging StudyTrackerModel manually ("
-            + e + ")");
-      }
-    }
-    return studyTrackerModel;
-  }
-
-  private Semester createDefaultStudyTracker() {
+  private Semester createDefaultSemester() {
     StudyTrackerPersistence studyTrackerPersistence = new StudyTrackerPersistence();
     try {
-      studyTrackerPersistence.readSemester("default-studytrackermodel");
-      this.semester = this.studyTrackerPersistence.readSemester("default-studytrackermodel");
+      studyTrackerPersistence.readSemester("default-semester");
+      this.semester = studyTrackerPersistence.readSemester("default-semester");
       return this.semester;
     } catch (IOException e) {
-        System.out.println("Couldn't read default-studytrackermodel.json, so rigging StudyTrackerModel manually ("
+        System.out.println("Couldn't read default-semester.json, so rigging Semester manually ("
             + e + ")");
         this.semester = new Semester();
         return this.semester;
