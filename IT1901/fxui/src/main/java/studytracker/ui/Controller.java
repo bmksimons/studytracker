@@ -23,6 +23,8 @@ import javafx.stage.Stage;
 import studytracker.core.Course;
 import studytracker.core.Semester;
 import studytracker.json.StudyTrackerModule;
+import javafx.scene.Node;
+import javafx.event.ActionEvent;
 
 public class Controller {
 
@@ -189,14 +191,14 @@ public class Controller {
   }
 
   @FXML
-  public void onOpenStatisticsClick() throws Exception{
+  public void onOpenStatisticsClick(ActionEvent event) throws Exception{
      try {
-      final FXMLLoader loader = new FXMLLoader(getClass().getResource("fxStatistic .fxml"));
-      final Parent root = loader.load();
-      Stage stage = new Stage();
-      // this.controller = loader.getController();
-      stage.setScene(new Scene(root));
-      stage.show();
+        Parent statisticParent = FXMLLoader.load(getClass().getResource("fxStatistic.fxml"));
+        Scene statisticScene = new Scene(statisticParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(statisticScene);
+        window.show();
+
     } catch(Exception e) {
         e.printStackTrace();
     }
