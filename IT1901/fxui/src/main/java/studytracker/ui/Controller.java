@@ -316,4 +316,12 @@ public class Controller {
   public Label getCourseTimer1() {
     return this.courseTimer1;
   }
+
+  public List getCourseNames(){
+    return this.courseNames;
+  }
+
+  public List getCourseTimers(){
+    return this.courseTimers;
+  }
 }
