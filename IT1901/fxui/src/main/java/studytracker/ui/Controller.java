@@ -81,12 +81,32 @@ public class Controller {
   @FXML
   private ChoiceBox<String> pickCourseDelete;
 
+  private ControllerStatistic statisticController;
+
+  private Scene statisticScene;
+
   public Controller() {
     this.semester = null;
     this.mapper = new ObjectMapper();
     //this.courseList = FXCollections.observableArrayList();
     this.courseNames = new ArrayList<>();
     this.courseTimers = new ArrayList<>();
+  }
+
+  public void setController(ControllerStatistic controller) {
+    this.statisticController = controller;
+  }
+
+  public ControllerStatistic getController() {
+    return this.statisticController;
+  }
+
+  public void setStatisticScene(Scene statisticScene) {
+    this.statisticScene = statisticScene;
+  }
+
+  public Scene getStatisticScene() {
+    return this.statisticScene;
   }
 
   @FXML
@@ -194,9 +214,8 @@ public class Controller {
   public void onOpenStatisticsClick(ActionEvent event) throws Exception{
      try {
         Parent statisticParent = FXMLLoader.load(getClass().getResource("fxStatistic.fxml"));
-        Scene statisticScene = new Scene(statisticParent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(statisticScene);
+        window.setScene(this.statisticScene);
         window.show();
 
     } catch(Exception e) {
@@ -317,11 +336,11 @@ public class Controller {
     return this.courseTimer1;
   }
 
-  public List getCourseNames(){
+  public List<Label> getCourseNames(){
     return this.courseNames;
   }
 
-  public List getCourseTimers(){
+  public List<Label> getCourseTimers(){
     return this.courseTimers;
   }
 }
