@@ -2,6 +2,8 @@ package studytracker.ui;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -69,6 +71,8 @@ public class Controller {
   private Button delete;
   @FXML
   private ChoiceBox<String> pickCourseDelete;
+  @FXML
+  private String endpointUri;
 
   public Controller() {
     this.semester = null;
@@ -91,6 +95,21 @@ public class Controller {
     this.courseTimers.add(this.courseTimer2);
     this.courseTimers.add(this.courseTimer3);
     this.courseTimers.add(this.courseTimer4);
+    RemoteSemesterAccess semesterAccess = null;
+    if (endpointUri != null) {
+      RemoteSemesterAccess remoteAccess;
+      try {
+        System.out.println("Using remote endpoint @ " + endpointUri);
+        remoteAccess = new RemoteSemesterAccess(new URI(endpointUri));
+        semesterAccess = remoteAccess;
+      } catch (URISyntaxException e) {
+        System.err.println(e);
+      }
+    }
+    if (semesterAccess == null) {
+      //DirectSemesterAccess directAccess = new DirectSemesterAccess();
+      //semesterAccess = directAccess;
+    }
     try {
       this.semester = studyTrackerPersistence.readSemester("semester.json");
       Iterator<Course> semesterIt = this.semester.iterator();

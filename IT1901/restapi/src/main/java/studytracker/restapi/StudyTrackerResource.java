@@ -1,6 +1,8 @@
 package studytracker.restapi;
 
 import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -17,13 +19,12 @@ import studytracker.json.StudyTrackerPersistence;
 
 public class StudyTrackerResource {
 
-  private final String name;
   private final Semester semester;
   private StudyTrackerPersistence studyTrackerPersistence;
+  private static final Logger LOG = LoggerFactory.getLogger(SemesterService.class);
 
-  public StudyTrackerResource(Semester semester, String name) {
+  public StudyTrackerResource(Semester semester) {
     this.studyTrackerPersistence = new StudyTrackerPersistence();
-    this.name = name;
     this.semester = semester;
   }
 

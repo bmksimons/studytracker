@@ -9,6 +9,7 @@ import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import studytracker.core.Course;
 import studytracker.core.Semester;
 
 
@@ -29,9 +30,9 @@ public class SemesterService {
   }
   
   @Path("/{name}")
-  public StudyTrackerResource getStudyTracker(@PathParam("name") String name) {
+  public StudyTrackerResource getStudyTracker() {
     Semester semester = getSemester();
-    LOG.debug("Sub-resource for Semester " + name + ": " + semester);
-    return new StudyTrackerResource(semester, name);
+    LOG.debug("Sub-resource for Semester :" + semester);
+    return new StudyTrackerResource(semester);
   }
 }

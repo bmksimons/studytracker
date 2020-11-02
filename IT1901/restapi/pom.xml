@@ -9,16 +9,13 @@
         <version>0.0.1-SNAPSHOT</version> 
     </parent>
     
-    
     <artifactId>restapi</artifactId>
     
     <properties>
         <slf4jVersion>1.7.25</slf4jVersion>
     </properties>
 
-
     <dependencies>
-        
         <dependency>
             <groupId>IT1901.studytracker</groupId>
             <artifactId>core</artifactId>
@@ -68,8 +65,6 @@
             <artifactId>slf4j-api</artifactId>
             <version>${slf4jVersion}</version>
         </dependency>
-
-       
     </dependencies>
 
     <build>

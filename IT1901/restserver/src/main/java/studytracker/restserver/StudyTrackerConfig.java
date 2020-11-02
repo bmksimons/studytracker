@@ -1,16 +1,13 @@
 package studytracker.restserver;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import studytracker.core.Semester;
 import studytracker.json.StudyTrackerPersistence;
 import studytracker.restapi.SemesterService;
+import studytracker.core.Course;
 
 public class StudyTrackerConfig extends ResourceConfig {
 
@@ -52,14 +49,17 @@ public class StudyTrackerConfig extends ResourceConfig {
   private Semester createDefaultSemester() {
     StudyTrackerPersistence studyTrackerPersistence = new StudyTrackerPersistence();
     try {
-      studyTrackerPersistence.readSemester("default-semester");
-      this.semester = studyTrackerPersistence.readSemester("default-semester");
+      //studyTrackerPersistence.readSemester("restserver/src/main/resources/default-semester.json");
+      this.semester = studyTrackerPersistence.readSemester("restserver/src/main/resources/studytracker/restserver/default-semester.json");
       return this.semester;
     } catch (IOException e) {
         System.out.println("Couldn't read default-semester.json, so rigging Semester manually ("
             + e + ")");
         this.semester = new Semester();
-        return this.semester;
       }
+    Semester semester = new Semester();
+    semester.addCourse(new Course("mmatte"));
+    semester.addCourse(new Course("matte2"));
+    return semester;
     }
 }
