@@ -47,7 +47,7 @@ public class StudyTrackerResource {
   public void putSemester(Semester semester) throws JsonGenerationException, JsonMappingException, IOException {
     this.studyTrackerPersistence.writeSemester("semester.json", semester);
   }
-  
+
   @PUT
   public void putSemester() throws JsonGenerationException, JsonMappingException, IOException {
     this.putSemester(null);
@@ -55,7 +55,7 @@ public class StudyTrackerResource {
 
   @DELETE
   @Produces(MediaType.APPLICATION_JSON)
-  public boolean removeSemester(){
+  public boolean removeSemester() {
     checkSemester();
     this.semester.resetSemester();
     return true;

@@ -21,7 +21,7 @@ import studytracker.json.StudyTrackerPersistence;
 
 public class Controller {
 
-  private Semester semester;
+  public Semester semester;
   private StudyTrackerPersistence studyTrackerPersistence = new StudyTrackerPersistence();
   private ObservableList<String> courseList = FXCollections.observableArrayList();
 
@@ -74,9 +74,11 @@ public class Controller {
   @FXML
   private String endpointUri;
 
+  private RemoteSemesterAccess remoteAccess;
+
   public Controller() {
-    this.semester = null;
-    //this.courseList = FXCollections.observableArrayList();
+    // this.semester = null;
+    // this.courseList = FXCollections.observableArrayList();
     this.courseNames = new ArrayList<>();
     this.courseTimers = new ArrayList<>();
   }
@@ -95,44 +97,42 @@ public class Controller {
     this.courseTimers.add(this.courseTimer2);
     this.courseTimers.add(this.courseTimer3);
     this.courseTimers.add(this.courseTimer4);
-     SemesterAccess semesterAccess = null;
-     if (endpointUri != null) {
-       RemoteSemesterAccess remoteAccess;
-       try {
-         System.out.println("Using remote endpoint @ " + endpointUri);
-         remoteAccess = new RemoteSemesterAccess(new URI(endpointUri));
-         semesterAccess = remoteAccess;
-       } catch (URISyntaxException e) {
-         System.err.println(e);
-       }
-     }
-    if (semesterAccess == null) {
+    if (endpointUri != null) {
       try {
-      this.semester = studyTrackerPersistence.readSemester("semester.json");
-      Iterator<Course> semesterIt = this.semester.iterator();
-      for (Label label : this.courseNames) {
-        if (semesterIt.hasNext()) {
-          String courseName = semesterIt.next().getCourseName();
-          label.setText(courseName);
-          this.courseList.add(courseName);
-          this.updateCourseList();
-        }
+        System.out.println("Using remote endpoint @ " + endpointUri);
+        remoteAccess = new RemoteSemesterAccess(new URI(endpointUri));
+        this.semester = remoteAccess.getSemester();
+      } catch (URISyntaxException e) {
+        System.err.println(e);
+        this.semester = new Semester();
       }
-      Iterator<Course> semesterIt2 = this.semester.iterator();
-      for (Label label : this.courseTimers) {
-        if (semesterIt2.hasNext()) {
-          label.setText(String.valueOf(semesterIt2.next().getTimeSpent()));
+    } else {
+      try {
+        this.semester = studyTrackerPersistence.readSemester("semester.json");
+        Iterator<Course> semesterIt = this.semester.iterator();
+        for (Label label : this.courseNames) {
+          if (semesterIt.hasNext()) {
+            String courseName = semesterIt.next().getCourseName();
+            label.setText(courseName);
+            this.courseList.add(courseName);
+            this.updateCourseList();
+          }
         }
+        Iterator<Course> semesterIt2 = this.semester.iterator();
+        for (Label label : this.courseTimers) {
+          if (semesterIt2.hasNext()) {
+            label.setText(String.valueOf(semesterIt2.next().getTimeSpent()));
+          }
+        }
+      } catch (JsonProcessingException e) {
+        this.semester = new Semester();
+        this.showInformation.setText("json processing exception");
+      } catch (IOException e) {
+        this.showInformation.setText("IOException");
       }
-    } catch (JsonProcessingException e) {
-      this.semester = new Semester();
-      this.showInformation.setText("json processing exception");
-    } catch (IOException e) {
-      this.showInformation.setText("IOException");
     }
-  }
-  this.timeToAdd.setText("0 t");
-  this.semester.addSemesterListener(semester -> this.saveSemester());
+    //this.timeToAdd.setText("0 t");
+    this.semester.addSemesterListener(semester -> this.saveSemester());
   }
 
   public void saveSemester() {

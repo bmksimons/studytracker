@@ -11,23 +11,22 @@
  import studytracker.core.Semester;
  import studytracker.json.StudyTrackerModule;
 
- public class RemoteSemesterAccess implements SemesterAccess {
+ public class RemoteSemesterAccess {
 
-   private final URI endpointBaseUri;
+   private final URI endpointUri;
 
    private ObjectMapper objectMapper;
 
    private Semester semester;
 
-   public RemoteSemesterAccess(URI endpointBaseUri){
-     this.endpointBaseUri = endpointBaseUri;
+   public RemoteSemesterAccess(URI endpointUri){
+     this.endpointUri = endpointUri;
      this.objectMapper = new ObjectMapper().registerModule(new StudyTrackerModule());
    }
 
-   @Override
    public Semester getSemester() {
-     if (semester == null){
-       HttpRequest request = HttpRequest.newBuilder(this.endpointBaseUri)
+     if (this.semester == null){
+       HttpRequest request = HttpRequest.newBuilder(this.endpointUri)
        .header("Accept", "application/json")
        .GET()
        .build();
@@ -36,11 +35,11 @@
          HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
        final String responseString = response.body();
        this.semester = objectMapper.readValue(responseString, Semester.class);
-       System.out.println("Semester: " + this.semester);
+       System.out.println("Semester: " + this.semester.getCourses().get(0).getCourseName());
      } catch(IOException | InterruptedException e){
        throw new RuntimeException(e);
        }
      }
-     return semester;
+     return this.semester;
    } 
  }
