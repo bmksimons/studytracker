@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.control.Labeled;
 
-public class ControllerStatistic implements Initializable {
+public class ControllerStatistic implements Initializable{
 
   private Label label;
   @FXML
@@ -39,16 +39,10 @@ public class ControllerStatistic implements Initializable {
 
   private HashMap<String, Double> map = new HashMap<String, Double>();
 
-  private Controller mainController;
+  private Controller mainController = new Controller();
 
 
-  public void setController(Controller controller) {
-    this.mainController = controller;
-  }
 
-  public Controller getController() {
-    return this.mainController;
-  }
 
   @FXML
   public void onCloseStatisticsClick(ActionEvent event) throws Exception{
@@ -70,9 +64,9 @@ public class ControllerStatistic implements Initializable {
 
     XYChart.Series<String, Number> series = new XYChart.Series<>();
 
-    
+    /*
     for (int i=0; i<mainController.getCourseNames().size(); i++){
-      this.map.put(mainController.getCourseNames().get(i).getText(), Double.valueOf(mainController.getCourseTimers().get(i).getText()));
+      this.map.put(toString(mainController.getCourseNames().get(i).getText()), Double.valueOf(toString(mainController.getCourseTimers().get(i).getText())));
     }
 
     series.setName("Course Statistics");
@@ -80,7 +74,7 @@ public class ControllerStatistic implements Initializable {
     for (Map.Entry<String, Double> set : this.map.entrySet()){
       series.getData().add(new XYChart.Data<>(set.getKey(), set.getValue()));
     }
-    
+    */
     series.getData().add(new XYChart.Data<>("ITGK", 80));
     series.getData().add(new XYChart.Data<>("Diskmat", 60));
     series.getData().add(new XYChart.Data<>("AlgDat", 100));
