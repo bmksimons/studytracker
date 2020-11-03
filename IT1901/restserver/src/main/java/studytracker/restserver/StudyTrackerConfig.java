@@ -1,6 +1,11 @@
 package studytracker.restserver;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -14,9 +19,9 @@ public class StudyTrackerConfig extends ResourceConfig {
   private Semester semester;
 
   /**
-   * Initialize this TodoConfig.
+   * Initialize this StudyTrackerConfig.
    *
-   * @param StudyTrackerModel todoModel instance to serve
+   * @param Semester semester instance to serve
    */
   public StudyTrackerConfig(Semester semester) {
     setSemester(semester);
@@ -35,7 +40,7 @@ public class StudyTrackerConfig extends ResourceConfig {
    * Initialize this TodoConfig with a default TodoModel.
    */
   public StudyTrackerConfig() {
-    this.createDefaultSemester();
+    this(createDefaultSemester());
   }
 
   public Semester getSemester() {
@@ -46,17 +51,17 @@ public class StudyTrackerConfig extends ResourceConfig {
     this.semester = semester;
   }
 
-  private Semester createDefaultSemester() {
+  private static Semester createDefaultSemester() {
     StudyTrackerPersistence studyTrackerPersistence = new StudyTrackerPersistence();
-    try {
-      //studyTrackerPersistence.readSemester("restserver/src/main/resources/default-semester.json");
-      this.semester = studyTrackerPersistence.readSemester("restserver/src/main/resources/studytracker/restserver/default-semester.json");
-      return this.semester;
-    } catch (IOException e) {
+    URL url = StudyTrackerConfig.class.getResource("default-semester.json");
+    if (url != null) {
+      try (Reader reader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)) {
+        return studyTrackerPersistence.readSemester(reader);
+      } catch (IOException e) {
         System.out.println("Couldn't read default-semester.json, so rigging Semester manually ("
             + e + ")");
-        this.semester = new Semester();
       }
+    }
     Semester semester = new Semester();
     semester.addCourse(new Course("mmatte"));
     semester.addCourse(new Course("matte2"));

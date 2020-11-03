@@ -29,4 +29,8 @@ public class StudyTrackerPersistence {
       throws JsonGenerationException, JsonMappingException, IOException {
     mapper.writeValue(Paths.get(fileName).toFile(), semester);
   }
+
+  public Semester readSemester(Reader reader) throws IOException {
+    return mapper.readValue(reader, Semester.class);
+  }
 }

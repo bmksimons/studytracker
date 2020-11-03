@@ -1,8 +1,8 @@
-package studytracker.ui;
+ package studytracker.ui;
 
-import studytracker.core.Semester;
+ import studytracker.core.Semester;
 
-public interface SemesterAccess {
+ public interface SemesterAccess {
 
-  public Semester getSemester();
-}
+   public Semester getSemester();
+ }

@@ -95,22 +95,19 @@ public class Controller {
     this.courseTimers.add(this.courseTimer2);
     this.courseTimers.add(this.courseTimer3);
     this.courseTimers.add(this.courseTimer4);
-    RemoteSemesterAccess semesterAccess = null;
-    if (endpointUri != null) {
-      RemoteSemesterAccess remoteAccess;
-      try {
-        System.out.println("Using remote endpoint @ " + endpointUri);
-        remoteAccess = new RemoteSemesterAccess(new URI(endpointUri));
-        semesterAccess = remoteAccess;
-      } catch (URISyntaxException e) {
-        System.err.println(e);
-      }
-    }
+     SemesterAccess semesterAccess = null;
+     if (endpointUri != null) {
+       RemoteSemesterAccess remoteAccess;
+       try {
+         System.out.println("Using remote endpoint @ " + endpointUri);
+         remoteAccess = new RemoteSemesterAccess(new URI(endpointUri));
+         semesterAccess = remoteAccess;
+       } catch (URISyntaxException e) {
+         System.err.println(e);
+       }
+     }
     if (semesterAccess == null) {
-      //DirectSemesterAccess directAccess = new DirectSemesterAccess();
-      //semesterAccess = directAccess;
-    }
-    try {
+      try {
       this.semester = studyTrackerPersistence.readSemester("semester.json");
       Iterator<Course> semesterIt = this.semester.iterator();
       for (Label label : this.courseNames) {
@@ -133,8 +130,9 @@ public class Controller {
     } catch (IOException e) {
       this.showInformation.setText("IOException");
     }
-    timeToAdd.setText("0 t");
-    this.semester.addSemesterListener(semester -> this.saveSemester());
+  }
+  this.timeToAdd.setText("0 t");
+  this.semester.addSemesterListener(semester -> this.saveSemester());
   }
 
   public void saveSemester() {
