@@ -45,27 +45,28 @@ enklere og mer brukervennlig.
 
 ## plantUML diagramkode
 
-@startUML
+Trykk på bildeikonet for å åpne diagrammet:
 
-component Core {
+```plantuml
+component core {
     package studyTracker.core{
         [Course]
         [Semester]
     }
-    package studyTracker.JSON
+    package studyTracker.json
 }
 
 component jackson{
 }
 
-studyTracker.JSON ..> jackson
+studyTracker.json ..> jackson
 
 component fxui {
     package studyTracker.fxui
 }
 
 studyTracker.fxui ..> studyTracker.core
-studyTracker.fxui ..> studyTracker.JSON
+studyTracker.fxui ..> studyTracker.json
 
 component javafx{
     component fxml{
@@ -76,6 +77,4 @@ fxui ..> javafx
 
 [Course] ..> [Semester] : owner:1
 [Semester]..> [Course] : 0-4
-
-
-@endum
+```

@@ -1,10 +1,9 @@
 package studytracker.ui;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -28,8 +27,8 @@ import javafx.event.ActionEvent;
 
 public class Controller {
 
-  private Semester semester;
-  private ObjectMapper mapper = new ObjectMapper();
+  public Semester semester;
+  private StudyTrackerPersistence studyTrackerPersistence = new StudyTrackerPersistence();
   private ObservableList<String> courseList = FXCollections.observableArrayList();
 
   @FXML
@@ -80,18 +79,24 @@ public class Controller {
   private Button delete;
   @FXML
   private ChoiceBox<String> pickCourseDelete;
+  @FXML
+  private String endpointUri;
+
+  private RemoteSemesterAccess remoteAccess;
 
   public Controller() {
-    this.semester = null;
-    this.mapper = new ObjectMapper();
-    //this.courseList = FXCollections.observableArrayList();
+    // this.semester = null;
+    // this.courseList = FXCollections.observableArrayList();
     this.courseNames = new ArrayList<>();
     this.courseTimers = new ArrayList<>();
   }
 
+  public Semester getSemester() {
+    return this.semester;
+  }
+
   @FXML
   public void initialize() {
-    mapper.registerModule(new StudyTrackerModule());
     this.courseNames.add(this.courseName1);
     this.courseNames.add(this.courseName2);
     this.courseNames.add(this.courseName3);
@@ -100,36 +105,47 @@ public class Controller {
     this.courseTimers.add(this.courseTimer2);
     this.courseTimers.add(this.courseTimer3);
     this.courseTimers.add(this.courseTimer4);
-    try {
-      this.semester = mapper.readValue(new File("semester.json"), Semester.class);
-      Iterator<Course> semesterIt = this.semester.iterator();
-      for (Label label : this.courseNames) {
-        if (semesterIt.hasNext()) {
-          String courseName = semesterIt.next().getCourseName();
-          label.setText(courseName);
-          this.courseList.add(courseName);
-          this.updateCourseList();
-        }
+    if (endpointUri != null) {
+      try {
+        System.out.println("Using remote endpoint @ " + endpointUri);
+        remoteAccess = new RemoteSemesterAccess(new URI(endpointUri));
+        this.semester = remoteAccess.getSemester();
+      } catch (URISyntaxException e) {
+        System.err.println(e);
+        this.semester = new Semester();
       }
-      Iterator<Course> semesterIt2 = this.semester.iterator();
-      for (Label label : this.courseTimers) {
-        if (semesterIt2.hasNext()) {
-          label.setText(String.valueOf(semesterIt2.next().getTimeSpent()));
+    } else {
+      try {
+        this.semester = studyTrackerPersistence.readSemester("semester.json");
+        Iterator<Course> semesterIt = this.semester.iterator();
+        for (Label label : this.courseNames) {
+          if (semesterIt.hasNext()) {
+            String courseName = semesterIt.next().getCourseName();
+            label.setText(courseName);
+            this.courseList.add(courseName);
+            this.updateCourseList();
+          }
         }
+        Iterator<Course> semesterIt2 = this.semester.iterator();
+        for (Label label : this.courseTimers) {
+          if (semesterIt2.hasNext()) {
+            label.setText(String.valueOf(semesterIt2.next().getTimeSpent()));
+          }
+        }
+      } catch (JsonProcessingException e) {
+        this.semester = new Semester();
+        this.showInformation.setText("json processing exception");
+      } catch (IOException e) {
+        this.showInformation.setText("IOException");
       }
-    } catch (JsonProcessingException e) {
-      this.semester = new Semester();
-      this.showInformation.setText("json processing exception");
-    } catch (IOException e) {
-      this.showInformation.setText("IOException");
     }
-    timeToAdd.setText("0 t");
+    //this.timeToAdd.setText("0 t");
     this.semester.addSemesterListener(semester -> this.saveSemester());
   }
 
   public void saveSemester() {
     try {
-      mapper.writeValue(Paths.get("semester.json").toFile(), this.semester);
+      this.studyTrackerPersistence.writeSemester("semester.json", this.semester);
     } catch (JsonProcessingException e) {
       this.showInformation.setText("Klarte ikke lagre jsonData til fil");
     } catch (IOException e) {

@@ -4,32 +4,34 @@
     <modelVersion>4.0.0</modelVersion>
 
 
-     <parent>
+    <parent>
         <groupId>IT1901.studytracker</groupId>
         <artifactId>parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version> 
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-   
-    <artifactId>fxui</artifactId>
-    
 
+    <artifactId>fxui</artifactId>
 
     <dependencies>
-       
         <dependency>
             <groupId>IT1901.studytracker</groupId>
             <artifactId>core</artifactId>
-            <version>0.0.1-SNAPSHOT</version> 
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        
+        <dependency>
+            <groupId>IT1901.studytracker</groupId>
+            <artifactId>restserver</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>2.11.2</version>
         </dependency>
-        
+
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -49,18 +51,35 @@
             <!-- <scope>test</scope> -->
         </dependency>
         <dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-fxml</artifactId>
-			<version>14.0.1</version>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>14.0.1</version>
         </dependency>
         <!-- Test with TextFX -->
-		<dependency>
-			<groupId>org.testfx</groupId>
-			<artifactId>testfx-junit5</artifactId>
-			<version>4.0.16-alpha</version>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>testfx-junit5</artifactId>
+            <version>4.0.16-alpha</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+    <profiles>
+        <profile>
+            <id>remoteapp</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.openjfx</groupId>
+                        <artifactId>javafx-maven-plugin</artifactId>
+                        <version>0.0.4</version>
+                        <configuration>
+                            <mainClass>studytracker.ui.StudyTrackerRemoteApp</mainClass>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
     <build>
         <plugins>
             <!-- Run the checkstyle code quality tool -->
@@ -77,16 +96,16 @@
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
             <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-			</plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
             <plugin>
-				<groupId>org.openjfx</groupId>
-				<artifactId>javafx-maven-plugin</artifactId>
-				<version>0.0.4</version>
-				<configuration>
-					<mainClass>studytracker.ui.App</mainClass>
-				</configuration>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.4</version>
+                <configuration>
+                    <mainClass>studytracker.ui.App</mainClass>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -95,4 +114,3 @@
         </plugins>
     </build>
 </project>
-
