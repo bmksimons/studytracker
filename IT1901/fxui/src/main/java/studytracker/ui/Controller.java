@@ -21,67 +21,67 @@ import studytracker.json.StudyTrackerPersistence;
 
 public class Controller {
 
-  public Semester semester;
+  private Semester semester;
   private StudyTrackerPersistence studyTrackerPersistence = new StudyTrackerPersistence();
   private ObservableList<String> courseList = FXCollections.observableArrayList();
 
   @FXML
-  private Label courseName1;
+  Label courseName1;
   @FXML
-  private Label courseName2;
+  Label courseName2;
   @FXML
-  private Label courseName3;
+  Label courseName3;
   @FXML
-  private Label courseName4;
+  Label courseName4;
+
   private List<Label> courseNames;
 
   @FXML
-  private Label courseTimer1;
+  Label courseTimer1;
   @FXML
-  private Label courseTimer2;
+  Label courseTimer2;
   @FXML
-  private Label courseTimer3;
+  Label courseTimer3;
   @FXML
-  private Label courseTimer4;
+  Label courseTimer4;
+
   private List<Label> courseTimers;
 
   @FXML
-  private ChoiceBox<String> pickCourse;
+  ChoiceBox<String> pickCourse;
   @FXML
-  private TextField timeToAdd;
+  TextField timeToAdd;
   @FXML
-  private Button plusTime;
+  Button plusTime;
   @FXML
-  private Button minusTime;
+  Button minusTime;
   @FXML
-  private Button addTime;
+  Button addTime;
 
   @FXML
-  private TextField newCourse;
+  TextField newCourse;
   @FXML
-  private Button addCourse;
+  Button addCourse;
 
   @FXML
-  private Button reset;
+  Button reset;
 
   @FXML
-  private Label showInformation;
+  Label showInformation;
 
   @FXML
-  private Button delete;
+  Button delete;
+
   @FXML
-  private ChoiceBox<String> pickCourseDelete;
+  ChoiceBox<String> pickCourseDelete;
+
+  @FXML
+  RemoteAppController remoteAppController;
+
   @FXML
   private String endpointUri;
 
   private RemoteSemesterAccess remoteAccess;
-
-  public Controller() {
-    // this.semester = null;
-    // this.courseList = FXCollections.observableArrayList();
-    this.courseNames = new ArrayList<>();
-    this.courseTimers = new ArrayList<>();
-  }
 
   public Semester getSemester() {
     return this.semester;
@@ -89,6 +89,10 @@ public class Controller {
 
   @FXML
   public void initialize() {
+    // this.semester = null;
+    // this.courseList = FXCollections.observableArrayList();
+    this.courseNames = new ArrayList<>();
+    this.courseTimers = new ArrayList<>();
     this.courseNames.add(this.courseName1);
     this.courseNames.add(this.courseName2);
     this.courseNames.add(this.courseName3);
@@ -102,6 +106,7 @@ public class Controller {
         System.out.println("Using remote endpoint @ " + endpointUri);
         remoteAccess = new RemoteSemesterAccess(new URI(endpointUri));
         this.semester = remoteAccess.getSemester();
+        System.out.println(this.semester.getCourses().get(0).getCourseName() + " inne i uri ifen");
       } catch (URISyntaxException e) {
         System.err.println(e);
         this.semester = new Semester();
@@ -109,21 +114,7 @@ public class Controller {
     } else {
       try {
         this.semester = studyTrackerPersistence.readSemester("semester.json");
-        Iterator<Course> semesterIt = this.semester.iterator();
-        for (Label label : this.courseNames) {
-          if (semesterIt.hasNext()) {
-            String courseName = semesterIt.next().getCourseName();
-            label.setText(courseName);
-            this.courseList.add(courseName);
-            this.updateCourseList();
-          }
-        }
-        Iterator<Course> semesterIt2 = this.semester.iterator();
-        for (Label label : this.courseTimers) {
-          if (semesterIt2.hasNext()) {
-            label.setText(String.valueOf(semesterIt2.next().getTimeSpent()));
-          }
-        }
+        System.out.println(this.semester.getCourses().get(0).getCourseName() + " inne i uri else");
       } catch (JsonProcessingException e) {
         this.semester = new Semester();
         this.showInformation.setText("json processing exception");
@@ -131,8 +122,28 @@ public class Controller {
         this.showInformation.setText("IOException");
       }
     }
-    //this.timeToAdd.setText("0 t");
+    Iterator<Course> semesterIt = this.semester.iterator();
+    for (Label label : this.courseNames) {
+      if (semesterIt.hasNext()) {
+        String courseName = semesterIt.next().getCourseName();
+        label.setText(courseName);
+        this.courseList.add(courseName);
+        this.updateCourseList();
+      }
+    }
+    Iterator<Course> semesterIt2 = this.semester.iterator();
+    for (Label label : this.courseTimers) {
+      if (semesterIt2.hasNext()) {
+        label.setText(String.valueOf(semesterIt2.next().getTimeSpent()));
+      }
+    }
+    this.timeToAdd.setText("0 t");
+    System.out.println(semester.getCourses().get(0).getCourseName() + " etter kjøring av ifen");
     this.semester.addSemesterListener(semester -> this.saveSemester());
+  }
+
+  public void setEndpointUri(String endpointUri){
+    this.endpointUri = endpointUri;
   }
 
   public void saveSemester() {

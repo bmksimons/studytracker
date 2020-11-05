@@ -22,48 +22,47 @@ import studytracker.core.Semester;
 import studytracker.json.StudyTrackerPersistence;
 import studytracker.restapi.StudyTrackerResource;
 
-
-
 @Path(SemesterService.STUDYTRACKER_MODEL_SERVICE_PATH)
 public class SemesterService {
-  
+
   private static final Logger LOG = LoggerFactory.getLogger(SemesterService.class);
   public static final String STUDYTRACKER_MODEL_SERVICE_PATH = "studytracker";
+  private StudyTrackerPersistence studyTrackerPersistence;
 
   @Inject
   private Semester semester;
-  
 
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  public Semester getSemester() {
-    return this.semester;
-  }
-  
-  @Path("/{name}")
-  public StudyTrackerResource getStudyTracker() {
-    Semester semester = getSemester();
-    LOG.debug("Sub-resource for Semester :" + semester);
-    return new StudyTrackerResource(semester);
-  }
-}
-  
+   @GET
+   @Produces(MediaType.APPLICATION_JSON)
+   public Semester getSemester() {
+     return this.semester;
+   }
+
+  // @Path("/{name}")
+  // public StudyTrackerResource getStudyTracker() {
+  // Semester semester = getSemester();
+  // LOG.debug("Sub-resource for Semester :" + semester);
+  // return new StudyTrackerResource(semester);
+  // }
+
   // @GET
   // @Produces(MediaType.APPLICATION_JSON)
-  // public Semester getSemester() throws JsonParseException, JsonMappingException, IOException{
-  //   return this.studyTrackerPersistence.readSemester("semester.json");
+  // public Semester getSemester() throws JsonParseException, JsonMappingException, IOException {
+  //   this.semester = this.studyTrackerPersistence.readSemester("semester.json");
+  //   return this.semester;
   // }
 
-  // @PUT
-  // @Consumes(MediaType.APPLICATION_JSON)
-  // @Produces(MediaType.APPLICATION_JSON)
-  // public void putSemester(Semester semester) throws JsonGenerationException, JsonMappingException, IOException {
-  //   this.studyTrackerPersistence.writeSemester("semester.json", semester);
-  // }
+  @DELETE
+  @Produces(MediaType.APPLICATION_JSON)
+  public boolean removeSemester() {
+    this.semester.resetSemester();
+    return true;
+  }
 
-  // @DELETE
-  // @Produces(MediaType.APPLICATION_JSON)
-  // public boolean removeSemester(){
-  //   this.semester.resetSemester();
-  //   return true;
-  // }
+  @PUT
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  public void putSemester() throws JsonGenerationException, JsonMappingException, IOException {
+    this.studyTrackerPersistence.writeSemester("semester.json", this.semester);
+  }
+}

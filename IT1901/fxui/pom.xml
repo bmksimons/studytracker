@@ -73,7 +73,7 @@
                         <artifactId>javafx-maven-plugin</artifactId>
                         <version>0.0.4</version>
                         <configuration>
-                            <mainClass>studytracker.ui.StudyTrackerRemoteApp</mainClass>
+                            <mainClass>studytracker.ui.RemoteApp</mainClass>
                         </configuration>
                     </plugin>
                 </plugins>

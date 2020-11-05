@@ -14,9 +14,7 @@
  public class RemoteSemesterAccess {
 
    private final URI endpointUri;
-
    private ObjectMapper objectMapper;
-
    private Semester semester;
 
    public RemoteSemesterAccess(URI endpointUri){
@@ -35,7 +33,6 @@
          HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
        final String responseString = response.body();
        this.semester = objectMapper.readValue(responseString, Semester.class);
-       System.out.println("Semester: " + this.semester.getCourses().get(0).getCourseName());
      } catch(IOException | InterruptedException e){
        throw new RuntimeException(e);
        }
