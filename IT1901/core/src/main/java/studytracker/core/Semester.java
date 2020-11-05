@@ -14,18 +14,18 @@ import java.util.List;
  */
 public class Semester implements Iterable<Course> {
 
-  private List<Course> semester = new ArrayList<>();
+  private List<Course> courseList = new ArrayList<>();
   private Collection<SemesterListener> semesterListeners = new ArrayList<>();
 
   public void addCourse(Course course) {
-    if (checkIfEqual(course)) {
+    if (checkIfCourseExists(course)) {
       throw new IllegalArgumentException("Dette faget er allerede lagt til");
     }
     this.semester.add(course);
     this.fireSemesterChanged();
   }
 
-  private boolean checkIfEqual(Course course) {
+  private boolean checkIfCourseExists(Course course) {
     for (Course excistingCourse: this.semester){
       if (course.getCourseName().equals(excistingCourse.getCourseName())){
         return true;
