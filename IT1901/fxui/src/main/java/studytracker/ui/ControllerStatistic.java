@@ -26,8 +26,12 @@ import studytracker.ui.Controller;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.control.Labeled;
+import java.net.URI;
+import java.net.URISyntaxException;
+import studytracker.core.Course;
+import studytracker.core.Semester;
 
-public class ControllerStatistic implements Initializable{
+public class ControllerStatistic implements Initializable {
 
   private Label label;
   @FXML
@@ -37,13 +41,9 @@ public class ControllerStatistic implements Initializable{
   @FXML
   private BarChart<String, Number> barchart;
 
-  private HashMap<String, Double> map = new HashMap<String, Double>();
-
-  private Controller mainController = new Controller();
-
 
   @FXML
-  public void onCloseStatisticsClick(ActionEvent event) throws Exception{
+  public void onCloseStatisticsClick(ActionEvent event) throws Exception {
      try {
         Parent statisticParent = FXMLLoader.load(getClass().getResource("fxApp.fxml"));
         Scene statisticScene = new Scene(statisticParent);
@@ -58,20 +58,35 @@ public class ControllerStatistic implements Initializable{
 
 
   @Override
-  public void initialize(URL url, ResourceBundle rb){
+  public void initialize(URL url, ResourceBundle rb) {
+
+    HashMap<String, Double> courseMap = new HashMap<String, Double>();
 
     XYChart.Series<String, Number> series = new XYChart.Series<>();
 
-    RemoteSemesterAccess remoteSemesterAccess = new RemoteSemesterAccess(new URI("endpointUri"));
+    Semester semester = null;
+
+    try {
+      RemoteSemesterAccess remoteSemesterAccess = new RemoteSemesterAccess(new URI("http://localhost:8999/studytracker/"));
+      semester = remoteSemesterAccess.getSemester();
+    } catch (URISyntaxException e) {
+        System.err.println(e);
+      }
+
+    for (Course course : semester) {
+      courseMap.put(course.getCourseName(), course.getTimeSpent());
+    }
+
+    series.setName("Course Statistics");
+    for (Map.Entry<String, Double> set : courseMap.entrySet()){
+      series.getData().add(new XYChart.Data<>(set.getKey(), set.getValue()));
+    }
+
 
     series.getData().add(new XYChart.Data<>("ITGK", 80));
     series.getData().add(new XYChart.Data<>("Diskmat", 60));
-    series.getData().add(new XYChart.Data<>("AlgDat", 100));
-    series.getData().add(new XYChart.Data<>("dfsd", 120));
-    series.getData().add(new XYChart.Data<>("øjjg", 1));
 
     barchart.getData().add(series);
   }
-
 
 }
