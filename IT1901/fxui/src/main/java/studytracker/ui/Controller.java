@@ -24,6 +24,8 @@ import studytracker.core.Semester;
 import studytracker.json.StudyTrackerModule;
 import javafx.scene.Node;
 import javafx.event.ActionEvent;
+import studytracker.json.StudyTrackerPersistence;
+
 
 public class Controller {
 

@@ -42,8 +42,6 @@ public class ControllerStatistic implements Initializable{
   private Controller mainController = new Controller();
 
 
-
-
   @FXML
   public void onCloseStatisticsClick(ActionEvent event) throws Exception{
      try {
@@ -64,17 +62,8 @@ public class ControllerStatistic implements Initializable{
 
     XYChart.Series<String, Number> series = new XYChart.Series<>();
 
-    /*
-    for (int i=0; i<mainController.getCourseNames().size(); i++){
-      this.map.put(toString(mainController.getCourseNames().get(i).getText()), Double.valueOf(toString(mainController.getCourseTimers().get(i).getText())));
-    }
+    RemoteSemesterAccess remoteSemesterAccess = new RemoteSemesterAccess(new URI("endpointUri"));
 
-    series.setName("Course Statistics");
-
-    for (Map.Entry<String, Double> set : this.map.entrySet()){
-      series.getData().add(new XYChart.Data<>(set.getKey(), set.getValue()));
-    }
-    */
     series.getData().add(new XYChart.Data<>("ITGK", 80));
     series.getData().add(new XYChart.Data<>("Diskmat", 60));
     series.getData().add(new XYChart.Data<>("AlgDat", 100));
