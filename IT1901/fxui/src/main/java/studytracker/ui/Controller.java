@@ -11,13 +11,21 @@ import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import studytracker.core.Course;
 import studytracker.core.Semester;
+import studytracker.json.StudyTrackerModule;
+import javafx.scene.Node;
+import javafx.event.ActionEvent;
 import studytracker.json.StudyTrackerPersistence;
+
 
 public class Controller {
 
@@ -56,7 +64,9 @@ public class Controller {
   @FXML
   Button minusTime;
   @FXML
-  Button addTime;
+  private Button addTime;
+  @FXML
+  private Button statistic;
 
   @FXML
   TextField newCourse;
@@ -210,6 +220,22 @@ public class Controller {
   }
 
   @FXML
+  public void onOpenStatisticsClick(ActionEvent event) throws Exception{
+     try {
+        Parent statisticParent = FXMLLoader.load(getClass().getResource("fxStatistic.fxml"));
+        Scene statisticScene = new Scene(statisticParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(statisticScene);
+        window.show();
+
+    } catch(Exception e) {
+        e.printStackTrace();
+    }
+      
+    
+  }
+
+  @FXML
   public void removeTime() {
     String currentTimeString = timeToAdd.getText();
     String[] partition = currentTimeString.split(Pattern.quote(" "));
@@ -318,5 +344,13 @@ public class Controller {
 
   public Label getCourseTimer1() {
     return this.courseTimer1;
+  }
+
+  public List getCourseNames(){
+    return this.courseNames;
+  }
+
+  public List getCourseTimers(){
+    return this.courseTimers;
   }
 }
