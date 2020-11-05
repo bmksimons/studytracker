@@ -3,9 +3,9 @@
 <?import java.lang.String?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="studytracker.ui.Controller">
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="studytracker.ui.RemoteAppController">
     <fx:define>
         <String fx:id="endpointUri" fx:value="http://localhost:8999/studytracker/"/>
     </fx:define>
-    <fx:include fx:id="fxApp" source="fxApp.fxml"/>
+    <fx:include fx:id="fxapp" source="fxApp.fxml"/>
 </VBox>
