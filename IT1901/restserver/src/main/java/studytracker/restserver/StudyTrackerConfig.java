@@ -63,7 +63,7 @@ public class StudyTrackerConfig extends ResourceConfig {
       }
     }
     Semester semester = new Semester();
-    semester.addCourse(new Course("mmatte"));
+    semester.addCourse(new Course("matte"));
     semester.addCourse(new Course("matte2"));
     return semester;
     }

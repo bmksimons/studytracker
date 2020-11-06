@@ -45,13 +45,6 @@ public class SemesterService {
   // return new StudyTrackerResource(semester);
   // }
 
-  // @GET
-  // @Produces(MediaType.APPLICATION_JSON)
-  // public Semester getSemester() throws JsonParseException, JsonMappingException, IOException {
-  //   this.semester = this.studyTrackerPersistence.readSemester("semester.json");
-  //   return this.semester;
-  // }
-
   @DELETE
   @Produces(MediaType.APPLICATION_JSON)
   public boolean removeSemester() {
@@ -62,7 +55,7 @@ public class SemesterService {
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public void putSemester() throws JsonGenerationException, JsonMappingException, IOException {
+  public void putSemester(Semester semester) throws JsonGenerationException, JsonMappingException, IOException {
     this.studyTrackerPersistence.writeSemester("semester.json", this.semester);
   }
 }
