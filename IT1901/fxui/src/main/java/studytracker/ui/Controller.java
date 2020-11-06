@@ -96,7 +96,9 @@ public class Controller {
   public Semester getSemester() {
     return this.semester;
   }
-
+  public void setRemoteAccess(RemoteSemesterAccess remoteAccess) {
+    this.remoteAccess = remoteAccess;
+  }
   @FXML
   public void initialize() {
     this.setEndpointUri("http://localhost:8999/studytracker/");
