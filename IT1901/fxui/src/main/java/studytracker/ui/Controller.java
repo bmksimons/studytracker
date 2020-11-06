@@ -163,30 +163,30 @@ public class Controller {
     } else if(currentNumberCourses == maxCourses) {
       showInformation.setText("Du kan kun legge til " + maxCourses + " fag");
     } else {
-      for(Label courseName : courseNames) {
-        if(courseName.getText() == "") {
-          courseName.setText(newCourse.getText());
+      for(var i=0; i<courseNames.size(); i++) {
+        if(courseNames.get(i).getText().equals("")) {
+          courseNames.get(i).setText(newCourse.getText());
+          makeCourse(courseNames.get(i));
+          break;
         }
       }
 
       for(Label courseTimer : courseTimers) {
-        if(courseTimer.getText() == "") {
+        if(courseTimer.getText().equals("")) {
           courseTimer.setText("0 t");
+          break;
         }
       }
 
-      makeCourse(courseNames);
       newCourse.setText("");
     }
     
   }
 
   @FXML
-  private void makeCourse(List<Label> courseNames) {
-    for(Label courseName : courseNames) {
+  private void makeCourse(Label courseNames) {
         try {
           this.semester.addCourse(new Course(newCourse.getText()));
-          courseName.setText(newCourse.getText());
           courseList.add(newCourse.getText());
           updateCourseList();
           
@@ -194,7 +194,6 @@ public class Controller {
             this.showInformation.setText("Kan ikke legge til et fag flere ganger");
       }
     }
-  }
 
 
   public Label getShowInformation() {
@@ -237,7 +236,13 @@ public class Controller {
     if (courseChosen == null) {
       showInformation.setText("Du må velge et fag");
     } else {
-      if (courseChosen.equals(courseName1.getText())) {
+      for(var i=0; i<courseNames.size(); i++) {
+        if(courseChosen.equals(courseNames.get(i).getText())) {
+          makeStudyHours(courseNames.get(i), courseTimers.get(i));
+          break;
+        }
+      }
+      /*if (courseChosen.equals(courseName1.getText())) {
         this.makeStudyHours(courseName1, courseTimer1);
       } else if (courseChosen.equals(courseName2.getText())) {
         this.makeStudyHours(courseName2, courseTimer2);
@@ -245,7 +250,7 @@ public class Controller {
         this.makeStudyHours(courseName3, courseTimer3);
       } else if (courseChosen.equals(courseName4.getText())) {
         this.makeStudyHours(courseName4, courseTimer4);
-      }
+      }*/
       timeToAdd.setText("0 t");
       pickCourse.setValue("");
     }
@@ -308,7 +313,7 @@ public class Controller {
         showInformation.setText("Du må velge et fag først");
     } else {
       for(int i=0; i<courseNames.size(); i++) {
-        if (courseNames.get(i).getText() == courseChosenDelete) {
+        if (courseNames.get(i).getText().equals(courseChosenDelete)) {
           makeDeleteCourse(courseNames.get(i), courseTimers.get(i));
         }
       }
