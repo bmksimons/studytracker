@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import studytracker.core.Semester;
 import studytracker.json.StudyTrackerPersistence;
-import studytracker.restapi.StudyTrackerResource;
+//import studytracker.restapi.StudyTrackerResource;
 
 @Path(SemesterService.STUDYTRACKER_MODEL_SERVICE_PATH)
 public class SemesterService {

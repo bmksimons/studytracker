@@ -20,10 +20,10 @@ public class RemoteAppController {
   public void initialize() throws IOException {
     FXMLLoader fxmlLoader = new FXMLLoader();
     fxmlLoader.setLocation(getClass().getResource("fxApp.fxml"));
-    Parent controllerParent = fxmlLoader.load();
+    //Parent controllerParent = fxmlLoader.load();
     
-    this.controller = fxmlLoader.getController();
-    this.controller.setEndpointUri(this.endpointUri);
+    //this.controller = fxmlLoader.getController();
+    //this.controller.setEndpointUri(this.endpointUri);
 
     //Scene controllerScene = new Scene(controllerParent);
     //Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();

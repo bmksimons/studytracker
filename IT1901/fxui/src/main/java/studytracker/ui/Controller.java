@@ -99,6 +99,7 @@ public class Controller {
 
   @FXML
   public void initialize() {
+    this.setEndpointUri("http://localhost:8999/studytracker/");
     // this.semester = null;
     // this.courseList = FXCollections.observableArrayList();
     this.courseNames = new ArrayList<>();
