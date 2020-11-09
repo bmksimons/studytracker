@@ -101,25 +101,25 @@ public class Controller {
 
     try {
       this.semester = mapper.readValue(new File("semester.json"), Semester.class);
-      final Iterator<Course> semesterIt = this.semester.iterator();
-      for (final Label label : this.courseNames) {
+      Iterator<Course> semesterIt = this.semester.iterator();
+      for (Label label : this.courseNames) {
         if (semesterIt.hasNext()) {
-          final String courseName = semesterIt.next().getCourseName();
+          String courseName = semesterIt.next().getCourseName();
           label.setText(courseName);
           this.courseList.add(courseName);
           this.updateCourseList();
         }
       }
-      final Iterator<Course> semesterIt2 = this.semester.iterator();
-      for (final Label label : this.courseTimers) {
+      Iterator<Course> semesterIt2 = this.semester.iterator();
+      for (Label label : this.courseTimers) {
         if (semesterIt2.hasNext()) {
           label.setText(String.valueOf(semesterIt2.next().getTimeSpent()));
         }
       }
-    } catch (final JsonProcessingException e) {
+    } catch (JsonProcessingException e) {
       this.semester = new Semester();
       this.showInformation.setText("json processing exception");
-    } catch (final IOException e) {
+    } catch (IOException e) {
       this.showInformation.setText("IOException");
     }
     timeToAdd.setText("0 t");
@@ -129,9 +129,9 @@ public class Controller {
   public void saveSemester() {
     try {
       mapper.writeValue(Paths.get("semester.json").toFile(), this.semester);
-    } catch (final JsonProcessingException e) {
+    } catch (JsonProcessingException e) {
       this.showInformation.setText("Klarte ikke lagre jsonData til fil");
-    } catch (final IOException e) {
+    } catch (IOException e) {
       this.showInformation.setText("Klarte ikke skrive til fil");
     }
   }
@@ -208,8 +208,8 @@ public class Controller {
 
   @FXML
   public void addTime() {
-    final String currentTimeString = timeToAdd.getText();
-    final String[] partition = currentTimeString.split(Pattern.quote(" "));
+    String currentTimeString = timeToAdd.getText();
+    String[] partition = currentTimeString.split(Pattern.quote(" "));
 
     Double currentTime = Double.parseDouble(partition[0]);
     currentTime = currentTime + 0.25;
@@ -218,8 +218,8 @@ public class Controller {
 
   @FXML
   public void removeTime() {
-    final String currentTimeString = timeToAdd.getText();
-    final String[] partition = currentTimeString.split(Pattern.quote(" "));
+    String currentTimeString = timeToAdd.getText();
+    String[] partition = currentTimeString.split(Pattern.quote(" "));
 
     Double currentTime = Double.parseDouble(partition[0]);
     if (currentTime == 0) {
@@ -232,7 +232,7 @@ public class Controller {
 
   @FXML
   public void addStudyHours() {
-    final String courseChosen = pickCourse.getValue();
+    String courseChosen = pickCourse.getValue();
     if (courseChosen == null) {
       showInformation.setText("Du må velge et fag");
     } else {
@@ -257,21 +257,21 @@ public class Controller {
   }
 
   @FXML
-  private void makeStudyHours(final Label courseName, final Label courseTime) {
-    final String currentTimeString = timeToAdd.getText();
-    final String[] partition = currentTimeString.split(Pattern.quote(" "));
-    final Double hoursToAdd = Double.parseDouble(partition[0]);
-    final String currentStudyTime = courseTime.getText();
-    final String[] partition2 = currentStudyTime.split(Pattern.quote(" "));
-    final Double beforeHoursStudied = Double.parseDouble(partition2[0]);
-    final Double hoursStudied = beforeHoursStudied + hoursToAdd;
+  private void makeStudyHours(Label courseName, Label courseTime) {
+    String currentTimeString = timeToAdd.getText();
+    String[] partition = currentTimeString.split(Pattern.quote(" "));
+    Double hoursToAdd = Double.parseDouble(partition[0]);
+    String currentStudyTime = courseTime.getText();
+    String[] partition2 = currentStudyTime.split(Pattern.quote(" "));
+    Double beforeHoursStudied = Double.parseDouble(partition2[0]);
+    Double hoursStudied = beforeHoursStudied + hoursToAdd;
     courseTime.setText(hoursStudied + " t");
     this.semester.addTimeToCourse(courseName.getText(), hoursToAdd);
   }
 
   @FXML
   public void onResetButtonClick() {
-    for (final Label label : combineLabels()) {
+    for (Label label : combineLabels()) {
       label.setText("");
     }
     timeToAdd.setText("0 t");
@@ -281,7 +281,7 @@ public class Controller {
   }
 
   @FXML
-  private void setFieldsEmpty(final Label courseName, final Label courseTime) {
+  private void setFieldsEmpty(Label courseName, Label courseTime) {
     courseName.setText("");
     courseTime.setText("");
   }
@@ -320,7 +320,7 @@ public class Controller {
     }
   }
 
-  private void makeDeleteCourse(final Label courseName, final Label courseTime) {
+  private void makeDeleteCourse(Label courseName, Label courseTime) {
     courseList.remove(courseName.getText());
     updateCourseList();
     this.semester.removeCourse(courseName.getText());
