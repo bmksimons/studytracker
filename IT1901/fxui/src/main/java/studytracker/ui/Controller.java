@@ -1,7 +1,5 @@
 package studytracker.ui;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -21,17 +19,15 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import studytracker.core.Course;
 import studytracker.core.Semester;
-import studytracker.json.StudyTrackerModule;
 import javafx.scene.Node;
 import javafx.event.ActionEvent;
-import studytracker.json.StudyTrackerPersistence;
-
 
 public class Controller {
 
   private Semester semester;
-  private StudyTrackerPersistence studyTrackerPersistence = new StudyTrackerPersistence();
   private ObservableList<String> courseList = FXCollections.observableArrayList();
+  private int maxCourses;
+  private int currentNumberCourses;
 
   @FXML
   Label courseName1;
@@ -86,20 +82,15 @@ public class Controller {
   ChoiceBox<String> pickCourseDelete;
 
   @FXML
-  RemoteAppController remoteAppController;
-
-  @FXML
   private String endpointUri;
 
   private RemoteSemesterAccess remoteAccess;
 
-  public Semester getSemester() {
-    return this.semester;
-  }
-
   @FXML
   public void initialize() {
-    // this.semester = null;
+    this.maxCourses = 4;
+    this.currentNumberCourses = 0;
+    this.endpointUri = "http://localhost:8999/studytracker/";
     // this.courseList = FXCollections.observableArrayList();
     this.courseNames = new ArrayList<>();
     this.courseTimers = new ArrayList<>();
@@ -111,26 +102,14 @@ public class Controller {
     this.courseTimers.add(this.courseTimer2);
     this.courseTimers.add(this.courseTimer3);
     this.courseTimers.add(this.courseTimer4);
-    if (endpointUri != null) {
-      try {
-        System.out.println("Using remote endpoint @ " + endpointUri);
-        remoteAccess = new RemoteSemesterAccess(new URI(endpointUri));
-        this.semester = remoteAccess.getSemester();
-        System.out.println(this.semester.getCourses().get(0).getCourseName() + " inne i uri ifen");
-      } catch (URISyntaxException e) {
-        System.err.println(e);
-        this.semester = new Semester();
-      }
-    } else {
-      try {
-        this.semester = studyTrackerPersistence.readSemester("semester.json");
-        System.out.println(this.semester.getCourses().get(0).getCourseName() + " inne i uri else");
-      } catch (JsonProcessingException e) {
-        this.semester = new Semester();
-        this.showInformation.setText("json processing exception");
-      } catch (IOException e) {
-        this.showInformation.setText("IOException");
-      }
+
+    try {
+      System.out.println("Using remote endpoint @ " + endpointUri);
+      remoteAccess = new RemoteSemesterAccess(new URI(endpointUri));
+      this.semester = remoteAccess.getSemester();
+    } catch (URISyntaxException e) {
+      System.err.println(e);
+      this.semester = new Semester();
     }
     Iterator<Course> semesterIt = this.semester.iterator();
     for (Label label : this.courseNames) {
@@ -148,25 +127,14 @@ public class Controller {
       }
     }
     this.timeToAdd.setText("0 t");
-    System.out.println(semester.getCourses().get(0).getCourseName() + " etter kjøring av ifen");
     this.semester.addSemesterListener(semester -> this.saveSemester());
   }
 
-  public void setEndpointUri(String endpointUri){
-    this.endpointUri = endpointUri;
-  }
-
   public void saveSemester() {
-    try {
-      this.studyTrackerPersistence.writeSemester("semester.json", this.semester);
-    } catch (JsonProcessingException e) {
-      this.showInformation.setText("Klarte ikke lagre jsonData til fil");
-    } catch (IOException e) {
-      this.showInformation.setText("Klarte ikke skrive til fil");
-    }
+    this.remoteAccess.putSemester(this.semester);
   }
 
-  @FXML
+  /*@FXML
   public void addCourse() {
     if (newCourse.getText().equals("")) {
       showInformation.setText("Du må skrive inn et fag");
@@ -184,23 +152,51 @@ public class Controller {
       }
       this.newCourse.setText("");
     }
-  }
+  }*/
 
-  public Label getShowInformation() {
-    return this.showInformation;
+  @FXML
+  public void addCourse() {
+    if(newCourse.getText() == "") {
+      showInformation.setText("Du må skrive inn et fag");
+    } else if(currentNumberCourses == maxCourses) {
+      showInformation.setText("Du kan kun legge til " + maxCourses + " fag");
+    } else {
+      for(var i=0; i<courseNames.size(); i++) {
+        if(courseNames.get(i).getText().equals("")) {
+          courseNames.get(i).setText(newCourse.getText());
+          makeCourse(courseNames.get(i));
+          this.currentNumberCourses += 1;
+          break;
+        }
+      }
+
+      for(Label courseTimer : courseTimers) {
+        if(courseTimer.getText().equals("")) {
+          courseTimer.setText("0 t");
+          break;
+        }
+      }
+
+      newCourse.setText("");
+    }
+    
   }
 
   @FXML
-  private void makeCourse(Label courseName, Label courseTime) {
-    try {
-      this.semester.addCourse(new Course(newCourse.getText()));
-      courseName.setText(newCourse.getText());
-      courseList.add(newCourse.getText());
-      updateCourseList();
-      courseTime.setText("0 t");
-    } catch (IllegalArgumentException e) {
-      this.showInformation.setText("Kan ikke legge til et fag flere ganger");
+  private void makeCourse(Label courseNames) {
+        try {
+          this.semester.addCourse(new Course(newCourse.getText()));
+          courseList.add(newCourse.getText());
+          updateCourseList();
+          
+        } catch (final IllegalArgumentException e) {
+            this.showInformation.setText("Kan ikke legge til et fag flere ganger");
+      }
     }
+
+
+  public Label getShowInformation() {
+    return this.showInformation;
   }
 
   @FXML
@@ -220,19 +216,18 @@ public class Controller {
   }
 
   @FXML
-  public void onOpenStatisticsClick(ActionEvent event) throws Exception{
-     try {
-        Parent statisticParent = FXMLLoader.load(getClass().getResource("fxStatistic.fxml"));
-        Scene statisticScene = new Scene(statisticParent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(statisticScene);
-        window.show();
+  public void onOpenStatisticsClick(ActionEvent event) throws Exception {
+    try {
+      Parent statisticParent = FXMLLoader.load(getClass().getResource("fxStatistic.fxml"));
+      Scene statisticScene = new Scene(statisticParent);
+      Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+      window.setScene(statisticScene);
+      window.show();
 
-    } catch(Exception e) {
-        e.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-      
-    
+
   }
 
   @FXML
@@ -255,7 +250,13 @@ public class Controller {
     if (courseChosen == null) {
       showInformation.setText("Du må velge et fag");
     } else {
-      if (courseChosen.equals(courseName1.getText())) {
+      for(var i=0; i<courseNames.size(); i++) {
+        if(courseChosen.equals(courseNames.get(i).getText())) {
+          makeStudyHours(courseNames.get(i), courseTimers.get(i));
+          break;
+        }
+      }
+      /*if (courseChosen.equals(courseName1.getText())) {
         this.makeStudyHours(courseName1, courseTimer1);
       } else if (courseChosen.equals(courseName2.getText())) {
         this.makeStudyHours(courseName2, courseTimer2);
@@ -263,7 +264,7 @@ public class Controller {
         this.makeStudyHours(courseName3, courseTimer3);
       } else if (courseChosen.equals(courseName4.getText())) {
         this.makeStudyHours(courseName4, courseTimer4);
-      }
+      }*/
       timeToAdd.setText("0 t");
       pickCourse.setValue("");
     }
@@ -299,9 +300,9 @@ public class Controller {
     courseTime.setText("");
   }
 
-  @FXML
+  /*@FXML
   public void deleteCourse() {
-    String courseChosenDelete = pickCourseDelete.getValue();
+    final String courseChosenDelete = pickCourseDelete.getValue();
 
     if (courseChosenDelete == null) {
       showInformation.setText("Du må velge et fag først");
@@ -317,6 +318,20 @@ public class Controller {
         this.makeDeleteCourse(courseName4, courseTimer4);
       }
     }
+  }*/
+
+  @FXML
+  public void deleteCourse() {
+    String courseChosenDelete = pickCourseDelete.getValue();
+    if(courseChosenDelete == null) {
+        showInformation.setText("Du må velge et fag først");
+    } else {
+      for(int i=0; i<courseNames.size(); i++) {
+        if (courseNames.get(i).getText().equals(courseChosenDelete)) {
+          makeDeleteCourse(courseNames.get(i), courseTimers.get(i));
+        }
+      }
+    }
   }
 
   private void makeDeleteCourse(Label courseName, Label courseTime) {
@@ -328,7 +343,7 @@ public class Controller {
   }
 
   private ArrayList<Label> combineLabels() {
-    ArrayList<Label> tmp = new ArrayList<>();
+    final ArrayList<Label> tmp = new ArrayList<>();
     tmp.addAll(this.courseNames);
     tmp.addAll(this.courseTimers);
     return tmp;
@@ -346,11 +361,11 @@ public class Controller {
     return this.courseTimer1;
   }
 
-  public List getCourseNames(){
+  public List getCourseNames() {
     return this.courseNames;
   }
 
-  public List getCourseTimers(){
+  public List getCourseTimers() {
     return this.courseTimers;
   }
 }

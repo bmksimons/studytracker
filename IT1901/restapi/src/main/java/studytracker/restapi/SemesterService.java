@@ -20,14 +20,14 @@ import org.slf4j.LoggerFactory;
 
 import studytracker.core.Semester;
 import studytracker.json.StudyTrackerPersistence;
-import studytracker.restapi.StudyTrackerResource;
+//import studytracker.restapi.StudyTrackerResource;
 
 @Path(SemesterService.STUDYTRACKER_MODEL_SERVICE_PATH)
 public class SemesterService {
 
   private static final Logger LOG = LoggerFactory.getLogger(SemesterService.class);
   public static final String STUDYTRACKER_MODEL_SERVICE_PATH = "studytracker";
-  private StudyTrackerPersistence studyTrackerPersistence;
+  private StudyTrackerPersistence studyTrackerPersistence = new StudyTrackerPersistence();
 
   @Inject
   private Semester semester;
@@ -45,13 +45,6 @@ public class SemesterService {
   // return new StudyTrackerResource(semester);
   // }
 
-  // @GET
-  // @Produces(MediaType.APPLICATION_JSON)
-  // public Semester getSemester() throws JsonParseException, JsonMappingException, IOException {
-  //   this.semester = this.studyTrackerPersistence.readSemester("semester.json");
-  //   return this.semester;
-  // }
-
   @DELETE
   @Produces(MediaType.APPLICATION_JSON)
   public boolean removeSemester() {
@@ -62,7 +55,9 @@ public class SemesterService {
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public void putSemester() throws JsonGenerationException, JsonMappingException, IOException {
-    this.studyTrackerPersistence.writeSemester("semester.json", this.semester);
+  public Boolean putSemester(Semester semester) throws JsonGenerationException, JsonMappingException, IOException {
+    System.out.println("put blir kjørt");
+    this.studyTrackerPersistence.writeSemester("restserver/src/main/resources/studytracker/restserver/semester.json", semester);
+    return true;
   }
 }

@@ -40,7 +40,7 @@ public class StudyTrackerConfig extends ResourceConfig {
    * Initialize this TodoConfig with a default TodoModel.
    */
   public StudyTrackerConfig() {
-    this(createDefaultSemester());
+    this(createSemester());
   }
 
   public Semester getSemester() {
@@ -51,7 +51,24 @@ public class StudyTrackerConfig extends ResourceConfig {
     this.semester = semester;
   }
 
-  private static Semester createDefaultSemester() {
+  private static Semester createSemester() {
+    StudyTrackerPersistence studyTrackerPersistence = new StudyTrackerPersistence();
+    URL url = StudyTrackerConfig.class.getResource("semester.json");
+    if (url != null) {
+      try (Reader reader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)) {
+        return studyTrackerPersistence.readSemester(reader);
+      } catch (IOException e) {
+        System.out.println("Couldn't read semester.json, so rigging Semester manually ("
+            + e + ")");
+      }
+    }
+    Semester semester = new Semester();
+    semester.addCourse(new Course("matte"));
+    semester.addCourse(new Course("matte2"));
+    return semester;
+    }
+
+    private static Semester createDefaultSemester() {
     StudyTrackerPersistence studyTrackerPersistence = new StudyTrackerPersistence();
     URL url = StudyTrackerConfig.class.getResource("default-semester.json");
     if (url != null) {
@@ -63,7 +80,7 @@ public class StudyTrackerConfig extends ResourceConfig {
       }
     }
     Semester semester = new Semester();
-    semester.addCourse(new Course("mmatte"));
+    semester.addCourse(new Course("matte"));
     semester.addCourse(new Course("matte2"));
     return semester;
     }

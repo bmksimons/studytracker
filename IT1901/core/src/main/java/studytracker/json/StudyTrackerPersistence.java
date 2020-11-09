@@ -3,6 +3,7 @@ package studytracker.json;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Writer;
 import java.nio.file.Paths;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -32,5 +33,9 @@ public class StudyTrackerPersistence {
 
   public Semester readSemester(Reader reader) throws IOException {
     return mapper.readValue(reader, Semester.class);
+  }
+
+  public void writeSemester(Semester semester, Writer writer) throws IOException {
+    mapper.writerWithDefaultPrettyPrinter().writeValue(writer, semester);
   }
 }
