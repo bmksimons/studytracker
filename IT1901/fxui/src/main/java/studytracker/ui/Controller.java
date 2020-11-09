@@ -24,7 +24,9 @@ public class Controller {
 
   private Semester semester;
   private ObjectMapper mapper = new ObjectMapper();
-  private ObservableList<String> courseList = FXCollections.observableArrayList();
+  private final ObservableList<String> courseList = FXCollections.observableArrayList();
+  private final int maxCourses;
+  private int currentNumberCourses;
 
   @FXML
   private Label courseName1;
@@ -34,7 +36,8 @@ public class Controller {
   private Label courseName3;
   @FXML
   private Label courseName4;
-  private List<Label> courseNames;
+  private final ArrayList<Label> courseNames;
+  
 
   @FXML
   private Label courseTimer1;
@@ -44,7 +47,7 @@ public class Controller {
   private Label courseTimer3;
   @FXML
   private Label courseTimer4;
-  private List<Label> courseTimers;
+  private final List<Label> courseTimers;
 
   @FXML
   private ChoiceBox<String> pickCourse;
@@ -79,11 +82,14 @@ public class Controller {
     //this.courseList = FXCollections.observableArrayList();
     this.courseNames = new ArrayList<>();
     this.courseTimers = new ArrayList<>();
+    this.maxCourses = 4;
+    this.currentNumberCourses = 0;
   }
 
   @FXML
   public void initialize() {
     mapper.registerModule(new StudyTrackerModule());
+   
     this.courseNames.add(this.courseName1);
     this.courseNames.add(this.courseName2);
     this.courseNames.add(this.courseName3);
@@ -92,6 +98,7 @@ public class Controller {
     this.courseTimers.add(this.courseTimer2);
     this.courseTimers.add(this.courseTimer3);
     this.courseTimers.add(this.courseTimer4);
+
     try {
       this.semester = mapper.readValue(new File("semester.json"), Semester.class);
       Iterator<Course> semesterIt = this.semester.iterator();
@@ -129,7 +136,7 @@ public class Controller {
     }
   }
 
-  @FXML
+  /*@FXML
   public void addCourse() {
     if (newCourse.getText().equals("")) {
       showInformation.setText("Du må skrive inn et fag");
@@ -147,23 +154,50 @@ public class Controller {
       }
       this.newCourse.setText("");
     }
-  }
+  }*/
 
-  public Label getShowInformation() {
-    return this.showInformation;
+  @FXML
+  public void addCourse() {
+    if(newCourse.getText() == "") {
+      showInformation.setText("Du må skrive inn et fag");
+    } else if(currentNumberCourses == maxCourses) {
+      showInformation.setText("Du kan kun legge til " + maxCourses + " fag");
+    } else {
+      for(var i=0; i<courseNames.size(); i++) {
+        if(courseNames.get(i).getText().equals("")) {
+          courseNames.get(i).setText(newCourse.getText());
+          makeCourse(courseNames.get(i));
+          break;
+        }
+      }
+
+      for(Label courseTimer : courseTimers) {
+        if(courseTimer.getText().equals("")) {
+          courseTimer.setText("0 t");
+          break;
+        }
+      }
+
+      newCourse.setText("");
+    }
+    
   }
 
   @FXML
-  private void makeCourse(Label courseName, Label courseTime) {
-    try {
-      this.semester.addCourse(new Course(newCourse.getText()));
-      courseName.setText(newCourse.getText());
-      courseList.add(newCourse.getText());
-      updateCourseList();
-      courseTime.setText("0 t");
-    } catch (IllegalArgumentException e) {
-      this.showInformation.setText("Kan ikke legge til et fag flere ganger");
+  private void makeCourse(Label courseNames) {
+        try {
+          this.semester.addCourse(new Course(newCourse.getText()));
+          courseList.add(newCourse.getText());
+          updateCourseList();
+          
+        } catch (final IllegalArgumentException e) {
+            this.showInformation.setText("Kan ikke legge til et fag flere ganger");
+      }
     }
+
+
+  public Label getShowInformation() {
+    return this.showInformation;
   }
 
   @FXML
@@ -202,7 +236,13 @@ public class Controller {
     if (courseChosen == null) {
       showInformation.setText("Du må velge et fag");
     } else {
-      if (courseChosen.equals(courseName1.getText())) {
+      for(var i=0; i<courseNames.size(); i++) {
+        if(courseChosen.equals(courseNames.get(i).getText())) {
+          makeStudyHours(courseNames.get(i), courseTimers.get(i));
+          break;
+        }
+      }
+      /*if (courseChosen.equals(courseName1.getText())) {
         this.makeStudyHours(courseName1, courseTimer1);
       } else if (courseChosen.equals(courseName2.getText())) {
         this.makeStudyHours(courseName2, courseTimer2);
@@ -210,7 +250,7 @@ public class Controller {
         this.makeStudyHours(courseName3, courseTimer3);
       } else if (courseChosen.equals(courseName4.getText())) {
         this.makeStudyHours(courseName4, courseTimer4);
-      }
+      }*/
       timeToAdd.setText("0 t");
       pickCourse.setValue("");
     }
@@ -246,9 +286,9 @@ public class Controller {
     courseTime.setText("");
   }
 
-  @FXML
+  /*@FXML
   public void deleteCourse() {
-    String courseChosenDelete = pickCourseDelete.getValue();
+    final String courseChosenDelete = pickCourseDelete.getValue();
 
     if (courseChosenDelete == null) {
       showInformation.setText("Du må velge et fag først");
@@ -264,6 +304,20 @@ public class Controller {
         this.makeDeleteCourse(courseName4, courseTimer4);
       }
     }
+  }*/
+
+  @FXML
+  public void deleteCourse() {
+    String courseChosenDelete = pickCourseDelete.getValue();
+    if(courseChosenDelete == null) {
+        showInformation.setText("Du må velge et fag først");
+    } else {
+      for(int i=0; i<courseNames.size(); i++) {
+        if (courseNames.get(i).getText().equals(courseChosenDelete)) {
+          makeDeleteCourse(courseNames.get(i), courseTimers.get(i));
+        }
+      }
+    }
   }
 
   private void makeDeleteCourse(Label courseName, Label courseTime) {
@@ -275,7 +329,7 @@ public class Controller {
   }
 
   private ArrayList<Label> combineLabels() {
-    ArrayList<Label> tmp = new ArrayList<>();
+    final ArrayList<Label> tmp = new ArrayList<>();
     tmp.addAll(this.courseNames);
     tmp.addAll(this.courseTimers);
     return tmp;

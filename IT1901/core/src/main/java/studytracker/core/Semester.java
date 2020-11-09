@@ -14,19 +14,19 @@ import java.util.List;
  */
 public class Semester implements Iterable<Course> {
 
-  private List<Course> semester = new ArrayList<>();
+  private List<Course> courseList = new ArrayList<>();
   private Collection<SemesterListener> semesterListeners = new ArrayList<>();
 
   public void addCourse(Course course) {
-    if (checkIfEqual(course)) {
+    if (checkIfCourseExists(course)) {
       throw new IllegalArgumentException("Dette faget er allerede lagt til");
     }
-    this.semester.add(course);
+    this.courseList.add(course);
     this.fireSemesterChanged();
   }
 
-  private boolean checkIfEqual(Course course) {
-    for (Course excistingCourse: this.semester){
+  private boolean checkIfCourseExists(Course course) {
+    for (Course excistingCourse: this.courseList){
       if (course.getCourseName().equals(excistingCourse.getCourseName())){
         return true;
       }
@@ -36,11 +36,11 @@ public class Semester implements Iterable<Course> {
 
   @Override
   public Iterator<Course> iterator() {
-    return this.semester.iterator();
+    return this.courseList.iterator();
   }
 
   public void removeCourse(int index) {
-    semester.remove(index);
+    courseList.remove(index);
     this.fireSemesterChanged();
   }
 
@@ -49,7 +49,7 @@ public class Semester implements Iterable<Course> {
     while (it1.hasNext()) {
       Course tmp = it1.next();
       if (name.equals(tmp.getCourseName())) {
-        this.semester.remove(tmp);
+        this.courseList.remove(tmp);
         this.fireSemesterChanged();
         return true;
       }
@@ -58,10 +58,10 @@ public class Semester implements Iterable<Course> {
   }
 
   public void removeCourse(Course course) {
-    if (!this.semester.contains(course)) {
+    if (!this.courseList.contains(course)) {
       throw new IllegalArgumentException("This semster does not contain this course");
     }
-    this.semester.remove(course);
+    this.courseList.remove(course);
     this.fireSemesterChanged();
   }
 
@@ -77,11 +77,11 @@ public class Semester implements Iterable<Course> {
   }
 
   public List<Course> getCourses() {
-    return this.semester;
+    return this.courseList;
   }
 
   public void clearSemester() {
-    this.semester.clear();
+    this.courseList.clear();
     this.fireSemesterChanged();
   }
 
