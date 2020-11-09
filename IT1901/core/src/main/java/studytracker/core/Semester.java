@@ -82,7 +82,7 @@ public class Semester implements Iterable<Course> {
 
   public void clearSemester() {
     this.courseList.clear();
-    this.fireSemesterChanged();
+    //this.fireSemesterChanged();
   }
 
   public void addSemesterListener(SemesterListener semesterListener) {

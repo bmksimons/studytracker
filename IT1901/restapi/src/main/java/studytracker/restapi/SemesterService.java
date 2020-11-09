@@ -12,7 +12,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import org.slf4j.Logger;
@@ -32,11 +31,11 @@ public class SemesterService {
   @Inject
   private Semester semester;
 
-   @GET
-   @Produces(MediaType.APPLICATION_JSON)
-   public Semester getSemester() {
-     return this.semester;
-   }
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public Semester getSemester() {
+    return this.semester;
+  }
 
   // @Path("/{name}")
   // public StudyTrackerResource getStudyTracker() {
@@ -47,17 +46,20 @@ public class SemesterService {
 
   @DELETE
   @Produces(MediaType.APPLICATION_JSON)
-  public boolean removeSemester() {
-    this.semester.resetSemester();
+  public boolean removeSemester() throws JsonGenerationException, JsonMappingException, IOException {
+    System.out.println("Delete blir kjørt i semesterservice");
+    this.semester.clearSemester();
+    this.studyTrackerPersistence.writeSemester("restserver/src/main/resources/studytracker/restserver/semester.json", this.semester);
     return true;
   }
 
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public Boolean putSemester(Semester semester) throws JsonGenerationException, JsonMappingException, IOException {
+  public Boolean putSemester() throws JsonGenerationException, JsonMappingException, IOException {
     System.out.println("put blir kjørt");
-    this.studyTrackerPersistence.writeSemester("restserver/src/main/resources/studytracker/restserver/semester.json", semester);
+    this.studyTrackerPersistence.writeSemester("restserver/src/main/resources/studytracker/restserver/semester.json",
+        this.semester);
     return true;
   }
 }

@@ -86,6 +86,11 @@ public class Controller {
 
   private RemoteSemesterAccess remoteAccess;
 
+  /**
+   * Initializes the Controller by loading the Semester in the restserver. Sets up
+   * fields which are used in other methods in the Controller.
+   *
+   */
   @FXML
   public void initialize() {
     this.maxCourses = 4;
@@ -134,35 +139,32 @@ public class Controller {
     this.remoteAccess.putSemester(this.semester);
   }
 
-  /*@FXML
-  public void addCourse() {
-    if (newCourse.getText().equals("")) {
-      showInformation.setText("Du må skrive inn et fag");
-    } else {
-      if (courseName1.getText().equals("")) {
-        this.makeCourse(courseName1, courseTimer1);
-      } else if (courseName2.getText().equals("")) {
-        this.makeCourse(courseName2, courseTimer2);
-      } else if (courseName3.getText().equals("")) {
-        this.makeCourse(courseName3, courseTimer3);
-      } else if (courseName4.getText().equals("")) {
-        this.makeCourse(courseName4, courseTimer4);
-      } else {
-        showInformation.setText("Du kan kun legge til 4 fag");
-      }
-      this.newCourse.setText("");
-    }
-  }*/
+  /*
+   * @FXML public void addCourse() { if (newCourse.getText().equals("")) {
+   * showInformation.setText("Du må skrive inn et fag"); } else { if
+   * (courseName1.getText().equals("")) { this.makeCourse(courseName1,
+   * courseTimer1); } else if (courseName2.getText().equals("")) {
+   * this.makeCourse(courseName2, courseTimer2); } else if
+   * (courseName3.getText().equals("")) { this.makeCourse(courseName3,
+   * courseTimer3); } else if (courseName4.getText().equals("")) {
+   * this.makeCourse(courseName4, courseTimer4); } else {
+   * showInformation.setText("Du kan kun legge til 4 fag"); }
+   * this.newCourse.setText(""); } }
+   */
 
+  /**
+   * Adds a course to the Semester.
+   *
+   */
   @FXML
   public void addCourse() {
-    if(newCourse.getText() == "") {
+    if (newCourse.getText() == "") {
       showInformation.setText("Du må skrive inn et fag");
-    } else if(currentNumberCourses == maxCourses) {
+    } else if (currentNumberCourses == maxCourses) {
       showInformation.setText("Du kan kun legge til " + maxCourses + " fag");
     } else {
-      for(var i=0; i<courseNames.size(); i++) {
-        if(courseNames.get(i).getText().equals("")) {
+      for (var i = 0; i < courseNames.size(); i++) {
+        if (courseNames.get(i).getText().equals("")) {
           courseNames.get(i).setText(newCourse.getText());
           makeCourse(courseNames.get(i));
           this.currentNumberCourses += 1;
@@ -170,8 +172,8 @@ public class Controller {
         }
       }
 
-      for(Label courseTimer : courseTimers) {
-        if(courseTimer.getText().equals("")) {
+      for (Label courseTimer : courseTimers) {
+        if (courseTimer.getText().equals("")) {
           courseTimer.setText("0 t");
           break;
         }
@@ -179,21 +181,20 @@ public class Controller {
 
       newCourse.setText("");
     }
-    
+
   }
 
   @FXML
   private void makeCourse(Label courseNames) {
-        try {
-          this.semester.addCourse(new Course(newCourse.getText()));
-          courseList.add(newCourse.getText());
-          updateCourseList();
-          
-        } catch (final IllegalArgumentException e) {
-            this.showInformation.setText("Kan ikke legge til et fag flere ganger");
-      }
-    }
+    try {
+      this.semester.addCourse(new Course(newCourse.getText()));
+      courseList.add(newCourse.getText());
+      updateCourseList();
 
+    } catch (final IllegalArgumentException e) {
+      this.showInformation.setText("Kan ikke legge til et fag flere ganger");
+    }
+  }
 
   public Label getShowInformation() {
     return this.showInformation;
@@ -205,6 +206,10 @@ public class Controller {
     pickCourseDelete.setItems(this.courseList);
   }
 
+  /**
+   * Adds time
+   *
+   */
   @FXML
   public void addTime() {
     String currentTimeString = timeToAdd.getText();
@@ -215,6 +220,10 @@ public class Controller {
     timeToAdd.setText(currentTime + " t");
   }
 
+  /**
+   * Opens a new fxml-window with the statistics of time spent on each course.
+   *
+   */
   @FXML
   public void onOpenStatisticsClick(ActionEvent event) throws Exception {
     try {
@@ -244,27 +253,32 @@ public class Controller {
     }
   }
 
+  /**
+   * Adds the chosen time to a chosen subject.
+   *
+   */
   @FXML
   public void addStudyHours() {
     String courseChosen = pickCourse.getValue();
     if (courseChosen == null) {
       showInformation.setText("Du må velge et fag");
     } else {
-      for(var i=0; i<courseNames.size(); i++) {
-        if(courseChosen.equals(courseNames.get(i).getText())) {
+      for (var i = 0; i < courseNames.size(); i++) {
+        if (courseChosen.equals(courseNames.get(i).getText())) {
           makeStudyHours(courseNames.get(i), courseTimers.get(i));
           break;
         }
       }
-      /*if (courseChosen.equals(courseName1.getText())) {
-        this.makeStudyHours(courseName1, courseTimer1);
-      } else if (courseChosen.equals(courseName2.getText())) {
-        this.makeStudyHours(courseName2, courseTimer2);
-      } else if (courseChosen.equals(courseName3.getText())) {
-        this.makeStudyHours(courseName3, courseTimer3);
-      } else if (courseChosen.equals(courseName4.getText())) {
-        this.makeStudyHours(courseName4, courseTimer4);
-      }*/
+      /*
+       * if (courseChosen.equals(courseName1.getText())) {
+       * this.makeStudyHours(courseName1, courseTimer1); } else if
+       * (courseChosen.equals(courseName2.getText())) {
+       * this.makeStudyHours(courseName2, courseTimer2); } else if
+       * (courseChosen.equals(courseName3.getText())) {
+       * this.makeStudyHours(courseName3, courseTimer3); } else if
+       * (courseChosen.equals(courseName4.getText())) {
+       * this.makeStudyHours(courseName4, courseTimer4); }
+       */
       timeToAdd.setText("0 t");
       pickCourse.setValue("");
     }
@@ -283,8 +297,13 @@ public class Controller {
     this.semester.addTimeToCourse(courseName.getText(), hoursToAdd);
   }
 
+  /**
+   * Resets the app by clearing the semester and emptying all the fields.
+   *
+   */
   @FXML
   public void onResetButtonClick() {
+    this.remoteAccess.deleteSemester(this.semester);
     for (Label label : combineLabels()) {
       label.setText("");
     }
@@ -300,33 +319,34 @@ public class Controller {
     courseTime.setText("");
   }
 
-  /*@FXML
-  public void deleteCourse() {
-    final String courseChosenDelete = pickCourseDelete.getValue();
+  /*
+   * @FXML public void deleteCourse() { final String courseChosenDelete =
+   * pickCourseDelete.getValue();
+   * 
+   * if (courseChosenDelete == null) {
+   * showInformation.setText("Du må velge et fag først"); } else { if
+   * (courseChosenDelete.equals(courseName1.getText())) {
+   * this.makeDeleteCourse(courseName1, courseTimer1); } else if
+   * (courseChosenDelete.equals(courseName2.getText())) {
+   * this.makeDeleteCourse(courseName2, courseTimer2); } else if
+   * (courseChosenDelete.equals(courseName3.getText())) {
+   * this.makeDeleteCourse(courseName3, courseTimer3);
+   * showInformation.setText("Faget er slettet"); } else if
+   * (courseChosenDelete.equals(courseName4.getText())) {
+   * this.makeDeleteCourse(courseName4, courseTimer4); } } }
+   */
 
-    if (courseChosenDelete == null) {
-      showInformation.setText("Du må velge et fag først");
-    } else {
-      if (courseChosenDelete.equals(courseName1.getText())) {
-        this.makeDeleteCourse(courseName1, courseTimer1);
-      } else if (courseChosenDelete.equals(courseName2.getText())) {
-        this.makeDeleteCourse(courseName2, courseTimer2);
-      } else if (courseChosenDelete.equals(courseName3.getText())) {
-        this.makeDeleteCourse(courseName3, courseTimer3);
-        showInformation.setText("Faget er slettet");
-      } else if (courseChosenDelete.equals(courseName4.getText())) {
-        this.makeDeleteCourse(courseName4, courseTimer4);
-      }
-    }
-  }*/
-
+  /**
+   * Deletes a chosen course from the app.
+   *
+   */
   @FXML
   public void deleteCourse() {
     String courseChosenDelete = pickCourseDelete.getValue();
-    if(courseChosenDelete == null) {
-        showInformation.setText("Du må velge et fag først");
+    if (courseChosenDelete == null) {
+      showInformation.setText("Du må velge et fag først");
     } else {
-      for(int i=0; i<courseNames.size(); i++) {
+      for (int i = 0; i < courseNames.size(); i++) {
         if (courseNames.get(i).getText().equals(courseChosenDelete)) {
           makeDeleteCourse(courseNames.get(i), courseTimers.get(i));
         }
