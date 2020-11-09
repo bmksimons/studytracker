@@ -5,7 +5,7 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="studytracker.ui.Controller">
     <fx:define>
-        <String fx:id="endpointUri" fx:value="http://localhost:8999/studytracker/"/>
+        <String fx:id="endpointUri" fx:value="http://localhost:8080/studytracker/"/>
     </fx:define>
     <fx:include fx:id="fxapp" source="fxApp.fxml"/>
 </VBox>

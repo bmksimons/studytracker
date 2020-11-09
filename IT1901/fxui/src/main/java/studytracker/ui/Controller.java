@@ -21,11 +21,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import studytracker.core.Course;
 import studytracker.core.Semester;
-import studytracker.json.StudyTrackerModule;
 import javafx.scene.Node;
 import javafx.event.ActionEvent;
 import studytracker.json.StudyTrackerPersistence;
-
 
 public class Controller {
 
@@ -96,12 +94,14 @@ public class Controller {
   public Semester getSemester() {
     return this.semester;
   }
+
   public void setRemoteAccess(RemoteSemesterAccess remoteAccess) {
     this.remoteAccess = remoteAccess;
   }
+
   @FXML
   public void initialize() {
-    this.setEndpointUri("http://localhost:8999/studytracker/");
+    this.setEndpointUri("http://localhost:8080/studytracker/");
     // this.semester = null;
     // this.courseList = FXCollections.observableArrayList();
     this.courseNames = new ArrayList<>();
@@ -114,26 +114,14 @@ public class Controller {
     this.courseTimers.add(this.courseTimer2);
     this.courseTimers.add(this.courseTimer3);
     this.courseTimers.add(this.courseTimer4);
-    if (endpointUri != null) {
-      try {
-        System.out.println("Using remote endpoint @ " + endpointUri);
-        remoteAccess = new RemoteSemesterAccess(new URI(endpointUri));
-        this.semester = remoteAccess.getSemester();
-        System.out.println(this.semester.getCourses().get(0).getCourseName() + " inne i uri ifen");
-      } catch (URISyntaxException e) {
-        System.err.println(e);
-        this.semester = new Semester();
-      }
-    } else {
-      try {
-        this.semester = studyTrackerPersistence.readSemester("semester.json");
-        System.out.println(this.semester.getCourses().get(0).getCourseName() + " inne i uri else");
-      } catch (JsonProcessingException e) {
-        this.semester = new Semester();
-        this.showInformation.setText("json processing exception");
-      } catch (IOException e) {
-        this.showInformation.setText("IOException");
-      }
+    try {
+      System.out.println("Using remote endpoint @ " + endpointUri);
+      remoteAccess = new RemoteSemesterAccess(new URI(endpointUri));
+      this.semester = remoteAccess.getSemester();
+      System.out.println(this.semester.getCourses().get(0).getCourseName() + " inne i uri ifen");
+    } catch (URISyntaxException e) {
+      System.err.println(e);
+      this.semester = new Semester();
     }
     Iterator<Course> semesterIt = this.semester.iterator();
     for (Label label : this.courseNames) {
@@ -155,11 +143,12 @@ public class Controller {
     this.semester.addSemesterListener(semester -> this.saveSemester());
   }
 
-  public void setEndpointUri(String endpointUri){
+  public void setEndpointUri(String endpointUri) {
     this.endpointUri = endpointUri;
   }
 
   public void saveSemester() {
+    this.remoteAccess.putSemester(this.semester);
     try {
       this.studyTrackerPersistence.writeSemester("semester.json", this.semester);
     } catch (JsonProcessingException e) {
@@ -223,19 +212,18 @@ public class Controller {
   }
 
   @FXML
-  public void onOpenStatisticsClick(ActionEvent event) throws Exception{
-     try {
-        Parent statisticParent = FXMLLoader.load(getClass().getResource("fxStatistic.fxml"));
-        Scene statisticScene = new Scene(statisticParent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(statisticScene);
-        window.show();
+  public void onOpenStatisticsClick(ActionEvent event) throws Exception {
+    try {
+      Parent statisticParent = FXMLLoader.load(getClass().getResource("fxStatistic.fxml"));
+      Scene statisticScene = new Scene(statisticParent);
+      Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+      window.setScene(statisticScene);
+      window.show();
 
-    } catch(Exception e) {
-        e.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-      
-    
+
   }
 
   @FXML
@@ -349,11 +337,11 @@ public class Controller {
     return this.courseTimer1;
   }
 
-  public List getCourseNames(){
+  public List getCourseNames() {
     return this.courseNames;
   }
 
-  public List getCourseTimers(){
+  public List getCourseTimers() {
     return this.courseTimers;
   }
 }

@@ -56,6 +56,7 @@ public class SemesterService {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public void putSemester(Semester semester) throws JsonGenerationException, JsonMappingException, IOException {
+    LOG.debug("put blir kjørt");
     this.studyTrackerPersistence.writeSemester("semester.json", this.semester);
   }
 }

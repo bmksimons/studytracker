@@ -2,11 +2,14 @@ package studytracker.ui;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpRequest.BodyPublishers;
+import java.nio.charset.StandardCharsets;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import studytracker.core.Semester;
@@ -22,6 +25,7 @@ public class RemoteSemesterAccess {
     this.endpointUri = endpointUri;
     this.objectMapper = new ObjectMapper().registerModule(new StudyTrackerModule());
   }
+
 
   public Semester getSemester() {
      if (this.semester == null){
@@ -42,8 +46,10 @@ public class RemoteSemesterAccess {
    }
 
   public void putSemester(Semester semester) {
+    //this.semester = semester;
      try{
        String json = objectMapper.writeValueAsString(semester);
+       System.out.println("hello" + json);
         HttpRequest request = HttpRequest.newBuilder(this.endpointUri)
         .header("Accept", "application/json")
         .header("Content-Type", "application/json")
