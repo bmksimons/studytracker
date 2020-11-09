@@ -1,10 +1,7 @@
 package studytracker.ui;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,84 +9,87 @@ import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import studytracker.core.Course;
 import studytracker.core.Semester;
-import studytracker.json.StudyTrackerModule;
+import javafx.scene.Node;
+import javafx.event.ActionEvent;
 
 public class Controller {
 
   private Semester semester;
-  private ObjectMapper mapper = new ObjectMapper();
-  private final ObservableList<String> courseList = FXCollections.observableArrayList();
-  private final int maxCourses;
-  private int currentNumberCourses;
+  private ObservableList<String> courseList = FXCollections.observableArrayList();
 
   @FXML
-  private Label courseName1;
+  Label courseName1;
   @FXML
-  private Label courseName2;
+  Label courseName2;
   @FXML
-  private Label courseName3;
+  Label courseName3;
   @FXML
-  private Label courseName4;
-  private final ArrayList<Label> courseNames;
-  
+  Label courseName4;
+
+  private List<Label> courseNames;
 
   @FXML
-  private Label courseTimer1;
+  Label courseTimer1;
   @FXML
-  private Label courseTimer2;
+  Label courseTimer2;
   @FXML
-  private Label courseTimer3;
+  Label courseTimer3;
   @FXML
-  private Label courseTimer4;
-  private final List<Label> courseTimers;
+  Label courseTimer4;
+
+  private List<Label> courseTimers;
 
   @FXML
-  private ChoiceBox<String> pickCourse;
+  ChoiceBox<String> pickCourse;
   @FXML
-  private TextField timeToAdd;
+  TextField timeToAdd;
   @FXML
-  private Button plusTime;
+  Button plusTime;
   @FXML
-  private Button minusTime;
+  Button minusTime;
   @FXML
   private Button addTime;
+  @FXML
+  private Button statistic;
 
   @FXML
-  private TextField newCourse;
+  TextField newCourse;
   @FXML
-  private Button addCourse;
+  Button addCourse;
 
   @FXML
-  private Button reset;
+  Button reset;
 
   @FXML
-  private Label showInformation;
+  Label showInformation;
 
   @FXML
-  private Button delete;
-  @FXML
-  private ChoiceBox<String> pickCourseDelete;
+  Button delete;
 
-  public Controller() {
-    this.semester = null;
-    this.mapper = new ObjectMapper();
-    //this.courseList = FXCollections.observableArrayList();
-    this.courseNames = new ArrayList<>();
-    this.courseTimers = new ArrayList<>();
-    this.maxCourses = 4;
-    this.currentNumberCourses = 0;
-  }
+  @FXML
+  ChoiceBox<String> pickCourseDelete;
+
+  @FXML
+  private String endpointUri;
+
+  private RemoteSemesterAccess remoteAccess;
 
   @FXML
   public void initialize() {
-    mapper.registerModule(new StudyTrackerModule());
-   
+    this.endpointUri = "http://localhost:8999/studytracker/";
+    // this.courseList = FXCollections.observableArrayList();
+    this.courseNames = new ArrayList<>();
+    this.courseTimers = new ArrayList<>();
     this.courseNames.add(this.courseName1);
     this.courseNames.add(this.courseName2);
     this.courseNames.add(this.courseName3);
@@ -100,40 +100,34 @@ public class Controller {
     this.courseTimers.add(this.courseTimer4);
 
     try {
-      this.semester = mapper.readValue(new File("semester.json"), Semester.class);
-      Iterator<Course> semesterIt = this.semester.iterator();
-      for (Label label : this.courseNames) {
-        if (semesterIt.hasNext()) {
-          String courseName = semesterIt.next().getCourseName();
-          label.setText(courseName);
-          this.courseList.add(courseName);
-          this.updateCourseList();
-        }
-      }
-      Iterator<Course> semesterIt2 = this.semester.iterator();
-      for (Label label : this.courseTimers) {
-        if (semesterIt2.hasNext()) {
-          label.setText(String.valueOf(semesterIt2.next().getTimeSpent()));
-        }
-      }
-    } catch (JsonProcessingException e) {
+      System.out.println("Using remote endpoint @ " + endpointUri);
+      remoteAccess = new RemoteSemesterAccess(new URI(endpointUri));
+      this.semester = remoteAccess.getSemester();
+    } catch (URISyntaxException e) {
+      System.err.println(e);
       this.semester = new Semester();
-      this.showInformation.setText("json processing exception");
-    } catch (IOException e) {
-      this.showInformation.setText("IOException");
     }
-    timeToAdd.setText("0 t");
+    Iterator<Course> semesterIt = this.semester.iterator();
+    for (Label label : this.courseNames) {
+      if (semesterIt.hasNext()) {
+        String courseName = semesterIt.next().getCourseName();
+        label.setText(courseName);
+        this.courseList.add(courseName);
+        this.updateCourseList();
+      }
+    }
+    Iterator<Course> semesterIt2 = this.semester.iterator();
+    for (Label label : this.courseTimers) {
+      if (semesterIt2.hasNext()) {
+        label.setText(String.valueOf(semesterIt2.next().getTimeSpent()));
+      }
+    }
+    this.timeToAdd.setText("0 t");
     this.semester.addSemesterListener(semester -> this.saveSemester());
   }
 
   public void saveSemester() {
-    try {
-      mapper.writeValue(Paths.get("semester.json").toFile(), this.semester);
-    } catch (JsonProcessingException e) {
-      this.showInformation.setText("Klarte ikke lagre jsonData til fil");
-    } catch (IOException e) {
-      this.showInformation.setText("Klarte ikke skrive til fil");
-    }
+    this.remoteAccess.putSemester(this.semester);
   }
 
   /*@FXML
@@ -214,6 +208,21 @@ public class Controller {
     Double currentTime = Double.parseDouble(partition[0]);
     currentTime = currentTime + 0.25;
     timeToAdd.setText(currentTime + " t");
+  }
+
+  @FXML
+  public void onOpenStatisticsClick(ActionEvent event) throws Exception {
+    try {
+      Parent statisticParent = FXMLLoader.load(getClass().getResource("fxStatistic.fxml"));
+      Scene statisticScene = new Scene(statisticParent);
+      Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+      window.setScene(statisticScene);
+      window.show();
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
   }
 
   @FXML
@@ -345,5 +354,13 @@ public class Controller {
 
   public Label getCourseTimer1() {
     return this.courseTimer1;
+  }
+
+  public List getCourseNames() {
+    return this.courseNames;
+  }
+
+  public List getCourseTimers() {
+    return this.courseTimers;
   }
 }
