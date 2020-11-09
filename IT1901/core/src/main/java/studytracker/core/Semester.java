@@ -104,6 +104,6 @@ public class Semester implements Iterable<Course> {
 
   public void resetSemester(){
     this.semesterListeners.clear();
-    this.semester.clear();
+    this.courseList.clear();
   }
 }

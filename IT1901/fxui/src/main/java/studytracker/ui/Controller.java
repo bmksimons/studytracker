@@ -26,6 +26,8 @@ public class Controller {
 
   private Semester semester;
   private ObservableList<String> courseList = FXCollections.observableArrayList();
+  private int maxCourses;
+  private int currentNumberCourses;
 
   @FXML
   Label courseName1;
@@ -86,6 +88,8 @@ public class Controller {
 
   @FXML
   public void initialize() {
+    this.maxCourses = 4;
+    this.currentNumberCourses = 0;
     this.endpointUri = "http://localhost:8999/studytracker/";
     // this.courseList = FXCollections.observableArrayList();
     this.courseNames = new ArrayList<>();
@@ -161,6 +165,7 @@ public class Controller {
         if(courseNames.get(i).getText().equals("")) {
           courseNames.get(i).setText(newCourse.getText());
           makeCourse(courseNames.get(i));
+          this.currentNumberCourses += 1;
           break;
         }
       }
