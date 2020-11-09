@@ -1,7 +1,5 @@
 package studytracker.ui;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -23,12 +21,10 @@ import studytracker.core.Course;
 import studytracker.core.Semester;
 import javafx.scene.Node;
 import javafx.event.ActionEvent;
-import studytracker.json.StudyTrackerPersistence;
 
 public class Controller {
 
   private Semester semester;
-  private StudyTrackerPersistence studyTrackerPersistence = new StudyTrackerPersistence();
   private ObservableList<String> courseList = FXCollections.observableArrayList();
 
   @FXML
@@ -84,25 +80,13 @@ public class Controller {
   ChoiceBox<String> pickCourseDelete;
 
   @FXML
-  RemoteAppController remoteAppController;
-
-  @FXML
   private String endpointUri;
 
   private RemoteSemesterAccess remoteAccess;
 
-  public Semester getSemester() {
-    return this.semester;
-  }
-
-  public void setRemoteAccess(RemoteSemesterAccess remoteAccess) {
-    this.remoteAccess = remoteAccess;
-  }
-
   @FXML
   public void initialize() {
-    this.setEndpointUri("http://localhost:8080/studytracker/");
-    // this.semester = null;
+    this.endpointUri = "http://localhost:8999/studytracker/";
     // this.courseList = FXCollections.observableArrayList();
     this.courseNames = new ArrayList<>();
     this.courseTimers = new ArrayList<>();
@@ -118,7 +102,6 @@ public class Controller {
       System.out.println("Using remote endpoint @ " + endpointUri);
       remoteAccess = new RemoteSemesterAccess(new URI(endpointUri));
       this.semester = remoteAccess.getSemester();
-      System.out.println(this.semester.getCourses().get(0).getCourseName() + " inne i uri ifen");
     } catch (URISyntaxException e) {
       System.err.println(e);
       this.semester = new Semester();
@@ -139,23 +122,11 @@ public class Controller {
       }
     }
     this.timeToAdd.setText("0 t");
-    System.out.println(semester.getCourses().get(0).getCourseName() + " etter kjøring av ifen");
     this.semester.addSemesterListener(semester -> this.saveSemester());
-  }
-
-  public void setEndpointUri(String endpointUri) {
-    this.endpointUri = endpointUri;
   }
 
   public void saveSemester() {
     this.remoteAccess.putSemester(this.semester);
-    try {
-      this.studyTrackerPersistence.writeSemester("semester.json", this.semester);
-    } catch (JsonProcessingException e) {
-      this.showInformation.setText("Klarte ikke lagre jsonData til fil");
-    } catch (IOException e) {
-      this.showInformation.setText("Klarte ikke skrive til fil");
-    }
   }
 
   @FXML

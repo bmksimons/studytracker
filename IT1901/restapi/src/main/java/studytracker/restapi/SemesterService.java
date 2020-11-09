@@ -27,7 +27,7 @@ public class SemesterService {
 
   private static final Logger LOG = LoggerFactory.getLogger(SemesterService.class);
   public static final String STUDYTRACKER_MODEL_SERVICE_PATH = "studytracker";
-  private StudyTrackerPersistence studyTrackerPersistence;
+  private StudyTrackerPersistence studyTrackerPersistence = new StudyTrackerPersistence();
 
   @Inject
   private Semester semester;
@@ -55,8 +55,9 @@ public class SemesterService {
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public void putSemester(Semester semester) throws JsonGenerationException, JsonMappingException, IOException {
-    LOG.debug("put blir kjørt");
-    this.studyTrackerPersistence.writeSemester("semester.json", this.semester);
+  public Boolean putSemester(Semester semester) throws JsonGenerationException, JsonMappingException, IOException {
+    System.out.println("put blir kjørt");
+    this.studyTrackerPersistence.writeSemester("restserver/src/main/resources/studytracker/restserver/semester.json", semester);
+    return true;
   }
 }

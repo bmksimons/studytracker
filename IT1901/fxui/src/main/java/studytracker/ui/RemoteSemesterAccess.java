@@ -58,7 +58,10 @@ public class RemoteSemesterAccess {
         final HttpResponse<String> response =
           HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
         String responseString = response.body();
-        this.semester = objectMapper.readValue(responseString, Semester.class);
+        Boolean add = objectMapper.readValue(responseString, Boolean.class);
+        if (add == true){
+          this.semester = semester;
+        }
       } catch(IOException | InterruptedException e){
        throw new RuntimeException(e);
         }
