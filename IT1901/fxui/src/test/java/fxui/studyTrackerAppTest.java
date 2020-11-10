@@ -38,7 +38,7 @@ public class studyTrackerAppTest extends ApplicationTest{
   public void setup(){
     clickOn("#reset");
     //course1 = new Course("Matte 1");
-    course2 = new Course("Algdat");
+    //course2 = new Course("Algdat");
     //semester = new Semester();
   }
 
@@ -52,7 +52,7 @@ public class studyTrackerAppTest extends ApplicationTest{
   public void testAddNewCourse(){
     clickOn("#newCourse").write("IT1901");
     clickOn("#addCourse");
-    assertEquals("IT1901",controller.getCourseName1().getText());
+    assertEquals(controller.getCourseNamesList().stream().anyMatch(a -> a.equals("IT1901")),true);
   } 
   
   // @Test
@@ -77,7 +77,7 @@ public class studyTrackerAppTest extends ApplicationTest{
     type(KeyCode.ENTER);
     clickOn("#plusTime");
     clickOn("#addTime");
-    assertEquals(controller.getCourseTimer1().getText(), "0.25 t");
+    assertEquals(controller.getCourseTimersList().stream().anyMatch(a->a.equals("0.25 t")), true);
   
   }
 
@@ -93,7 +93,7 @@ public class studyTrackerAppTest extends ApplicationTest{
     }
     clickOn("#minusTime");
     clickOn("#addTime");
-    assertEquals("2.25 t", controller.getCourseTimer1().getText());
+    assertEquals(controller.getCourseTimersList().stream().anyMatch(a->a.equals("2.25 t")), true);
   }
 
   @Test
