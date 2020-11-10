@@ -95,4 +95,16 @@ public class studyTrackerAppTest extends ApplicationTest{
     clickOn("#addTime");
     assertEquals("2.25 t", controller.getCourseTimer1().getText());
   }
+
+  @Test
+  public void testDeleteCourseSimple(){
+    clickOn("#newCourse").write("matte 1");
+    clickOn("#addCourse");
+    clickOn("#pickCourseDelete");
+    type(KeyCode.DOWN);
+    type(KeyCode.ENTER);
+    clickOn("#delete");
+    assertEquals(controller.getCourseNamesList().stream().allMatch(a -> a.equals("")), true);
+  }
+
 }

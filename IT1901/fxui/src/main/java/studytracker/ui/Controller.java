@@ -346,4 +346,14 @@ public class Controller {
   public Label getCourseTimer1() {
     return this.courseTimer1;
   }
+
+  public List<String> getCourseNamesList() {
+    List<String> tmp = new ArrayList<>();
+    Iterator<Label> iterator = courseNames.iterator();
+
+    while(iterator.hasNext()) {
+      tmp.add(iterator.next().getText());
+    }
+    return tmp;
+  }
 }
