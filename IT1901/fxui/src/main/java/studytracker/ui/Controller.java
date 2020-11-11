@@ -349,16 +349,24 @@ public class Controller {
     return tmp;
   }
 
-  public Label getCourseName1() {
-    return this.courseName1;
+  public List<String> getCourseNamesList() {
+    List<String> tmp = new ArrayList<>();
+    Iterator<Label> iterator = courseNames.iterator();
+
+    while(iterator.hasNext()) {
+      tmp.add(iterator.next().getText());
+    }
+    return tmp;
   }
 
-  public Label getCourseName2() {
-    return this.courseName2;
-  }
+  public List<String> getCourseTimersList() {
+    List<String> tmp = new ArrayList<>();
+    Iterator<Label> iterator = courseTimers.iterator();
 
-  public Label getCourseTimer1() {
-    return this.courseTimer1;
+    while(iterator.hasNext()) {
+      tmp.add(iterator.next().getText());
+    }
+    return tmp;
   }
 
   public List getCourseNames() {

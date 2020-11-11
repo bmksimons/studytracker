@@ -34,13 +34,13 @@
   //   stage.show();
   // }
 
-  // @BeforeEach
-  // public void setup(){
-  //   clickOn("#reset");
-  //   //course1 = new Course("Matte 1");
-  //   course2 = new Course("Algdat");
-  //   //semester = new Semester();
-  // }
+  @BeforeEach
+  public void setup(){
+    clickOn("#reset");
+    //course1 = new Course("Matte 1");
+    //course2 = new Course("Algdat");
+    //semester = new Semester();
+  }
 
   // @Test
   // public void testController_studyTracker() {
@@ -48,12 +48,12 @@
   //   // assertNotNull(this.semester);
   // }
 
-  // @Test
-  // public void testAddNewCourse(){
-  //   clickOn("#newCourse").write("IT1901");
-  //   clickOn("#addCourse");
-  //   assertEquals("IT1901",controller.getCourseName1().getText());
-  // } 
+  @Test
+  public void testAddNewCourse(){
+    clickOn("#newCourse").write("IT1901");
+    clickOn("#addCourse");
+    assertEquals(controller.getCourseNamesList().stream().anyMatch(a -> a.equals("IT1901")),true);
+  } 
   
   // @Test
   // public void testAddEqualCourse(){
@@ -68,31 +68,43 @@
   //   }
   
 
-//   @Test
-//   public void testAddTimePlusButton(){
-//     clickOn("#newCourse").write("matte 1");
-//     clickOn("#addCourse");
-//     clickOn("#pickCourse");
-//     type(KeyCode.DOWN);
-//     type(KeyCode.ENTER);
-//     clickOn("#plusTime");
-//     clickOn("#addTime");
-//     assertEquals(controller.getCourseTimer1().getText(), "0.25 t");
+  @Test
+  public void testAddTimePlusButton(){
+    clickOn("#newCourse").write("matte 1");
+    clickOn("#addCourse");
+    clickOn("#pickCourse");
+    type(KeyCode.DOWN);
+    type(KeyCode.ENTER);
+    clickOn("#plusTime");
+    clickOn("#addTime");
+    assertEquals(controller.getCourseTimersList().stream().anyMatch(a->a.equals("0.25 t")), true);
   
 //   }
 
-//   @Test
-//   public void testAddTimeMinusButton(){
-//     clickOn("#newCourse").write("matte 1");
-//     clickOn("#addCourse");
-//     clickOn("#pickCourse");
-//     type(KeyCode.DOWN);
-//     type(KeyCode.ENTER);
-//     for (int i=0 ; i<10 ; i++){
-//     clickOn("#plusTime");
-//     }
-//     clickOn("#minusTime");
-//     clickOn("#addTime");
-//     assertEquals("2.25 t", controller.getCourseTimer1().getText());
-//   }
-// }
+  @Test
+  public void testAddTimeMinusButton(){
+    clickOn("#newCourse").write("matte 1");
+    clickOn("#addCourse");
+    clickOn("#pickCourse");
+    type(KeyCode.DOWN);
+    type(KeyCode.ENTER);
+    for (int i=0 ; i<10 ; i++){
+    clickOn("#plusTime");
+    }
+    clickOn("#minusTime");
+    clickOn("#addTime");
+    assertEquals(controller.getCourseTimersList().stream().anyMatch(a->a.equals("2.25 t")), true);
+  }
+
+  @Test
+  public void testDeleteCourseSimple(){
+    clickOn("#newCourse").write("matte 1");
+    clickOn("#addCourse");
+    clickOn("#pickCourseDelete");
+    type(KeyCode.DOWN);
+    type(KeyCode.ENTER);
+    clickOn("#delete");
+    assertEquals(controller.getCourseNamesList().stream().allMatch(a -> a.equals("")), true);
+  }
+
+}
