@@ -41,7 +41,7 @@ public class Semester implements Iterable<Course> {
 
   public void removeCourse(int index) {
     courseList.remove(index);
-    this.fireSemesterChanged();
+    //this.fireSemesterChanged();
   }
 
   public boolean removeCourse(String name) {
@@ -50,7 +50,7 @@ public class Semester implements Iterable<Course> {
       Course tmp = it1.next();
       if (name.equals(tmp.getCourseName())) {
         this.courseList.remove(tmp);
-        this.fireSemesterChanged();
+        //this.fireSemesterChanged();
         return true;
       }
     }
@@ -71,7 +71,7 @@ public class Semester implements Iterable<Course> {
       Course tmp = it1.next();
       if (name.equals(tmp.getCourseName())) {
         tmp.addTime(time);
-        this.fireSemesterChanged();
+        //this.fireSemesterChanged();
       }
     }
   }
@@ -113,6 +113,15 @@ public class Semester implements Iterable<Course> {
   public void setCourses(List<Course> courseList){
     this.courseList.clear();
     this.courseList = courseList;
+  }
+
+  @Override
+  public String toString() {
+    String s = "";
+    for (Course course: this.courseList){
+      s = course.getCourseName();
+    }
+    return s;
   }
 
 }

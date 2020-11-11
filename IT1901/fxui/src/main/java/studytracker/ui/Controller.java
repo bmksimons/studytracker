@@ -188,6 +188,7 @@ public class Controller {
   private void makeCourse(Label courseNames) {
     try {
       this.semester.addCourse(new Course(newCourse.getText()));
+      //this.remoteAccess.putCourse(this.semester.getCourse(newCourse.getText()));
       courseList.add(newCourse.getText());
       updateCourseList();
 
@@ -295,6 +296,7 @@ public class Controller {
     Double hoursStudied = beforeHoursStudied + hoursToAdd;
     courseTime.setText(hoursStudied + " t");
     this.semester.addTimeToCourse(courseName.getText(), hoursToAdd);
+    this.remoteAccess.addTimeToCourse(courseName.getText(), hoursToAdd);
   }
 
   /**
@@ -303,7 +305,7 @@ public class Controller {
    */
   @FXML
   public void onResetButtonClick() {
-    this.remoteAccess.deleteSemester(this.semester);
+    this.remoteAccess.deleteSemester();
     for (Label label : combineLabels()) {
       label.setText("");
     }
@@ -357,6 +359,7 @@ public class Controller {
   private void makeDeleteCourse(Label courseName, Label courseTime) {
     courseList.remove(courseName.getText());
     updateCourseList();
+    this.remoteAccess.deleteCourse(courseName.getText());
     this.semester.removeCourse(courseName.getText());
     this.setFieldsEmpty(courseName, courseTime);
     showInformation.setText("Faget er slettet");
