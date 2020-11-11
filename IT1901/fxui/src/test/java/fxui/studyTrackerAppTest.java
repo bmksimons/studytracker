@@ -1,22 +1,22 @@
-package fxui;
+// package fxui;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.testfx.framework.junit5.ApplicationTest;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.stage.Stage;
-import studytracker.core.Course;
-import studytracker.core.Semester;
-import studytracker.ui.Controller;
-import javafx.fxml.*;
-import static org.junit.jupiter.api.Assertions.*;
-public class studyTrackerAppTest extends ApplicationTest{
+// import org.junit.jupiter.api.BeforeEach;
+// import org.junit.jupiter.api.Test;
+// import org.testfx.framework.junit5.ApplicationTest;
+// import javafx.scene.Parent;
+// import javafx.scene.Scene;
+// import javafx.scene.input.KeyCode;
+// import javafx.stage.Stage;
+// import studytracker.core.Course;
+// import studytracker.core.Semester;
+// import studytracker.ui.Controller;
+// import javafx.fxml.*;
+// import static org.junit.jupiter.api.Assertions.*;
+// public class studyTrackerAppTest extends ApplicationTest{
 
-  private Controller controller;
-  private Course course1, course2; 
-  private Semester semester;
+//   private Controller controller;
+//   private Course course1, course2; 
+//   private Semester semester;
   
   // @Override
   // public void start(final Stage primaryStage) throws Exception {
@@ -25,14 +25,14 @@ public class studyTrackerAppTest extends ApplicationTest{
   //   primaryStage.show();
   // }
 
-   @Override
-  public void start(final Stage stage) throws Exception {
-    final FXMLLoader loader = new FXMLLoader(getClass().getResource("../studytracker/ui/fxApp.fxml"));
-    final Parent root = loader.load();
-    this.controller = loader.getController();
-    stage.setScene(new Scene(root));
-    stage.show();
-  }
+  //  @Override
+  // public void start(final Stage stage) throws Exception {
+  //   final FXMLLoader loader = new FXMLLoader(getClass().getResource("../studytracker/ui/fxApp.fxml"));
+  //   final Parent root = loader.load();
+  //   this.controller = loader.getController();
+  //   stage.setScene(new Scene(root));
+  //   stage.show();
+  // }
 
   @BeforeEach
   public void setup(){
@@ -42,11 +42,11 @@ public class studyTrackerAppTest extends ApplicationTest{
     //semester = new Semester();
   }
 
-  @Test
-  public void testController_studyTracker() {
-    assertNotNull(this.controller);
-    // assertNotNull(this.semester);
-  }
+  // @Test
+  // public void testController_studyTracker() {
+  //   assertNotNull(this.controller);
+  //   // assertNotNull(this.semester);
+  // }
 
   @Test
   public void testAddNewCourse(){
@@ -79,7 +79,7 @@ public class studyTrackerAppTest extends ApplicationTest{
     clickOn("#addTime");
     assertEquals(controller.getCourseTimersList().stream().anyMatch(a->a.equals("0.25 t")), true);
   
-  }
+//   }
 
   @Test
   public void testAddTimeMinusButton(){
