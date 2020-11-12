@@ -229,18 +229,15 @@ public class Controller {
       pickCourse.setValue("");
     }
   }
-
+/**
+ *method for adding and updating time spent on a course
+ @param courseName,CourseTime labels to get information from
+   */ 
   @FXML
   private void makeStudyHours(Label courseName, Label courseTime) {
-    String currentTimeString = timeToAdd.getText();
-    String[] partition = currentTimeString.split(Pattern.quote(" "));
-    Double hoursToAdd = Double.parseDouble(partition[0]);
-    String currentStudyTime = courseTime.getText();
-    String[] partition2 = currentStudyTime.split(Pattern.quote(" "));
-    Double beforeHoursStudied = Double.parseDouble(partition2[0]);
-    Double hoursStudied = beforeHoursStudied + hoursToAdd;
-    courseTime.setText(hoursStudied + " t");
-    this.semester.addTimeToCourse(courseName.getText(), hoursToAdd);
+    List<Double> timeValue = modifyTime.makeStudyHours(timeToAdd.getText(), courseTime.getText());
+    courseTime.setText(timeValue.get(2) + " t");
+    this.semester.addTimeToCourse(courseName.getText(), timeValue.get(0));
   }
 
   @FXML

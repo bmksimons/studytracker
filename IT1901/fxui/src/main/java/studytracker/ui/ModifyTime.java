@@ -1,5 +1,7 @@
 package studytracker.ui;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class ModifyTime {
@@ -21,5 +23,18 @@ public String addTime(String time){
       currentTime = currentTime - 0.25;
       return(currentTime + " t");
     }
+  }
+ /** 
+  * method for converting a string into double and calculate studied time
+  * @param timeToAdd,currentTime 
+  * @return a list of doubles with three elements, hoursToAdd, currentTimeStuided, and 
+  * newTimeStudied which is the sum of the two other.
+  */
+  public List<Double> makeStudyHours(String timeToAdd, String currentTime){
+    Double HoursToAdd = Double.parseDouble(timeToAdd.split(Pattern.quote(" "))[0]);
+    Double currentTImeStudied  = Double.parseDouble(currentTime.split(Pattern.quote(" "))[0]);
+    Double newTimeStudied = HoursToAdd + currentTImeStudied;
+    List<Double> list = Arrays.asList(HoursToAdd, currentTImeStudied, newTimeStudied);
+    return list;
   }
 }
