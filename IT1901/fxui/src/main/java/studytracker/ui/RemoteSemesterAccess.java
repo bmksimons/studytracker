@@ -35,7 +35,10 @@ public class RemoteSemesterAccess {
     return URLEncoder.encode(s, StandardCharsets.UTF_8);
   }
 
-  private URI courseUri(String courseName) {
+  private URI courseUri(String courseName, String timeSpent) {
+    if (timeSpent != null){
+      return endpointUri.resolve(uriParam(courseName + "?" + timeSpent));
+    }
     return endpointUri.resolve(uriParam(courseName));
   }
 
@@ -143,14 +146,40 @@ public class RemoteSemesterAccess {
    * @param oldName the name of the TodoList to change
    * @param newName the new name
    */
-  public void addTimeToCourse(String courseName, Double timeSpent) {
+  // public void addTimeToCourse(Course course) { //+ "?timeSpent=" + uriParam(String.valueOf(timeSpent))
+  //   try {
+  //     String json = objectMapper.writeValueAsString(course);
+  //     System.out.println(course.getCourseName());
+  //     HttpRequest request = HttpRequest
+  //         .newBuilder(courseUri(course.getCourseName()))
+  //         .header("Accept", "application/json")
+  //         .header("Content-Type", "application/x-www-form-urlencoded")
+  //         .POST(BodyPublishers.ofString(json))
+  //         .build();
+  //     final HttpResponse<String> response =
+  //         HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+  //     String responseString = response.body();
+  //     System.out.println(course.getCourseName());
+  //     Boolean changedTime = objectMapper.readValue(responseString, Boolean.class);
+  //     System.out.println(course.getCourseName());
+  //     if (changedTime == true) {
+  //       System.out.println(course.getCourseName());
+  //       this.semester.getCourse(course.getCourseName()).setTime(course.getTimeSpent());
+  //     }
+  //   } catch (IOException | InterruptedException e) {
+  //     throw new RuntimeException(e);
+  //   }
+  // }
+
+  public void addTimeToCourse(String courseName, Double timeSpent) { //+ "?timeSpent=" + uriParam(String.valueOf(timeSpent))
     try {
+      String json = objectMapper.writeValueAsString(this.semester.getCourse(courseName));
       System.out.println(courseName);
       HttpRequest request = HttpRequest
-          .newBuilder(courseUri(courseName))
+          .newBuilder(courseUri(courseName, String.valueOf(timeSpent)))
           .header("Accept", "application/json")
           .header("Content-Type", "application/x-www-form-urlencoded")
-          .POST(BodyPublishers.ofString("timeSpent=" + uriParam(String.valueOf(timeSpent))))
+          .POST(BodyPublishers.ofString(json))
           .build();
       final HttpResponse<String> response =
           HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
@@ -175,7 +204,7 @@ public class RemoteSemesterAccess {
   public void deleteCourse(String courseName) { 
     try {
       HttpRequest request = HttpRequest
-          .newBuilder(courseUri(courseName))
+          .newBuilder(courseUri(courseName, null))
           .header("Accept", "application/json")
           .DELETE()
           .build();
