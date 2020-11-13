@@ -1,8 +1,8 @@
 package restserver;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -17,7 +17,7 @@ import org.glassfish.jersey.test.TestProperties;
 import org.glassfish.jersey.test.grizzly.GrizzlyTestContainerFactory;
 import org.glassfish.jersey.test.spi.TestContainerException;
 import org.glassfish.jersey.test.spi.TestContainerFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -71,34 +71,42 @@ public class StudyTrackerServiceTest extends JerseyTest {
     assertEquals(200, getResponse.getStatus());
     try {
       Semester semester = objectMapper.readValue(getResponse.readEntity(String.class), Semester.class);
-      assertTrue(semester.iterator().hasNext());
-      //Iterator<Course> it = semester.iterator();
-      // assertTrue(it.hasNext());
-      // AbstractTodoList todoList1 = it.next();
-      // assertTrue(it.hasNext());
-      // AbstractTodoList todoList2 = it.next();
-      // assertFalse(it.hasNext());
-      // assertEquals("todo1", todoList1.getName());
-      // assertEquals("todo2", todoList2.getName());
+      semester.clearSemester();
+      assertFalse(semester.iterator().hasNext());
     } catch (JsonProcessingException e) {
       fail(e.getMessage());
     }
   }
 
   @Test
-  public void testGetCourse() {
+  public void testPutSemester() {
     Response getResponse = target(SemesterService.STUDYTRACKER_MODEL_SERVICE_PATH)
-        .path("matte")
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .get();
     assertEquals(200, getResponse.getStatus());
     try {
-      Course course = objectMapper.readValue(getResponse.readEntity(String.class), Course.class);
-      assertEquals("matte", course.getCourseName());
+      Semester semester = objectMapper.readValue(getResponse.readEntity(String.class), Semester.class);
+      semester.clearSemester();
+      semester.addCourse(new Course("matte"));
+      assertEquals("matte", semester.getCourses().iterator().next().getCourseName());
     } catch (JsonProcessingException e) {
       fail(e.getMessage());
     }
   }
 
-  //lage tester for delete og put og post
+  // @Test
+  // public void testGetCourse() {
+  //   Response getResponse = target(SemesterService.STUDYTRACKER_MODEL_SERVICE_PATH)
+  //       .path("matte")
+  //       .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
+  //       .get();
+  //   assertEquals(200, getResponse.getStatus());
+  //   try {
+  //     Course course = objectMapper.readValue(getResponse.readEntity(String.class), Course.class);
+  //     assertEquals("matte", course.getCourseName());
+  //   } catch (JsonProcessingException e) {
+  //     fail(e.getMessage());
+  //   }
+  // }
+
 }

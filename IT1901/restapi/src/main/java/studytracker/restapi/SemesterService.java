@@ -34,6 +34,7 @@ public class SemesterService {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Semester getSemester() {
+    System.out.println("get blir kjørt i semesterservice");
     return this.semester;
   }
 

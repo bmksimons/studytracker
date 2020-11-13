@@ -18,9 +18,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
-import studytracker.restserver.StudyTrackerConfig;
-import studytracker.ui.Controller;
-
 public class AppIT extends ApplicationTest {
 
   private Controller controller;
@@ -38,11 +35,12 @@ public class AppIT extends ApplicationTest {
   public void setupItems() throws URISyntaxException {
     try (Reader reader = new InputStreamReader(getClass().getResourceAsStream("it_semester.json"))) {
       String port = System.getProperty("studytracker.port");
-      System.out.println("skjer det noe");
+      System.out.println(this.controller.getCourseName1().getText());
       assertNotNull(port, "No studytracker.port system property set");
-      URI baseUri = new URI("http://localhost:8999/studytracker/");
+      URI baseUri = new URI("http://localhost:" + port + "/studytracker/");
       System.out.println("Base RemoteTodoModelAcces URI: " + baseUri);
       this.controller.setRemoteSemesterAccess(new RemoteSemesterAccess(baseUri));
+      System.out.println(this.controller.getCourseName1().getText());
     } catch (IOException e) {
       fail(e.getMessage());
     }
