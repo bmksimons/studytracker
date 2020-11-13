@@ -2,6 +2,7 @@ package restserver;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -63,14 +64,15 @@ public class StudyTrackerServiceTest extends JerseyTest {
   }
 
   @Test
-  public void testGet_todo() {
+  public void testGetSemester() {
     Response getResponse = target(SemesterService.STUDYTRACKER_MODEL_SERVICE_PATH)
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .get();
     assertEquals(200, getResponse.getStatus());
     try {
       Semester semester = objectMapper.readValue(getResponse.readEntity(String.class), Semester.class);
-      // Iterator<Course> it = todoModel.iterator();
+      assertTrue(semester.iterator().hasNext());
+      //Iterator<Course> it = semester.iterator();
       // assertTrue(it.hasNext());
       // AbstractTodoList todoList1 = it.next();
       // assertTrue(it.hasNext());
@@ -86,13 +88,13 @@ public class StudyTrackerServiceTest extends JerseyTest {
   @Test
   public void testGetCourse() {
     Response getResponse = target(SemesterService.STUDYTRACKER_MODEL_SERVICE_PATH)
-        .path("todo1")
+        .path("matte")
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .get();
     assertEquals(200, getResponse.getStatus());
     try {
       Course course = objectMapper.readValue(getResponse.readEntity(String.class), Course.class);
-      assertEquals("todo1", course.getCourseName());
+      assertEquals("matte", course.getCourseName());
     } catch (JsonProcessingException e) {
       fail(e.getMessage());
     }
