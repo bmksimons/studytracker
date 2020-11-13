@@ -37,4 +37,8 @@ public class Course {
   public Double getTimeSpent() {
     return this.timeSpent;
   }
+
+  public void setTime(Double timeSpent) {
+    this.timeSpent = timeSpent;
+  }
 }
