@@ -295,7 +295,7 @@ public class Controller {
     Double beforeHoursStudied = Double.parseDouble(partition2[0]);
     Double hoursStudied = beforeHoursStudied + hoursToAdd;
     courseTime.setText(hoursStudied + " t");
-    //this.semester.addTimeToCourse(courseName.getText(), hoursToAdd);
+    this.semester.addTimeToCourse(courseName.getText(), hoursToAdd);
     //this.remoteAccess.addTimeToCourse(courseName.getText(), hoursToAdd);
   }
 
