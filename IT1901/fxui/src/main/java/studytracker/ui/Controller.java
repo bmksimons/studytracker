@@ -130,7 +130,9 @@ public class Controller {
   }
 
 
-
+/**
+ * methode for adding a course to the app, and displayng it.
+ */
   @FXML
   public void addCourse() {
     if(newCourse.getText() == "") {

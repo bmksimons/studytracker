@@ -5,14 +5,22 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class ModifyTime {
-
+/**
+ * methode for adding time to a course.
+ * @param time take in a string and transform it into a double
+ * @return a string with new time +"t" for a given course.
+ */
 public String addTime(String time){
     String[] partition = time.split(Pattern.quote(" "));
     Double currentTime = Double.parseDouble(partition[0]);
     currentTime = currentTime + 0.25;
     return (currentTime +" t");
   }
-
+/**
+ * Methode for reducing the time given as input
+ * @param time , string with current timie
+ * @return string with new time
+ */
   public String removeTime(String time){
     String[] partition = time.split(Pattern.quote(" "));
     Double currentTime = Double.parseDouble(partition[0]);
