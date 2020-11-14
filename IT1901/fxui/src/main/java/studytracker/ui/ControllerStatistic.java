@@ -47,6 +47,7 @@ public class ControllerStatistic implements Initializable {
         Scene statisticScene = new Scene(statisticParent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(statisticScene);
+        window.setTitle("Home");
         window.show();
 
     } catch(Exception e) {

@@ -232,6 +232,7 @@ public class Controller {
       Scene statisticScene = new Scene(statisticParent);
       Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
       window.setScene(statisticScene);
+      window.setTitle("Statistics View");
       window.show();
 
     } catch (Exception e) {
