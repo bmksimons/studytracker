@@ -13,7 +13,7 @@ public class StudyTrackerModule extends SimpleModule {
   };
 
   public StudyTrackerModule() {
-    super(NAME, VERSION_UTIL.version());
+    super(NAME, Version.unknownVersion());
     addSerializer(Course.class, new CourseSerializer());
     addSerializer(Semester.class, new SemesterSerializer());
     addDeserializer(Course.class, new CourseDeserializer());

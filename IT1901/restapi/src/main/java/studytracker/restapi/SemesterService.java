@@ -28,6 +28,7 @@ public class SemesterService {
   private static final Logger LOG = LoggerFactory.getLogger(SemesterService.class);
   public static final String STUDYTRACKER_MODEL_SERVICE_PATH = "studytracker";
   private StudyTrackerPersistence studyTrackerPersistence = new StudyTrackerPersistence();
+  private String json = "restserver/src/main/resources/studytracker/restserver/semester.json";
 
   @Inject
   private Semester semester;
@@ -47,8 +48,10 @@ public class SemesterService {
 
   @DELETE
   @Produces(MediaType.APPLICATION_JSON)
-  public boolean removeSemester() {
-    this.semester.resetSemester();
+  public boolean resetSemester() throws JsonGenerationException, JsonMappingException, IOException {
+    System.out.println("Delete blir kjørt i semesterservice");
+    this.semester.resetSemester(false);
+    this.studyTrackerPersistence.writeSemester(json, this.semester);
     return true;
   }
 
@@ -57,7 +60,8 @@ public class SemesterService {
   @Produces(MediaType.APPLICATION_JSON)
   public Boolean putSemester(Semester semester) throws JsonGenerationException, JsonMappingException, IOException {
     System.out.println("put blir kjørt");
-    this.studyTrackerPersistence.writeSemester("restserver/src/main/resources/studytracker/restserver/semester.json", semester);
+    this.semester.setCourses(semester.getCourses());
+    this.studyTrackerPersistence.writeSemester(json, this.semester);
     return true;
   }
 }

@@ -21,11 +21,7 @@ public class StudyTrackerPersistence {
     mapper = new ObjectMapper();
     mapper.registerModule(new StudyTrackerModule());
   }
-
-  public Semester readSemester(String fileName) throws JsonParseException, JsonMappingException, IOException {
-    return mapper.readValue(new File(fileName), Semester.class);
-  }
-
+  
   public void writeSemester(String fileName, Semester semester)
       throws JsonGenerationException, JsonMappingException, IOException {
     mapper.writeValue(Paths.get(fileName).toFile(), semester);
@@ -35,7 +31,4 @@ public class StudyTrackerPersistence {
     return mapper.readValue(reader, Semester.class);
   }
 
-  public void writeSemester(Semester semester, Writer writer) throws IOException {
-    mapper.writerWithDefaultPrettyPrinter().writeValue(writer, semester);
-  }
 }
