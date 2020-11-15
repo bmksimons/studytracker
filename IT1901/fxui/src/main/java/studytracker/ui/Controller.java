@@ -234,7 +234,6 @@ public class Controller {
       window.setScene(statisticScene);
       window.setTitle("Statistics View");
       window.show();
-
     } catch (Exception e) {
       e.printStackTrace();
     }

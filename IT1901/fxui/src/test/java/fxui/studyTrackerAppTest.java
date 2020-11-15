@@ -10,11 +10,13 @@ import javafx.stage.Stage;
 import studytracker.core.Course;
 import studytracker.core.Semester;
 import studytracker.ui.Controller;
+import studytracker.ui.ControllerStatistic;
 import javafx.fxml.*;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.*;
 import javafx.stage.Window;
-public class studyTrackerAppTest extends ApplicationTest{
+import javafx.fxml.FXMLLoader;
+public class studyTrackerAppTest extends ApplicationTest {
 
   private Controller controller;
   private Course course1, course2; 
@@ -22,11 +24,13 @@ public class studyTrackerAppTest extends ApplicationTest{
   
   @Override
   public void start(final Stage primaryStage) throws Exception {
-    final Parent parent = FXMLLoader.load(getClass().getResource("../studytracker/ui/fxApp.fxml")); 
+    final FXMLLoader loader = new FXMLLoader(getClass().getResource("../studytracker/ui/fxApp.fxml"));
+    final Parent parent = loader.load();
+    this.controller = loader.getController();
     primaryStage.setScene(new Scene(parent));
     primaryStage.show();
-    System.out.println(primaryStage.getTitle());
   }
+
   //  @Override
   // public void start(final Stage stage) throws Exception {
   //   final FXMLLoader loader = new FXMLLoader(getClass().getResource("../studytracker/ui/fxApp.fxml"));
@@ -37,18 +41,18 @@ public class studyTrackerAppTest extends ApplicationTest{
   // }
 
   @BeforeEach
-  public void setup(){
+  public void setup() {
     clickOn("#reset");
     //course1 = new Course("Matte 1");
     course2 = new Course("Algdat");
     //semester = new Semester();
   }
 
-  // @Test
-  // public void testController_studyTracker() {
-  //   assertNotNull(this.controller);
-  //   // assertNotNull(this.semester);
-  // }
+  @Test
+  public void testController_studyTracker() {
+    assertNotNull(this.controller);
+    // assertNotNull(this.semester);
+  }
 
   // @Test
   // public void testAddNewCourse(){
@@ -99,8 +103,9 @@ public class studyTrackerAppTest extends ApplicationTest{
   // }
 
   // @Test
-  // public void testStatisticView(){
+  // public void testStatisticView() {
+  //   assertTrue(this.controller.isOpen);
   //   clickOn("#statistic");
-  //   assertEquals("Statistics View", open.get(0).getTitle());
+  //   assertFalse(this.controller.isOpen);
   // }
 }
