@@ -104,7 +104,7 @@ public class studyTrackerAppTest extends ApplicationTest{
     type(KeyCode.DOWN);
     type(KeyCode.ENTER);
     clickOn("#delete");
-    assertEquals(controller.getCourseNames().stream().allMatch(a -> a.equals("")), true);
+    assertEquals(controller.getCourseNames().stream().map(x -> x.getText()).allMatch(a -> a.equals("")), true);
   }
 
 }
