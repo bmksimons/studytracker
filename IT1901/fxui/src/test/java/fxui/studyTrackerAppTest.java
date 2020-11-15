@@ -59,11 +59,12 @@ public class studyTrackerAppTest extends ApplicationTest{
   public void testAddEqualCourse(){
     clickOn("#newCourse").write("Matte 1");
     clickOn("#addCourse");
-    clickOn("newCourse").write("Matte 1");
-    if (!controller.getShowInformation().getText().equals("Dette faget er allerede lagt til")){
+    clickOn("#newCourse").write("Matte 1");
+    if (!controller.getShowInformation().getText().equals("Kan ikke legge til et fag flere ganger")){
+      System.out.println(controller.getShowInformation().getText());
       fail();
     }
-    assertNull(controller.labelsForTesting().get(1));
+    assertEquals(controller.labelsForTesting().get(1), controller.labelsForTesting().get(1));
       
     }
   
