@@ -10,7 +10,7 @@ import studytracker.core.Semester;
 public class SemesterSerializer extends JsonSerializer<Semester> {
 
   /*
-   * format: { "courses": [ ... ] }
+   * format: { "courses" : [ { "courseName" : "..." , "courseTimer" : Double}, ... , ] }
    */
   @Override
   public void serialize(Semester semester, JsonGenerator jGen, SerializerProvider serializerProvider)

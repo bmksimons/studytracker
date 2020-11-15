@@ -148,10 +148,9 @@ public class Controller {
           break;
         }
       }
-
       for(Label courseTimer : courseTimers) {
         if(courseTimer.getText().equals("")) {
-          courseTimer.setText("0 t");
+          courseTimer.setText("0.0 t");
           break;
         }
       }
@@ -250,7 +249,7 @@ public class Controller {
     timeToAdd.setText("0 t");
     courseList.clear();
     updateCourseList();
-    this.semester.clearSemester();
+    this.semester.resetSemester(false);
   }
 
   @FXML
@@ -276,7 +275,7 @@ public class Controller {
   private void makeDeleteCourse(Label courseName, Label courseTime) {
     courseList.remove(courseName.getText());
     updateCourseList();
-    this.semester.removeCourse(courseName.getText());
+    this.semester.deleteCourse(courseName.getText());
     this.setFieldsEmpty(courseName, courseTime);
     showInformation.setText("Faget er slettet");
   }
@@ -302,12 +301,6 @@ public void addLabelsToList(){
 
   public Label getCourseName1() {
     return this.courseName1;
-  }
-
-    while(iterator.hasNext()) {
-      tmp.add(iterator.next().getText());
-    }
-    return tmp;
   }
 
   public List<String> getCourseTimersList() {
