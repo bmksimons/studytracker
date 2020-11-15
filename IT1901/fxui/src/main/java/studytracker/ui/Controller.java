@@ -305,22 +305,11 @@ public class Controller {
     return tmp;
   }
 
-public void addLabelsToList(){
-  this.courseNames.add(this.courseName1);
-    this.courseNames.add(this.courseName2);
-    this.courseNames.add(this.courseName3);
-    this.courseNames.add(this.courseName4);
-    this.timeSpentOnCourses.add(this.timeSpentOnCourse1);
-    this.timeSpentOnCourses.add(this.timeSpentOnCourse2);
-    this.timeSpentOnCourses.add(this.timeSpentOnCourse3);
-    this.timeSpentOnCourses.add(this.timeSpentOnCourse4);
-}
-
-
-  public Label getCourseName1() {
-    return this.courseName1;
-  }
-
+/**
+ * methode for creating a list of strings containg time spent on the courses.
+ *  Used for testing.
+ * @return a list of string
+ */
   public List<String> gettimeSpentOnCoursesList() {
     List<String> tmp = new ArrayList<>();
     Iterator<Label> iterator = timeSpentOnCourses.iterator();
@@ -338,4 +327,24 @@ public void addLabelsToList(){
   public List<Label> gettimeSpentOnCourses() {
     return this.timeSpentOnCourses;
   }
+
+  /**
+   * methode for passing the labels to the testclass
+   * @return a list with relevant labels. 
+   */
+  public List<Label> labelsForTesting(){
+    List<Label> labelsForTesting = combineLabels();
+    return labelsForTesting;
+  }
+
+  public void addLabelsToList(){
+  this.courseNames.add(this.courseName1);
+    this.courseNames.add(this.courseName2);
+    this.courseNames.add(this.courseName3);
+    this.courseNames.add(this.courseName4);
+    this.timeSpentOnCourses.add(this.timeSpentOnCourse1);
+    this.timeSpentOnCourses.add(this.timeSpentOnCourse2);
+    this.timeSpentOnCourses.add(this.timeSpentOnCourse3);
+    this.timeSpentOnCourses.add(this.timeSpentOnCourse4);
+}
 }
