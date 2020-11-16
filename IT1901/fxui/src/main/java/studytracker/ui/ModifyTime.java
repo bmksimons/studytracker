@@ -3,7 +3,9 @@ package studytracker.ui;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
-
+/**
+ * Class for calculating time-related issues for the controller. 
+ */
 public class ModifyTime {
 /**
  * methode for adding time to a course.

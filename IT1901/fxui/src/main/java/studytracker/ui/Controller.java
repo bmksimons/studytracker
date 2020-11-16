@@ -27,8 +27,8 @@ public class Controller {
 
   private Semester semester;
   private ObservableList<String> courseList = FXCollections.observableArrayList();
-  private int maxCourses;
-  private int currentNumberCourses;
+  private int maxCourses =  4;
+  private int currentNumberCourses = 0;
   private ModifyTime modifyTime = new ModifyTime();
 
   @FXML
@@ -43,15 +43,15 @@ public class Controller {
   private List<Label> courseNames = new ArrayList<>();
 
   @FXML
-  Label courseTimer1;
+  Label timeSpentOnCourse1;
   @FXML
-  Label courseTimer2;
+  Label timeSpentOnCourse2;
   @FXML
-  Label courseTimer3;
+  Label timeSpentOnCourse3;
   @FXML
-  Label courseTimer4;
+  Label timeSpentOnCourse4;
 
-  private List<Label> courseTimers  = new ArrayList<>();;
+  private List<Label> timeSpentOnCourses  = new ArrayList<>();;
 
   @FXML
   ChoiceBox<String> pickCourse;
@@ -95,12 +95,11 @@ public class Controller {
    */
   @FXML
   public void initialize() {
-    this.maxCourses = 4;
-    this.currentNumberCourses = 0;
+
     this.endpointUri = "http://localhost:8999/studytracker/";
     // this.courseList = FXCollections.observableArrayList();
     this.courseNames = new ArrayList<>();
-    this.courseTimers = new ArrayList<>();
+    this.timeSpentOnCourses = new ArrayList<>();
     addLabelsToList();
 
     try {
@@ -121,7 +120,7 @@ public class Controller {
       }
     }
     Iterator<Course> semesterIt2 = this.semester.iterator();
-    for (Label label : this.courseTimers) {
+    for (Label label : this.timeSpentOnCourses) {
       if (semesterIt2.hasNext()) {
         label.setText(String.valueOf(semesterIt2.next().getTimeSpent()));
       }
@@ -145,9 +144,8 @@ public class Controller {
     } else if (currentNumberCourses == maxCourses) {
       showInformation.setText("Du kan kun legge til " + maxCourses + " fag");
     } else {
-      for (var i = 0; i < courseNames.size(); i++) {
-        if (courseNames.get(i).getText().equals("")) {
-          courseNames.get(i).setText(newCourse.getText());
+      for(var i=0; i<courseNames.size(); i++) {
+        if(courseNames.get(i).getText().equals("")) {
           makeCourse(courseNames.get(i));
           this.currentNumberCourses += 1;
           break;
@@ -159,19 +157,27 @@ public class Controller {
           break;
         }
       }
-
       newCourse.setText("");
     }
 
   }
-
+/**
+ * Methode for adding a new Course-object to the Semester and setting the text for the given label to equal the new course name. 
+ * @param courseNamee , the first empty label in courseNames.
+ *  
+ */
   @FXML
-  private void makeCourse(Label courseNames) {
-    try {
-      this.semester.addCourse(new Course(newCourse.getText()));
-      //this.remoteAccess.putCourse(this.semester.getCourse(newCourse.getText()));
-      courseList.add(newCourse.getText());
-      updateCourseList();
+  private void makeCourse(Label courseName) {
+        try {
+          courseName.setText(newCourse.getText());
+          this.semester.addCourse(new Course(newCourse.getText()));
+          courseList.add(newCourse.getText());
+          updateCourseList();
+          
+        } catch (final IllegalArgumentException e) {
+            this.showInformation.setText("Kan ikke legge til et fag flere ganger");
+      }
+    }
 
     } catch (final IllegalArgumentException e) {
       this.showInformation.setText("Kan ikke legge til et fag flere ganger");
@@ -181,19 +187,19 @@ public class Controller {
   public Label getShowInformation() {
     return this.showInformation;
   }
-
+/** 
+ * methode for updating the dropdown listview with new courses 
+ * */
   @FXML
   private void updateCourseList() {
     pickCourse.setItems(this.courseList);
     pickCourseDelete.setItems(this.courseList);
   }
-
-  /**
-   * Adds time to the 
-   *
-   */
+/**
+ * methode for increasing the time you want to add. 
+ */
   @FXML
-  public void addTime() {
+  public void increaseTime() {
     timeToAdd.setText(modifyTime.addTime(timeToAdd.getText()));
   }
 
@@ -215,9 +221,11 @@ public class Controller {
     }
 
   }
-
+/**
+ * methode for reducing time to add.
+ */
   @FXML
-  public void removeTime() {
+  public void reduceTimeToAdd() {
     String time = modifyTime.removeTime(timeToAdd.getText());
     if (time == "kan ikke legge til negativt antall timer"){
       showInformation.setText(time);
@@ -226,20 +234,18 @@ public class Controller {
       timeToAdd.setText(time);
     }
   }
-
-  /**
-   * Adds the chosen time to a chosen subject.
-   *
-   */
+/** 
+ * Methode for adding time to a given course. 
+ */
   @FXML
   public void addStudyHours() {
     String courseChosen = pickCourse.getValue();
     if (courseChosen == null) {
       showInformation.setText("Du må velge et fag");
     } else {
-      for (var i = 0; i < courseNames.size(); i++) {
-        if (courseChosen.equals(courseNames.get(i).getText())) {
-          makeStudyHours(courseNames.get(i), courseTimers.get(i));
+      for(var i=0; i<courseNames.size(); i++) {
+        if(courseChosen.equals(courseNames.get(i).getText())) {
+          makeStudyHours(courseNames.get(i), timeSpentOnCourses.get(i));
           break;
         }
       }
@@ -249,7 +255,7 @@ public class Controller {
   }
 /**
  *method for adding and updating time spent on a course
- @param courseName,CourseTime labels to get information from
+ @param courseName,CourseTime labels to get information from and update with new info.
    */ 
   @FXML
   private void makeStudyHours(Label courseName, Label courseTime) {
@@ -257,11 +263,9 @@ public class Controller {
     courseTime.setText(timeValue.get(2) + " t");
     this.semester.addTimeToCourse(courseName.getText(), timeValue.get(0));
   }
-
-  /**
-   * Resets the app by clearing the semester and emptying all the fields.
-   *
-   */
+/**
+ * resets the App, all courses will be deleted, and the semester will become empty. 
+ */
   @FXML
   public void onResetButtonClick() {
     this.remoteAccess.deleteSemester();
@@ -279,7 +283,9 @@ public class Controller {
     courseName.setText("");
     courseTime.setText("");
   }
-
+/**
+ * Deletes a given course. If no courses has been chosen, it will return a message to the user to choose a course. 
+ */
   @FXML
   public void deleteCourse() {
     String courseChosenDelete = pickCourseDelete.getValue();
@@ -288,12 +294,16 @@ public class Controller {
     } else {
       for (int i = 0; i < courseNames.size(); i++) {
         if (courseNames.get(i).getText().equals(courseChosenDelete)) {
-          makeDeleteCourse(courseNames.get(i), courseTimers.get(i));
+          makeDeleteCourse(courseNames.get(i), timeSpentOnCourses.get(i));
         }
       }
     }
   }
-
+/**
+ * methode for removing a course from the semester. I t will also reset the inputlabels to empty.  
+ * @param courseName label to get the course name 
+  * @param courseTime label to get the course time 
+ */
   private void makeDeleteCourse(Label courseName, Label courseTime) {
     courseList.remove(courseName.getText());
     updateCourseList();
@@ -306,29 +316,18 @@ public class Controller {
   private ArrayList<Label> combineLabels() {
     final ArrayList<Label> tmp = new ArrayList<>();
     tmp.addAll(this.courseNames);
-    tmp.addAll(this.courseTimers);
+    tmp.addAll(this.timeSpentOnCourses);
     return tmp;
   }
 
-public void addLabelsToList(){
-  this.courseNames.add(this.courseName1);
-    this.courseNames.add(this.courseName2);
-    this.courseNames.add(this.courseName3);
-    this.courseNames.add(this.courseName4);
-    this.courseTimers.add(this.courseTimer1);
-    this.courseTimers.add(this.courseTimer2);
-    this.courseTimers.add(this.courseTimer3);
-    this.courseTimers.add(this.courseTimer4);
-}
-
-
-  public Label getCourseName1() {
-    return this.courseName1;
-  }
-
-  public List<String> getCourseTimersList() {
+/**
+ * methode for creating a list of strings containg time spent on the courses.
+ *  Used for testing.
+ * @return a list of string
+ */
+  public List<String> gettimeSpentOnCoursesList() {
     List<String> tmp = new ArrayList<>();
-    Iterator<Label> iterator = courseTimers.iterator();
+    Iterator<Label> iterator = timeSpentOnCourses.iterator();
 
     while(iterator.hasNext()) {
       tmp.add(iterator.next().getText());
@@ -340,7 +339,27 @@ public void addLabelsToList(){
     return this.courseNames;
   }
 
-  public List<Label> getCourseTimers() {
-    return this.courseTimers;
+  public List<Label> gettimeSpentOnCourses() {
+    return this.timeSpentOnCourses;
   }
+
+  /**
+   * methode for passing the labels to the testclass
+   * @return a list with relevant labels. 
+   */
+  public List<Label> labelsForTesting(){
+    List<Label> labelsForTesting = combineLabels();
+    return labelsForTesting;
+  }
+
+  public void addLabelsToList(){
+  this.courseNames.add(this.courseName1);
+    this.courseNames.add(this.courseName2);
+    this.courseNames.add(this.courseName3);
+    this.courseNames.add(this.courseName4);
+    this.timeSpentOnCourses.add(this.timeSpentOnCourse1);
+    this.timeSpentOnCourses.add(this.timeSpentOnCourse2);
+    this.timeSpentOnCourses.add(this.timeSpentOnCourse3);
+    this.timeSpentOnCourses.add(this.timeSpentOnCourse4);
+}
 }
