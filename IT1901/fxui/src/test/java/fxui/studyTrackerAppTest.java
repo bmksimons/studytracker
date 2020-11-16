@@ -40,13 +40,13 @@ public class studyTrackerAppTest extends ApplicationTest {
   //   stage.show();
   // }
 
-  @BeforeEach
-  public void setup() {
-    clickOn("#reset");
-    //course1 = new Course("Matte 1");
-    course2 = new Course("Algdat");
-    //semester = new Semester();
-  }
+  // @BeforeEach
+  // public void setup(){
+  //   clickOn("#reset");
+  //   //course1 = new Course("Matte 1");
+  //   //course2 = new Course("Algdat");
+  //   //semester = new Semester();
+  // }
 
   @Test
   public void testController_studyTracker() {
@@ -58,7 +58,7 @@ public class studyTrackerAppTest extends ApplicationTest {
   // public void testAddNewCourse(){
   //   clickOn("#newCourse").write("IT1901");
   //   clickOn("#addCourse");
-  //   assertEquals("IT1901",controller.getCourseName1().getText());
+  //   assertEquals(controller.getCourseNamesList().stream().anyMatch(a -> a.equals("IT1901")),true);
   // } 
   
   // @Test
