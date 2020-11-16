@@ -249,8 +249,8 @@ public class Controller {
           break;
         }
       }
+      updateCourseList();
       timeToAdd.setText("0 t");
-      pickCourse.setValue("");
     }
   }
 
