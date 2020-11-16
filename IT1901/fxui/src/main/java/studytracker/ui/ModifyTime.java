@@ -16,7 +16,7 @@ public String addTime(String time){
     String[] partition = time.split(Pattern.quote(" "));
     Double currentTime = Double.parseDouble(partition[0]);
     currentTime = currentTime + 0.25;
-    return (currentTime +" t");
+    return (currentTime +" h");
   }
 /**
  * Methode for reducing the time given as input
@@ -28,7 +28,7 @@ public String addTime(String time){
     Double currentTime = Double.parseDouble(partition[0]);
 
     if (currentTime == 0) {
-      return ("kan ikke legge til negativt antall timer");
+      return ("it is not possible to add a negative amount of hours");
     } else {
       currentTime = currentTime - 0.25;
       return(currentTime + " t");

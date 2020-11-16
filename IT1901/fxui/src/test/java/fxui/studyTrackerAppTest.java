@@ -76,7 +76,7 @@ public class studyTrackerAppTest extends ApplicationTest {
     type(KeyCode.ENTER);
     clickOn("#plusTime");
     clickOn("#addTime");
-    assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("0.25 t")), true);
+    assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("0.25 h")), true);
 
   }
 
@@ -92,7 +92,7 @@ public class studyTrackerAppTest extends ApplicationTest {
     }
     clickOn("#minusTime");
     clickOn("#addTime");
-    assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("2.25 t")), true);
+    assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("2.25 h")), true);
   }
 
   @Test
