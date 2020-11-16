@@ -78,7 +78,7 @@ public class StudyTrackerServiceTest extends JerseyTest {
     assertEquals(200, getResponse.getStatus());
     try {
       Semester semester = objectMapper.readValue(getResponse.readEntity(String.class), Semester.class);
-      semester.clearSemester();
+      semester.resetSemester(false);
       semester.addCourse(new Course("matte"));
       assertEquals("matte", semester.getCourses().iterator().next().getCourseName());
     } catch (JsonProcessingException e) {
@@ -93,7 +93,7 @@ public class StudyTrackerServiceTest extends JerseyTest {
     assertEquals(200, getResponse.getStatus());
     try {
       Semester semester = objectMapper.readValue(getResponse.readEntity(String.class), Semester.class);
-      semester.clearSemester();
+      semester.resetSemester(false);
       assertFalse(semester.iterator().hasNext());
     } catch (JsonProcessingException e) {
       fail(e.getMessage());
@@ -107,32 +107,30 @@ public class StudyTrackerServiceTest extends JerseyTest {
     assertEquals(200, getResponse.getStatus());
     try {
       Semester semester = objectMapper.readValue(getResponse.readEntity(String.class), Semester.class);
-      semester.clearSemester();
+      semester.resetSemester(false);
       semester.addCourse(new Course("matte"));
       assertEquals("matte", semester.getCourses().iterator().next().getCourseName());
-      semester.removeCourse("matte");
+      semester.deleteCourse("matte");
       assertFalse(semester.iterator().hasNext());
     } catch (JsonProcessingException e) {
       fail(e.getMessage());
     }
   }
 
-  // @Test
-  // public void testGetCourse() {
-  // Response getResponse =
-  // target(SemesterService.STUDYTRACKER_MODEL_SERVICE_PATH)
-  // .path("matte")
-  // .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER +
-  // "=UTF-8")
-  // .get();
-  // assertEquals(200, getResponse.getStatus());
-  // try {
-  // Course course = objectMapper.readValue(getResponse.readEntity(String.class),
-  // Course.class);
-  // assertEquals("matte", course.getCourseName());
-  // } catch (JsonProcessingException e) {
-  // fail(e.getMessage());
-  // }
-  // }
+  @Test
+  public void testAddTimeToCourse() {
+    Response getResponse = target(SemesterService.STUDYTRACKER_MODEL_SERVICE_PATH)
+        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8").get();
+    assertEquals(200, getResponse.getStatus());
+    try {
+      Semester semester = objectMapper.readValue(getResponse.readEntity(String.class), Semester.class);
+      semester.resetSemester(false);
+      semester.addCourse(new Course("matte"));
+      semester.addTimeToCourse("matte", 0.25);
+      assertEquals(semester.getCourse("matte").getTimeSpent(), 0.25);
+    } catch (JsonProcessingException e) {
+      fail(e.getMessage());
+    }
+  }
 
 }
