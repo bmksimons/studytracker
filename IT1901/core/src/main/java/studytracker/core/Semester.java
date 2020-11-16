@@ -71,7 +71,7 @@ public class Semester implements Iterable<Course> {
       Course tmp = it1.next();
       if (name.equals(tmp.getCourseName())) {
         tmp.addTime(time);
-        this.fireSemesterChanged();
+        //this.fireSemesterChanged();
       }
     }
   }
@@ -111,7 +111,6 @@ public class Semester implements Iterable<Course> {
   }
 
   public void setCourses(List<Course> courseList){
-    this.courseList.clear();
     this.courseList = courseList;
   }
 

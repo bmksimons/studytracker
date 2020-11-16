@@ -61,24 +61,23 @@ import studytracker.core.Semester;
   //  }
 
    /**
-    * Renames the TodoList.
+    * Updates the time spent on the Course
     *
-    * @param newName the new name
+    * @param courseTimer the new time
     * @throws IOException
     * @throws JsonMappingException
     * @throws JsonGenerationException
     */
    @POST
-   @Path("/timeSpent")
+   @Path("/newTime")
+   //@Consumes(MediaType.APPLICATION_JSON)
    @Produces(MediaType.APPLICATION_JSON)
-   public boolean addTimeToCourse(@QueryParam("timeSpent") String timeSpent)
+   public boolean addTimeToCourse(@QueryParam("settime") String courseTimer)
        throws JsonGenerationException, JsonMappingException, IOException {
     checkSemester();
-    this.semester.getCourse(this.course.getCourseName()).setTime(Double.valueOf(timeSpent));
+    System.out.println("addTimeToCourse blir kjørt i courseResource");
+    this.semester.getCourse(this.course.getCourseName()).setTime(Double.valueOf(courseTimer));
     this.studyTrackerPersistence.writeSemester(json, this.semester);
-    // Response getResponse = target(SemesterService.STUDYTRACKER_MODEL_SERVICE_PATH)
-    //     .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
-    //     .get();
     return true;
   }
 
