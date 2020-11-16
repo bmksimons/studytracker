@@ -18,28 +18,27 @@ public class studyTrackerAppTest extends ApplicationTest{
   private Course course1, course2; 
   private Semester semester;
   
-  // @Override
-  // public void start(final Stage primaryStage) throws Exception {
-  //   final FXMLLoader loader = new FXMLLoader(getClass().getResource("../studytracker/ui/fxApp.fxml"));
-  //   final Parent parent = loader.load();
-  //   this.controller = loader.getController();
-  //   primaryStage.setScene(new Scene(parent));
-  //   primaryStage.show();
-  // }
-
-   @Override
-  public void start(final Stage stage) throws Exception {
+  @Override
+  public void start(final Stage primaryStage) throws Exception {
     final FXMLLoader loader = new FXMLLoader(getClass().getResource("../studytracker/ui/fxApp.fxml"));
-    final Parent root = loader.load();
+    final Parent parent = loader.load();
     this.controller = loader.getController();
-    stage.setScene(new Scene(root));
-    stage.show();
+    primaryStage.setScene(new Scene(parent));
+    primaryStage.show();
   }
+
+  //  @Override
+  // public void start(final Stage stage) throws Exception {
+  //   final FXMLLoader loader = new FXMLLoader(getClass().getResource("../studytracker/ui/fxApp.fxml"));
+  //   final Parent root = loader.load();
+  //   this.controller = loader.getController();
+  //   stage.setScene(new Scene(root));
+  //   stage.show();
+  // }
 
   @BeforeEach
   public void setup(){
     clickOn("#reset");
-    course1 = new Course("Matte 1");
     course2 = new Course("Algdat");
     semester = new Semester();
   }
@@ -59,9 +58,9 @@ public class studyTrackerAppTest extends ApplicationTest{
   
   @Test
   public void testAddEqualCourse(){
-    clickOn("#newCourse").write("Matte 1");
+    clickOn("#newCourse").write("Matte");
     clickOn("#addCourse");
-    clickOn("#newCourse").write("Matte 1");
+    clickOn("#newCourse").write("Matte");
     // if (!controller.getShowInformation().getText().equals("Kan ikke legge til et fag flere ganger")){
     //   System.out.println(controller.getShowInformation().getText());
     //   fail();
@@ -73,7 +72,7 @@ public class studyTrackerAppTest extends ApplicationTest{
 
   @Test
   public void testAddTimePlusButton(){
-    clickOn("#newCourse").write("matte 1");
+    clickOn("#newCourse").write("matte");
     clickOn("#addCourse");
     clickOn("#pickCourse");
     type(KeyCode.DOWN);
@@ -86,7 +85,7 @@ public class studyTrackerAppTest extends ApplicationTest{
 
   @Test
   public void testAddTimeMinusButton(){
-    clickOn("#newCourse").write("matte 1");
+    clickOn("#newCourse").write("matte");
     clickOn("#addCourse");
     clickOn("#pickCourse");
     type(KeyCode.DOWN);
