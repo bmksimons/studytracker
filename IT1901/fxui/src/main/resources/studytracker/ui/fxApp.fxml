@@ -25,22 +25,22 @@
    <Label fx:id="courseName2" layoutX="14.0" layoutY="103.0" prefHeight="17.0" prefWidth="214.0" style="-fx-background-color: #6495ED;" />
    <Label fx:id="courseName3" layoutX="14.0" layoutY="131.0" prefHeight="17.0" prefWidth="214.0" style="-fx-background-color: #98FB98;" />
    <Label fx:id="courseName4" layoutX="14.0" layoutY="158.0" prefHeight="17.0" prefWidth="214.0" style="-fx-background-color: #9370DB;" />
-   <Label fx:id="courseTimer1" alignment="CENTER_RIGHT" layoutX="227.0" layoutY="74.0" prefHeight="17.0" prefWidth="208.0" style="-fx-background-color: #FFB6C1;" />
-   <Label fx:id="courseTimer2" alignment="CENTER_RIGHT" layoutX="227.0" layoutY="103.0" prefHeight="17.0" prefWidth="208.0" style="-fx-background-color: #6495ED;" />
-   <Label fx:id="courseTimer3" alignment="CENTER_RIGHT" layoutX="227.0" layoutY="131.0" prefHeight="17.0" prefWidth="208.0" style="-fx-background-color: #98FB98;" />
-   <Label fx:id="courseTimer4" alignment="CENTER_RIGHT" layoutX="227.0" layoutY="158.0" prefHeight="17.0" prefWidth="208.0" style="-fx-background-color: #9370DB;" />
+   <Label fx:id="timeSpentOnCourse1" alignment="CENTER_RIGHT" layoutX="227.0" layoutY="74.0" prefHeight="17.0" prefWidth="208.0" style="-fx-background-color: #FFB6C1;" />
+   <Label fx:id="timeSpentOnCourse2" alignment="CENTER_RIGHT" layoutX="227.0" layoutY="103.0" prefHeight="17.0" prefWidth="208.0" style="-fx-background-color: #6495ED;" />
+   <Label fx:id="timeSpentOnCourse3" alignment="CENTER_RIGHT" layoutX="227.0" layoutY="131.0" prefHeight="17.0" prefWidth="208.0" style="-fx-background-color: #98FB98;" />
+   <Label fx:id="timeSpentOnCourse4" alignment="CENTER_RIGHT" layoutX="227.0" layoutY="158.0" prefHeight="17.0" prefWidth="208.0" style="-fx-background-color: #9370DB;" />
    <Label layoutX="15.0" layoutY="278.0" text="Legg til timer">
       <font>
          <Font size="13.0" />
       </font>
    </Label>
    <ChoiceBox fx:id="pickCourse" layoutX="95.0" layoutY="273.0" prefHeight="27.0" prefWidth="214.0" />
-   <Button fx:id="minusTime" layoutX="382.0" layoutY="274.0" mnemonicParsing="false" onAction="#removeTime" prefHeight="25.0" prefWidth="24.0" text="-">
+   <Button fx:id="minusTime" layoutX="382.0" layoutY="274.0" mnemonicParsing="false" onAction="#reduceTimeToAdd" prefHeight="25.0" prefWidth="24.0" text="-">
       <font>
          <Font name="System Bold" size="12.0" />
       </font>
    </Button>
-   <Button fx:id="plusTime" layoutX="406.0" layoutY="274.0" mnemonicParsing="false" onAction="#addTime" prefHeight="25.0" prefWidth="24.0" text="+">
+   <Button fx:id="plusTime" layoutX="406.0" layoutY="274.0" mnemonicParsing="false" onAction="#increaseTime" prefHeight="25.0" prefWidth="24.0" text="+">
       <font>
          <Font name="System Bold" size="12.0" />
       </font>

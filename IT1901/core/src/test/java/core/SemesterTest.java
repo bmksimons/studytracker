@@ -2,6 +2,7 @@ package core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -32,8 +33,13 @@ public class SemesterTest {
       s1.addCourse(c1);
       fail();
     } catch (Exception e) {
-
     }
+  }
+
+  @Test
+  public void addCourse(){
+    s1.addCourse(c1);
+    assertTrue(s1.getCourses().contains(c1));
   }
 
   @Test
@@ -44,20 +50,23 @@ public class SemesterTest {
   }
 
   @Test
-  public void removeCourseTest() {
+  public void deleteCourseTest() {
     s1.addCourse(c1);
-    s1.removeCourse(c1);
-    try{
-      s1.removeCourse(c2);
-      fail();
-    } catch(Exception e){
-    }
+    s1.deleteCourse(c1.getCourseName());
+    assertFalse(s1.getCourses().contains(c1));
   }
 
   @Test
-  public void clearSemesterTest(){
+  public void deleteWrongCourseTest(){
+    s1.addCourse(c1);
+    Boolean deleted = s1.deleteCourse(c2.getCourseName());
+    assertFalse(deleted);
+  }
+
+  @Test
+  public void resetSemesterTest(){
     s1.addCourse(c2);
-    s1.clearSemester();
+    s1.resetSemester(true);
     assertFalse(s1.iterator().hasNext());
   }
 
@@ -69,7 +78,7 @@ public class SemesterTest {
     assertEquals(0, this.recievedNotificationCount);
     s1.addCourse(c1);
     assertEquals(1, this.recievedNotificationCount);
-    s1.removeCourse(c1);
-    assertEquals(2, this.recievedNotificationCount);
+    s1.deleteCourse(c1.getCourseName());
+    assertEquals(1, this.recievedNotificationCount);
   }
 }

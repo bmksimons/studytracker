@@ -13,7 +13,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -61,32 +60,37 @@ import studytracker.core.Semester;
   //  }
 
    /**
-    * Renames the TodoList.
+    * Updates the time spent on the Course.
     *
-    * @param newName the new name
+    * @param courseTimer the new time
     * @throws IOException
     * @throws JsonMappingException
     * @throws JsonGenerationException
     */
-   @POST
-   @Path("/timeSpent")
+   @GET
+   @Path("/newTime")
    @Produces(MediaType.APPLICATION_JSON)
-   public boolean addTimeToCourse(@QueryParam("timeSpent") String timeSpent)
+   public boolean addTimeToCourse(@QueryParam("addTime") String hoursToAdd)
        throws JsonGenerationException, JsonMappingException, IOException {
     checkSemester();
-    this.semester.getCourse(this.course.getCourseName()).setTime(Double.valueOf(timeSpent));
+    System.out.println("addTimeToCourse blir kjørt i courseResource");
+    this.semester.getCourse(this.course.getCourseName()).addTime(Double.valueOf(hoursToAdd));
     this.studyTrackerPersistence.writeSemester(json, this.semester);
-    // Response getResponse = target(SemesterService.STUDYTRACKER_MODEL_SERVICE_PATH)
-    //     .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
-    //     .get();
     return true;
   }
 
+  /**
+    * Deletes the course.
+    *
+    * @throws IOException
+    * @throws JsonMappingException
+    * @throws JsonGenerationException
+    */
    @DELETE
    @Produces(MediaType.APPLICATION_JSON)
    public boolean removeCourse() throws JsonGenerationException, JsonMappingException, IOException {
      checkSemester();
-     this.semester.removeCourse(this.semester.getCourse(this.course.getCourseName()));
+     this.semester.deleteCourse(this.semester.getCourse(this.course.getCourseName()).getCourseName());
      this.studyTrackerPersistence.writeSemester(json, semester);
      return true;
    }
