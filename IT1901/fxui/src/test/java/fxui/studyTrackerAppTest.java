@@ -102,10 +102,8 @@ public class studyTrackerAppTest extends ApplicationTest {
   //   assertEquals("2.25 t", controller.getCourseTimer1().getText());
   // }
 
-  // @Test
-  // public void testStatisticView() {
-  //   assertTrue(this.controller.isOpen);
-  //   clickOn("#statistic");
-  //   assertFalse(this.controller.isOpen);
-  // }
+  @Test
+  public void testStatisticView() {
+    clickOn("#statistic");
+  }
 }
