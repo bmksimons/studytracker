@@ -6,13 +6,9 @@ import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.net.http.HttpRequest.BodyPublisher;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.nio.charset.StandardCharsets;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import studytracker.core.Course;
 import studytracker.core.Semester;
 import studytracker.json.StudyTrackerModule;
 
@@ -32,19 +28,39 @@ public class RemoteSemesterAccess {
     this.objectMapper = new ObjectMapper().registerModule(new StudyTrackerModule());
   }
 
+  /**
+ * Encodes the input-string to an URL
+ * 
+ * @param s the string to be encoded
+ * @return String the encoded string
+ */
   private String uriParam(String s) {
     return URLEncoder.encode(s, StandardCharsets.UTF_8);
   }
 
-  private URI courseUri(String courseName, String timeSpent) {
-    if (timeSpent != null){
-      return endpointUri.resolve(uriParam(courseName + "/newTime?settime=" + timeSpent));
-    }
-    return endpointUri.resolve(uriParam(courseName));
+  /**
+ * Makes an URI for a given course.
+ * 
+ * @param courseName the name of the course.
+ * @return URI the URI made in the method.
+ */
+  private URI courseUri(String courseName){
+        return endpointUri.resolve(uriParam(courseName));
   }
 
   /**
-   * returns the Semester saved on the resterver.
+ * Makes an URI for the AddTimeToCourse-method.
+ * 
+ * @param courseName the name of the course.
+ * @param hoursToAdd the amount of time we want to add to the course.
+ * @return URI the URI made in the method.
+ */
+  private URI courseUri(String courseName, String hoursToAdd) {
+    return endpointUri.resolve(uriParam(courseName) + "/newTime?addTime=" + uriParam(hoursToAdd));
+  }
+
+  /**
+   * returns the Semester saved on the resterver. 
    *
    * @return The semester serialized via the Httprequest.
    */
@@ -68,7 +84,7 @@ public class RemoteSemesterAccess {
   }
 
   /**
-   * returns the Semester saved on the resterver.
+   * Puts a semester to the server.
    *
    * @param Semester the Semester in the controller with direct access to the App.
    */
@@ -148,13 +164,19 @@ public class RemoteSemesterAccess {
   //   }
   // }
 
-  public void addTimeToCourse(String courseName, Double courseTimer) { 
+  /**
+   * Adds time to a given Course.
+   *
+   * @param courseName the name of the course which we want to change.
+   * @param hoursToAdd the hours to add to the course.
+   */
+  public void addTimeToCourse(String courseName, Double hoursToAdd) { 
     try {
       System.out.println(courseName);
       HttpRequest request = HttpRequest
-          .newBuilder(courseUri(courseName, String.valueOf(courseTimer))) 
+          .newBuilder(courseUri(courseName, String.valueOf(hoursToAdd))) 
           .header("Accept", "application/json")
-          .POST(BodyPublishers.ofString(""))
+          .GET()
           .build();
       final HttpResponse<String> response =
           HttpClient
@@ -163,7 +185,7 @@ public class RemoteSemesterAccess {
           .send(request, 
           HttpResponse.BodyHandlers.ofString());
       String responseString = response.body();
-      System.out.println(courseUri(courseName, String.valueOf(courseTimer)));
+      System.out.println(courseUri(courseName, String.valueOf(hoursToAdd)));
       System.out.println(courseName);
       System.out.println("addTimeToCourse blir kjørt i remoteacces");
       Boolean changedTime = objectMapper.readValue(responseString, Boolean.class);
@@ -171,24 +193,22 @@ public class RemoteSemesterAccess {
       if (changedTime == true) {
         System.out.println(courseName);
         System.out.println("addTimeToCourse blir kjørt i remoteacces");
-        this.semester.getCourse(courseName).setTime(courseTimer);
+        this.semester.getCourse(courseName).addTime(hoursToAdd);;
       }
     } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
     }
   }
 
-
-
   /**
-   * Deletes the Course with the same name as the param
+   * Deletes the given course.
    *
-   * @param courseName the name of the course which will be deleted
+   * @param courseName the name of the course which will be deleted.
    */
   public void deleteCourse(String courseName) { 
     try {
       HttpRequest request = HttpRequest
-          .newBuilder(courseUri(courseName, null)) //lage ny courseUri med en parameter
+          .newBuilder(courseUri(courseName)) 
           .header("Accept", "application/json")
           .DELETE()
           .build();

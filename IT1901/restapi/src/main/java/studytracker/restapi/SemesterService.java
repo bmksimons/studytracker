@@ -23,6 +23,9 @@ import studytracker.core.Semester;
 import studytracker.json.StudyTrackerPersistence;
 import studytracker.restapi.CourseResource;
 
+/**
+ * The class which handles the Http-requests sent from RemoteSemesterAcces.
+ */
 @Path(SemesterService.STUDYTRACKER_MODEL_SERVICE_PATH)
 public class SemesterService {
 

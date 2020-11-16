@@ -68,15 +68,14 @@ import studytracker.core.Semester;
     * @throws JsonMappingException
     * @throws JsonGenerationException
     */
-   @POST
+   @GET
    @Path("/newTime")
-   //@Consumes(MediaType.APPLICATION_JSON)
    @Produces(MediaType.APPLICATION_JSON)
-   public boolean addTimeToCourse(@QueryParam("settime") String courseTimer)
+   public boolean addTimeToCourse(@QueryParam("addTime") String hoursToAdd)
        throws JsonGenerationException, JsonMappingException, IOException {
     checkSemester();
     System.out.println("addTimeToCourse blir kjørt i courseResource");
-    this.semester.getCourse(this.course.getCourseName()).setTime(Double.valueOf(courseTimer));
+    this.semester.getCourse(this.course.getCourseName()).addTime(Double.valueOf(hoursToAdd));
     this.studyTrackerPersistence.writeSemester(json, this.semester);
     return true;
   }
