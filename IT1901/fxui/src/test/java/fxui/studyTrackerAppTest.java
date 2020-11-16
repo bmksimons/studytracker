@@ -106,6 +106,18 @@ public class studyTrackerAppTest extends ApplicationTest {
     try {
       assertEquals(controller.getCourseNames().stream().map(x -> x.getText()).allMatch(a -> a.equals("")), true);
     } catch (NoSuchElementException e) {
+      //TODO: handle exception
     }
   }
+
+  @Test
+  public void testOpenStatisticView() {
+    try {
+      clickOn("#statistic");
+    } catch (Exception e) {
+      throw e;
+    }
+  }
+
+  
 }
