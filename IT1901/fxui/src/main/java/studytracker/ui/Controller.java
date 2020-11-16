@@ -358,4 +358,8 @@ public class Controller {
     this.timeSpentOnCourses.add(this.timeSpentOnCourse3);
     this.timeSpentOnCourses.add(this.timeSpentOnCourse4);
 }
+
+public RemoteSemesterAccess getRemoteSemesterAccess(){
+  return this.remoteAccess;
+}
 }

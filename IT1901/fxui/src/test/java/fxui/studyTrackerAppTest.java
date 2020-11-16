@@ -12,6 +12,8 @@ import studytracker.core.Semester;
 import studytracker.ui.Controller;
 import javafx.fxml.*;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.NoSuchElementException;
 public class studyTrackerAppTest extends ApplicationTest{
 
   private Controller controller;
@@ -46,7 +48,6 @@ public class studyTrackerAppTest extends ApplicationTest{
   @Test
   public void testController_studyTracker() {
     assertNotNull(this.controller);
-    // assertNotNull(this.semester);
   }
 
   @Test
@@ -61,11 +62,7 @@ public class studyTrackerAppTest extends ApplicationTest{
     clickOn("#newCourse").write("Matte");
     clickOn("#addCourse");
     clickOn("#newCourse").write("Matte");
-    // if (!controller.getShowInformation().getText().equals("Kan ikke legge til et fag flere ganger")){
-    //   System.out.println(controller.getShowInformation().getText());
-    //   fail();
-    // }
-    assertEquals(controller.labelsForTesting().get(1), controller.labelsForTesting().get(1));
+    assertEquals(controller.getRemoteSemesterAccess().getSemester().getCourselist().size(), 1);
       
     }
   
@@ -98,14 +95,29 @@ public class studyTrackerAppTest extends ApplicationTest{
     assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a->a.equals("2.25 t")), true);
   }
 
-  // @Test
-  // public void testDeleteCourseSimple(){
-  //   clickOn("#newCourse").write("matte 1");
-  //   clickOn("#addCourse");
-  //   clickOn("#pickCourseDelete");
-  //   type(KeyCode.DOWN);
-  //   type(KeyCode.ENTER);
-  //   clickOn("#delete");
-  //   assertEquals(controller.getCourseNames().stream().map(x -> x.getText()).allMatch(a -> a.equals("")), true);
-  // }
+  @Test
+  public void testDeleteCourseSimple(){
+    clickOn("#newCourse").write("matte 1");
+    clickOn("#addCourse");
+    clickOn("#pickCourseDelete");
+    type(KeyCode.DOWN);
+    type(KeyCode.ENTER);
+    clickOn("#delete");
+    try {
+      assertEquals(controller.getCourseNames().stream().map(x -> x.getText()).allMatch(a -> a.equals("")), true);
+    } catch (NoSuchElementException e) {
+      //TODO: handle exception
+    }
+  }
+
+  @Test
+  public void testOpenStatisticView() {
+    try {
+      clickOn("#statistic");
+    } catch (Exception e) {
+      throw e;
+    }
+  }
+
+  
 }
