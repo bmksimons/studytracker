@@ -1,0 +1,58 @@
+@startuml
+
+component restserver {
+}
+
+component core {
+	package studytracker.core
+	package studytracker.json
+}
+component jackson {
+}
+
+studytracker.json ..> jackson
+
+
+component fxui {
+	package studytracker.ui
+}
+
+component javafx {
+	component fxml {
+	}
+}
+
+fxui ..> javafx
+fxui ..> fxml
+
+studytracker.ui ..> studytracker.core
+studytracker.ui ..> studytracker.json
+
+component restapi {
+	package studytracker.restapi
+}
+
+component jaxrs {
+}
+
+restapi ..> jaxrs
+
+studytracker.restapi ..> studytracker.core
+studytracker.restapi ..> studytracker.json
+
+component restserver {
+	package studytracker.restserver
+}
+studytracker.restserver ..> studytracker.restapi
+studytracker.restserver ..> studytracker.core
+
+component jersey {
+}
+
+component StudyTrackerModuleObjectMapperProvider {
+}
+
+restserver ..> jersey
+restserver ..> StudyTrackerModuleObjectMapperProvider
+
+@enduml

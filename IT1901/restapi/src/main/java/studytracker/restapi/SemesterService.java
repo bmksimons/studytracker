@@ -45,9 +45,9 @@ public class SemesterService {
 
   @DELETE
   @Produces(MediaType.APPLICATION_JSON)
-  public boolean removeSemester() throws JsonGenerationException, JsonMappingException, IOException {
+  public boolean resetSemester() throws JsonGenerationException, JsonMappingException, IOException {
     System.out.println("Delete blir kjørt i semesterservice");
-    this.semester.clearSemester();
+    this.semester.resetSemester(false);
     this.studyTrackerPersistence.writeSemester(json, this.semester);
     return true;
   }

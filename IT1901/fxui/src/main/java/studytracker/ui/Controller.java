@@ -17,6 +17,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import jdk.nashorn.api.tree.ArrayLiteralTree;
 import studytracker.core.Course;
 import studytracker.core.Semester;
 import javafx.scene.Node;
@@ -28,6 +29,7 @@ public class Controller {
   private ObservableList<String> courseList = FXCollections.observableArrayList();
   private int maxCourses;
   private int currentNumberCourses;
+  private ModifyTime modifyTime = new ModifyTime();
 
   @FXML
   Label courseName1;
@@ -38,7 +40,7 @@ public class Controller {
   @FXML
   Label courseName4;
 
-  private List<Label> courseNames;
+  private List<Label> courseNames = new ArrayList<>();
 
   @FXML
   Label courseTimer1;
@@ -49,7 +51,7 @@ public class Controller {
   @FXML
   Label courseTimer4;
 
-  private List<Label> courseTimers;
+  private List<Label> courseTimers  = new ArrayList<>();;
 
   @FXML
   ChoiceBox<String> pickCourse;
@@ -99,14 +101,7 @@ public class Controller {
     // this.courseList = FXCollections.observableArrayList();
     this.courseNames = new ArrayList<>();
     this.courseTimers = new ArrayList<>();
-    this.courseNames.add(this.courseName1);
-    this.courseNames.add(this.courseName2);
-    this.courseNames.add(this.courseName3);
-    this.courseNames.add(this.courseName4);
-    this.courseTimers.add(this.courseTimer1);
-    this.courseTimers.add(this.courseTimer2);
-    this.courseTimers.add(this.courseTimer3);
-    this.courseTimers.add(this.courseTimer4);
+    addLabelsToList();
 
     try {
       System.out.println("Using remote endpoint @ " + endpointUri);
@@ -139,23 +134,10 @@ public class Controller {
     this.remoteAccess.putSemester(this.semester);
   }
 
-  /*
-   * @FXML public void addCourse() { if (newCourse.getText().equals("")) {
-   * showInformation.setText("Du må skrive inn et fag"); } else { if
-   * (courseName1.getText().equals("")) { this.makeCourse(courseName1,
-   * courseTimer1); } else if (courseName2.getText().equals("")) {
-   * this.makeCourse(courseName2, courseTimer2); } else if
-   * (courseName3.getText().equals("")) { this.makeCourse(courseName3,
-   * courseTimer3); } else if (courseName4.getText().equals("")) {
-   * this.makeCourse(courseName4, courseTimer4); } else {
-   * showInformation.setText("Du kan kun legge til 4 fag"); }
-   * this.newCourse.setText(""); } }
-   */
 
-  /**
-   * Adds a course to the Semester.
-   *
-   */
+/**
+ * methode for adding a course to the app, and displayng it.
+ */
   @FXML
   public void addCourse() {
     if (newCourse.getText() == "") {
@@ -171,10 +153,9 @@ public class Controller {
           break;
         }
       }
-
-      for (Label courseTimer : courseTimers) {
-        if (courseTimer.getText().equals("")) {
-          courseTimer.setText("0 t");
+      for(Label courseTimer : courseTimers) {
+        if(courseTimer.getText().equals("")) {
+          courseTimer.setText("0.0 t");
           break;
         }
       }
@@ -213,12 +194,7 @@ public class Controller {
    */
   @FXML
   public void addTime() {
-    String currentTimeString = timeToAdd.getText();
-    String[] partition = currentTimeString.split(Pattern.quote(" "));
-
-    Double currentTime = Double.parseDouble(partition[0]);
-    currentTime = currentTime + 0.25;
-    timeToAdd.setText(currentTime + " t");
+    timeToAdd.setText(modifyTime.addTime(timeToAdd.getText()));
   }
 
   /**
@@ -242,15 +218,12 @@ public class Controller {
 
   @FXML
   public void removeTime() {
-    String currentTimeString = timeToAdd.getText();
-    String[] partition = currentTimeString.split(Pattern.quote(" "));
-
-    Double currentTime = Double.parseDouble(partition[0]);
-    if (currentTime == 0) {
-      showInformation.setText("Kan ikke være negativt antall timer");
-    } else {
-      currentTime = currentTime - 0.25;
-      timeToAdd.setText(currentTime + " t");
+    String time = modifyTime.removeTime(timeToAdd.getText());
+    if (time == "kan ikke legge til negativt antall timer"){
+      showInformation.setText(time);
+    }
+    else {
+      timeToAdd.setText(time);
     }
   }
 
@@ -270,33 +243,19 @@ public class Controller {
           break;
         }
       }
-      /*
-       * if (courseChosen.equals(courseName1.getText())) {
-       * this.makeStudyHours(courseName1, courseTimer1); } else if
-       * (courseChosen.equals(courseName2.getText())) {
-       * this.makeStudyHours(courseName2, courseTimer2); } else if
-       * (courseChosen.equals(courseName3.getText())) {
-       * this.makeStudyHours(courseName3, courseTimer3); } else if
-       * (courseChosen.equals(courseName4.getText())) {
-       * this.makeStudyHours(courseName4, courseTimer4); }
-       */
       timeToAdd.setText("0 t");
       pickCourse.setValue("");
     }
   }
-
+/**
+ *method for adding and updating time spent on a course
+ @param courseName,CourseTime labels to get information from
+   */ 
   @FXML
   private void makeStudyHours(Label courseName, Label courseTime) {
-    String currentTimeString = timeToAdd.getText();
-    String[] partition = currentTimeString.split(Pattern.quote(" "));
-    Double hoursToAdd = Double.parseDouble(partition[0]);
-    String currentStudyTime = courseTime.getText();
-    String[] partition2 = currentStudyTime.split(Pattern.quote(" "));
-    Double beforeHoursStudied = Double.parseDouble(partition2[0]);
-    Double hoursStudied = beforeHoursStudied + hoursToAdd;
-    courseTime.setText(hoursStudied + " t");
-    this.semester.addTimeToCourse(courseName.getText(), hoursToAdd);
-    this.remoteAccess.addTimeToCourse(courseName.getText(), hoursToAdd);
+    List<Double> timeValue = modifyTime.makeStudyHours(timeToAdd.getText(), courseTime.getText());
+    courseTime.setText(timeValue.get(2) + " t");
+    this.semester.addTimeToCourse(courseName.getText(), timeValue.get(0));
   }
 
   /**
@@ -312,7 +271,7 @@ public class Controller {
     timeToAdd.setText("0 t");
     courseList.clear();
     updateCourseList();
-    this.semester.clearSemester();
+    this.semester.resetSemester(false);
   }
 
   @FXML
@@ -321,27 +280,6 @@ public class Controller {
     courseTime.setText("");
   }
 
-  /*
-   * @FXML public void deleteCourse() { final String courseChosenDelete =
-   * pickCourseDelete.getValue();
-   * 
-   * if (courseChosenDelete == null) {
-   * showInformation.setText("Du må velge et fag først"); } else { if
-   * (courseChosenDelete.equals(courseName1.getText())) {
-   * this.makeDeleteCourse(courseName1, courseTimer1); } else if
-   * (courseChosenDelete.equals(courseName2.getText())) {
-   * this.makeDeleteCourse(courseName2, courseTimer2); } else if
-   * (courseChosenDelete.equals(courseName3.getText())) {
-   * this.makeDeleteCourse(courseName3, courseTimer3);
-   * showInformation.setText("Faget er slettet"); } else if
-   * (courseChosenDelete.equals(courseName4.getText())) {
-   * this.makeDeleteCourse(courseName4, courseTimer4); } } }
-   */
-
-  /**
-   * Deletes a chosen course from the app.
-   *
-   */
   @FXML
   public void deleteCourse() {
     String courseChosenDelete = pickCourseDelete.getValue();
@@ -372,23 +310,37 @@ public class Controller {
     return tmp;
   }
 
+public void addLabelsToList(){
+  this.courseNames.add(this.courseName1);
+    this.courseNames.add(this.courseName2);
+    this.courseNames.add(this.courseName3);
+    this.courseNames.add(this.courseName4);
+    this.courseTimers.add(this.courseTimer1);
+    this.courseTimers.add(this.courseTimer2);
+    this.courseTimers.add(this.courseTimer3);
+    this.courseTimers.add(this.courseTimer4);
+}
+
+
   public Label getCourseName1() {
     return this.courseName1;
   }
 
-  public Label getCourseName2() {
-    return this.courseName2;
+  public List<String> getCourseTimersList() {
+    List<String> tmp = new ArrayList<>();
+    Iterator<Label> iterator = courseTimers.iterator();
+
+    while(iterator.hasNext()) {
+      tmp.add(iterator.next().getText());
+    }
+    return tmp;
   }
 
-  public Label getCourseTimer1() {
-    return this.courseTimer1;
-  }
-
-  public List getCourseNames() {
+  public List<Label> getCourseNames() {
     return this.courseNames;
   }
 
-  public List getCourseTimers() {
+  public List<Label> getCourseTimers() {
     return this.courseTimers;
   }
 }
