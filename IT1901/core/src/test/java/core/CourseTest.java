@@ -15,11 +15,15 @@ class CourseTest {
     assertEquals(0.0, c1.getTimeSpent());
     c1.addTime(100.0);
     assertEquals(100.0, c1.getTimeSpent());
-    try {
-      c1.addTime(-1.0);
-      fail("argument must be positive");
-    } catch (IllegalArgumentException e) {
-    }
   }
 
+  @Test
+  public void testAddNegativeTime(){
+    Course c1 = new Course("matte1");
+    try{
+      c1.addTime(-1.0);
+      fail("argument must be positive");
+    } catch(IllegalArgumentException e){
+    }
+  }
 }

@@ -18,12 +18,14 @@ public class studyTrackerAppTest extends ApplicationTest{
   private Course course1, course2; 
   private Semester semester;
   
-  // @Override
-  // public void start(final Stage primaryStage) throws Exception {
-  //   final Parent parent = FXMLLoader.load(getClass().getResource("../studytracker/ui/fxApp.fxml")); 
-  //   primaryStage.setScene(new Scene(parent));
-  //   primaryStage.show();
-  // }
+  @Override
+  public void start(final Stage primaryStage) throws Exception {
+    final FXMLLoader loader = new FXMLLoader(getClass().getResource("../studytracker/ui/fxApp.fxml"));
+    final Parent parent = loader.load();
+    this.controller = loader.getController();
+    primaryStage.setScene(new Scene(parent));
+    primaryStage.show();
+  }
 
    @Override
   public void start(final Stage stage) throws Exception {
@@ -107,5 +109,4 @@ public class studyTrackerAppTest extends ApplicationTest{
     clickOn("#delete");
     assertEquals(controller.getCourseNames().stream().map(x -> x.getText()).allMatch(a -> a.equals("")), true);
   }
-
 }

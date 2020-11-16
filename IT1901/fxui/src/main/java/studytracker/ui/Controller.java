@@ -88,6 +88,11 @@ public class Controller {
 
   private RemoteSemesterAccess remoteAccess;
 
+  /**
+   * Initializes the Controller by loading the Semester in the restserver. Sets up
+   * fields which are used in other methods in the Controller.
+   *
+   */
   @FXML
   public void initialize() {
 
@@ -134,9 +139,9 @@ public class Controller {
  */
   @FXML
   public void addCourse() {
-    if(newCourse.getText() == "") {
+    if (newCourse.getText() == "") {
       showInformation.setText("Du må skrive inn et fag");
-    } else if(currentNumberCourses == maxCourses) {
+    } else if (currentNumberCourses == maxCourses) {
       showInformation.setText("Du kan kun legge til " + maxCourses + " fag");
     } else {
       for(var i=0; i<courseNames.size(); i++) {
@@ -146,15 +151,15 @@ public class Controller {
           break;
         }
       }
-      for(Label timeSpentOnCourse : timeSpentOnCourses) {
-        if(timeSpentOnCourse.getText().equals("")) {
-          timeSpentOnCourse.setText("0 t");
+      for(Label courseTimer : courseTimers) {
+        if(courseTimer.getText().equals("")) {
+          courseTimer.setText("0.0 t");
           break;
         }
       }
       newCourse.setText("");
     }
-    
+
   }
 /**
  * Methode for adding a new Course-object to the Semester and setting the text for the given label to equal the new course name. 
@@ -174,6 +179,10 @@ public class Controller {
       }
     }
 
+    } catch (final IllegalArgumentException e) {
+      this.showInformation.setText("Kan ikke legge til et fag flere ganger");
+    }
+  }
 
   public Label getShowInformation() {
     return this.showInformation;
@@ -194,6 +203,10 @@ public class Controller {
     timeToAdd.setText(modifyTime.addTime(timeToAdd.getText()));
   }
 
+  /**
+   * Opens a new fxml-window with the statistics of time spent on each course.
+   *
+   */
   @FXML
   public void onOpenStatisticsClick(ActionEvent event) throws Exception {
     try {
@@ -201,8 +214,8 @@ public class Controller {
       Scene statisticScene = new Scene(statisticParent);
       Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
       window.setScene(statisticScene);
+      window.setTitle("Statistics View");
       window.show();
-
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -255,13 +268,14 @@ public class Controller {
  */
   @FXML
   public void onResetButtonClick() {
+    this.remoteAccess.deleteSemester();
     for (Label label : combineLabels()) {
       label.setText("");
     }
     timeToAdd.setText("0 t");
     courseList.clear();
     updateCourseList();
-    this.semester.clearSemester();
+    this.semester.resetSemester(false);
   }
 
   @FXML
@@ -275,10 +289,10 @@ public class Controller {
   @FXML
   public void deleteCourse() {
     String courseChosenDelete = pickCourseDelete.getValue();
-    if(courseChosenDelete == null) {
-        showInformation.setText("Du må velge et fag først");
+    if (courseChosenDelete == null) {
+      showInformation.setText("Du må velge et fag først");
     } else {
-      for(int i=0; i<courseNames.size(); i++) {
+      for (int i = 0; i < courseNames.size(); i++) {
         if (courseNames.get(i).getText().equals(courseChosenDelete)) {
           makeDeleteCourse(courseNames.get(i), timeSpentOnCourses.get(i));
         }
@@ -293,6 +307,7 @@ public class Controller {
   private void makeDeleteCourse(Label courseName, Label courseTime) {
     courseList.remove(courseName.getText());
     updateCourseList();
+    this.remoteAccess.deleteCourse(courseName.getText());
     this.semester.removeCourse(courseName.getText());
     this.setFieldsEmpty(courseName, courseTime);
     showInformation.setText("Faget er slettet");

@@ -7,9 +7,7 @@ import java.util.List;
 
 /**
  * Contains a List with all the Course-objects.
- * 
- * Temporarly this class contains 3 removeCourse functions. We will figure out
- * which ones we will be using when we implement this function in the app.
+ * Delegates methods to the Course-objects.
  *
  */
 public class Semester implements Iterable<Course> {
@@ -17,83 +15,94 @@ public class Semester implements Iterable<Course> {
   private List<Course> courseList = new ArrayList<>();
   private Collection<SemesterListener> semesterListeners = new ArrayList<>();
 
+  /**
+   * Adds a given Course to the Semester
+   *
+   * @param Course the course added to the Semester
+   */
   public void addCourse(Course course) {
-    if (checkIfCourseExists(course)) {
+    if (checkIfCourseExists(course.getCourseName())) {
       throw new IllegalArgumentException("Dette faget er allerede lagt til");
     }
     this.courseList.add(course);
     this.fireSemesterChanged();
   }
 
-  private boolean checkIfCourseExists(Course course) {
+  /**
+   * Checks if a course with the same name as the parameter already exists in the Semester.
+   *
+   * @param courseName the name of the course to be checked
+   * @return true if the course already exists in the semester, false otherwise
+   */
+  private boolean checkIfCourseExists(String courseName) {
     for (Course excistingCourse: this.courseList){
-      if (course.getCourseName().equals(excistingCourse.getCourseName())){
+      if (courseName.equals(excistingCourse.getCourseName())){
         return true;
       }
     }
     return false;
   }
 
-  @Override
-  public Iterator<Course> iterator() {
-    return this.courseList.iterator();
-  }
-
-  public void removeCourse(int index) {
-    courseList.remove(index);
-    this.fireSemesterChanged();
-  }
-
-  public boolean removeCourse(String name) {
+  /**
+   * Deletes a course if it exists in the Semester
+   *
+   * @param courseName the name of course to be deleted
+   * @return true if the course was successfully deleted, false otherwise
+   */
+  public boolean deleteCourse(String courseName) {
     Iterator<Course> it1 = this.iterator();
     while (it1.hasNext()) {
       Course tmp = it1.next();
-      if (name.equals(tmp.getCourseName())) {
+      if (courseName.equals(tmp.getCourseName())) {
         this.courseList.remove(tmp);
-        this.fireSemesterChanged();
+        //this.fireSemesterChanged();
         return true;
       }
     }
     return false;
   }
 
-  public void removeCourse(Course course) {
-    if (!this.courseList.contains(course)) {
-      throw new IllegalArgumentException("This semster does not contain this course");
-    }
-    this.courseList.remove(course);
-    this.fireSemesterChanged();
-  }
-
-  public void addTimeToCourse(String name, Double time) {
-    Iterator<Course> it1 = iterator();
-    while (it1.hasNext()) {
-      Course tmp = it1.next();
-      if (name.equals(tmp.getCourseName())) {
-        tmp.addTime(time);
+  /**
+   * Adds time spent on a course
+   *
+   * @param courseName the name of the course that will be added time to
+   * @param timeSpent the time which to be added to the course
+   */
+  public void addTimeToCourse(String courseName, Double timeSpent) {
+    for (Course course: this.courseList){
+      if (course.getCourseName().equals(courseName)){
+        course.addTime(timeSpent);
         this.fireSemesterChanged();
       }
     }
+  }
+
+  /**
+   * Resets the semester by clearing the fields
+   *
+   * @param removeListeners a boolean who tells if you want to delete the semesterlisteners
+   */
+  public void resetSemester(Boolean removeListeners) {
+    if (removeListeners == true){
+      this.semesterListeners.clear();
+      this.courseList.clear();
+    } else{
+      this.courseList.clear();
+    }
+    this.fireSemesterChanged();
   }
 
   public List<Course> getCourses() {
     return this.courseList;
   }
 
-  public void clearSemester() {
-    this.courseList.clear();
-    this.fireSemesterChanged();
+  public void setCourses(List<Course> courseList){
+    this.courseList = courseList;
   }
 
-  public void addSemesterListener(SemesterListener semesterListener) {
-    this.semesterListeners.add(semesterListener);
-  }
-
-  public void removeSemesterListener(SemesterListener semesterListener) {
-    if (!this.semesterListeners.contains(semesterListener)) {
-      throw new IllegalArgumentException("This object does not listen to the semesterclass");
-    }
-    this.semesterListeners.remove(semesterListener);
+  @Override
+  public Iterator<Course> iterator() {
+    return this.courseList.iterator();
   }
 
   protected void fireSemesterChanged() {
@@ -102,8 +111,24 @@ public class Semester implements Iterable<Course> {
     }
   }
 
-  public void resetSemester(){
-    this.semesterListeners.clear();
-    this.courseList.clear();
+  /**
+   * Adds a listener who listens to the the changes of the semester
+   *
+   * @param SemesterListener the listener who wants to listen to the semester
+   */
+  public void addSemesterListener(SemesterListener semesterListener) {
+    this.semesterListeners.add(semesterListener);
+  }
+
+  /**
+   * Removes a listener
+   *
+   * @param SemesterListener the listener who wants will be deleted from the list of listeners
+   */
+  public void removeSemesterListener(SemesterListener semesterListener) {
+    if (!this.semesterListeners.contains(semesterListener)) {
+      throw new IllegalArgumentException("This object does not listen to the semesterclass");
+    }
+    this.semesterListeners.remove(semesterListener);
   }
 }

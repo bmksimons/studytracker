@@ -14,6 +14,7 @@ public class App extends Application {
     final Parent parent = FXMLLoader.load(getClass().getResource("fxApp.fxml"));
     primaryStage.setScene(new Scene(parent));
     primaryStage.show();
+    primaryStage.setTitle("Home");
   }
 
   public static void main(final String[] args) {
