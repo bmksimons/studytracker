@@ -13,7 +13,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -61,7 +60,7 @@ import studytracker.core.Semester;
   //  }
 
    /**
-    * Updates the time spent on the Course
+    * Updates the time spent on the Course.
     *
     * @param courseTimer the new time
     * @throws IOException
@@ -80,11 +79,18 @@ import studytracker.core.Semester;
     return true;
   }
 
+  /**
+    * Deletes the course.
+    *
+    * @throws IOException
+    * @throws JsonMappingException
+    * @throws JsonGenerationException
+    */
    @DELETE
    @Produces(MediaType.APPLICATION_JSON)
    public boolean removeCourse() throws JsonGenerationException, JsonMappingException, IOException {
      checkSemester();
-     this.semester.removeCourse(this.semester.getCourse(this.course.getCourseName()));
+     this.semester.deleteCourse(this.semester.getCourse(this.course.getCourseName()).getCourseName());
      this.studyTrackerPersistence.writeSemester(json, semester);
      return true;
    }

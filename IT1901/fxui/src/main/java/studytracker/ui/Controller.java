@@ -151,7 +151,7 @@ public class Controller {
           break;
         }
       }
-      for(Label courseTimer : courseTimers) {
+      for(Label courseTimer : timeSpentOnCourses) {
         if(courseTimer.getText().equals("")) {
           courseTimer.setText("0.0 t");
           break;
@@ -176,12 +176,7 @@ public class Controller {
           
         } catch (final IllegalArgumentException e) {
             this.showInformation.setText("Kan ikke legge til et fag flere ganger");
-      }
-    }
-
-    } catch (final IllegalArgumentException e) {
-      this.showInformation.setText("Kan ikke legge til et fag flere ganger");
-    }
+        }
   }
 
   public Label getShowInformation() {
@@ -307,8 +302,8 @@ public class Controller {
   private void makeDeleteCourse(Label courseName, Label courseTime) {
     courseList.remove(courseName.getText());
     updateCourseList();
+    this.semester.deleteCourse(courseName.getText());
     this.remoteAccess.deleteCourse(courseName.getText());
-    this.semester.removeCourse(courseName.getText());
     this.setFieldsEmpty(courseName, courseTime);
     showInformation.setText("Faget er slettet");
   }
