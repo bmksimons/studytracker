@@ -257,6 +257,7 @@ public class Controller {
     List<Double> timeValue = modifyTime.makeStudyHours(timeToAdd.getText(), courseTime.getText());
     courseTime.setText(timeValue.get(2) + " t");
     this.semester.addTimeToCourse(courseName.getText(), timeValue.get(0));
+    this.remoteAccess.addTimeToCourse(courseName.getText(), timeValue.get(0));
   }
 /**
  * resets the App, all courses will be deleted, and the semester will become empty. 
