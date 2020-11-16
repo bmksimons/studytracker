@@ -12,12 +12,15 @@ import studytracker.core.Semester;
 import studytracker.ui.Controller;
 import javafx.fxml.*;
 import static org.junit.jupiter.api.Assertions.*;
-public class studyTrackerAppTest extends ApplicationTest{
+
+import java.util.NoSuchElementException;
+
+public class studyTrackerAppTest extends ApplicationTest {
 
   private Controller controller;
-  private Course course1, course2; 
+  private Course course1, course2;
   private Semester semester;
-  
+
   @Override
   public void start(final Stage primaryStage) throws Exception {
     final FXMLLoader loader = new FXMLLoader(getClass().getResource("../studytracker/ui/fxApp.fxml"));
@@ -27,17 +30,18 @@ public class studyTrackerAppTest extends ApplicationTest{
     primaryStage.show();
   }
 
-  //  @Override
+  // @Override
   // public void start(final Stage stage) throws Exception {
-  //   final FXMLLoader loader = new FXMLLoader(getClass().getResource("../studytracker/ui/fxApp.fxml"));
-  //   final Parent root = loader.load();
-  //   this.controller = loader.getController();
-  //   stage.setScene(new Scene(root));
-  //   stage.show();
+  // final FXMLLoader loader = new
+  // FXMLLoader(getClass().getResource("../studytracker/ui/fxApp.fxml"));
+  // final Parent root = loader.load();
+  // this.controller = loader.getController();
+  // stage.setScene(new Scene(root));
+  // stage.show();
   // }
 
   @BeforeEach
-  public void setup(){
+  public void setup() {
     clickOn("#reset");
     course2 = new Course("Algdat");
     semester = new Semester();
@@ -46,32 +50,25 @@ public class studyTrackerAppTest extends ApplicationTest{
   @Test
   public void testController_studyTracker() {
     assertNotNull(this.controller);
-    // assertNotNull(this.semester);
   }
 
   @Test
-  public void testAddNewCourse(){
+  public void testAddNewCourse() {
     clickOn("#newCourse").write("IT1901");
     clickOn("#addCourse");
-    assertEquals(controller.getCourseNames().stream().map( x -> x.getText()).anyMatch(a -> a.equals("IT1901")),true);
-  } 
-  
+    assertEquals(controller.getCourseNames().stream().map(x -> x.getText()).anyMatch(a -> a.equals("IT1901")), true);
+  }
+
   @Test
-  public void testAddEqualCourse(){
+  public void testAddEqualCourse() {
     clickOn("#newCourse").write("Matte");
     clickOn("#addCourse");
     clickOn("#newCourse").write("Matte");
-    // if (!controller.getShowInformation().getText().equals("Kan ikke legge til et fag flere ganger")){
-    //   System.out.println(controller.getShowInformation().getText());
-    //   fail();
-    // }
-    assertEquals(controller.labelsForTesting().get(1), controller.labelsForTesting().get(1));
-      
-    }
-  
+    assertEquals(controller.getRemoteSemesterAccess().getSemester().getCourses().size(), 1);
+  }
 
   @Test
-  public void testAddTimePlusButton(){
+  public void testAddTimePlusButton() {
     clickOn("#newCourse").write("matte");
     clickOn("#addCourse");
     clickOn("#pickCourse");
@@ -79,33 +76,36 @@ public class studyTrackerAppTest extends ApplicationTest{
     type(KeyCode.ENTER);
     clickOn("#plusTime");
     clickOn("#addTime");
-    assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a->a.equals("0.25 t")), true);
-  
+    assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("0.25 t")), true);
+
   }
 
   @Test
-  public void testAddTimeMinusButton(){
+  public void testAddTimeMinusButton() {
     clickOn("#newCourse").write("matte");
     clickOn("#addCourse");
     clickOn("#pickCourse");
     type(KeyCode.DOWN);
     type(KeyCode.ENTER);
-    for (int i=0 ; i<10 ; i++){
-    clickOn("#plusTime");
+    for (int i = 0; i < 10; i++) {
+      clickOn("#plusTime");
     }
     clickOn("#minusTime");
     clickOn("#addTime");
-    assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a->a.equals("2.25 t")), true);
+    assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("2.25 t")), true);
   }
 
-  // @Test
-  // public void testDeleteCourseSimple(){
-  //   clickOn("#newCourse").write("matte 1");
-  //   clickOn("#addCourse");
-  //   clickOn("#pickCourseDelete");
-  //   type(KeyCode.DOWN);
-  //   type(KeyCode.ENTER);
-  //   clickOn("#delete");
-  //   assertEquals(controller.getCourseNames().stream().map(x -> x.getText()).allMatch(a -> a.equals("")), true);
-  // }
+  @Test
+  public void testDeleteCourseSimple() {
+    clickOn("#newCourse").write("matte1");
+    clickOn("#addCourse");
+    clickOn("#pickCourseDelete");
+    type(KeyCode.DOWN);
+    type(KeyCode.ENTER);
+    clickOn("#delete");
+    try {
+      assertEquals(controller.getCourseNames().stream().map(x -> x.getText()).allMatch(a -> a.equals("")), true);
+    } catch (NoSuchElementException e) {
+    }
+  }
 }
