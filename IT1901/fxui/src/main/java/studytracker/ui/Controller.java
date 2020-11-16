@@ -88,6 +88,11 @@ public class Controller {
 
   private RemoteSemesterAccess remoteAccess;
 
+  /**
+   * Initializes the Controller by loading the Semester in the restserver. Sets up
+   * fields which are used in other methods in the Controller.
+   *
+   */
   @FXML
   public void initialize() {
     this.maxCourses = 4;
@@ -135,13 +140,13 @@ public class Controller {
  */
   @FXML
   public void addCourse() {
-    if(newCourse.getText() == "") {
+    if (newCourse.getText() == "") {
       showInformation.setText("Du må skrive inn et fag");
-    } else if(currentNumberCourses == maxCourses) {
+    } else if (currentNumberCourses == maxCourses) {
       showInformation.setText("Du kan kun legge til " + maxCourses + " fag");
     } else {
-      for(var i=0; i<courseNames.size(); i++) {
-        if(courseNames.get(i).getText().equals("")) {
+      for (var i = 0; i < courseNames.size(); i++) {
+        if (courseNames.get(i).getText().equals("")) {
           courseNames.get(i).setText(newCourse.getText());
           makeCourse(courseNames.get(i));
           this.currentNumberCourses += 1;
@@ -157,21 +162,21 @@ public class Controller {
 
       newCourse.setText("");
     }
-    
+
   }
 
   @FXML
   private void makeCourse(Label courseNames) {
-        try {
-          this.semester.addCourse(new Course(newCourse.getText()));
-          courseList.add(newCourse.getText());
-          updateCourseList();
-          
-        } catch (final IllegalArgumentException e) {
-            this.showInformation.setText("Kan ikke legge til et fag flere ganger");
-      }
-    }
+    try {
+      this.semester.addCourse(new Course(newCourse.getText()));
+      //this.remoteAccess.putCourse(this.semester.getCourse(newCourse.getText()));
+      courseList.add(newCourse.getText());
+      updateCourseList();
 
+    } catch (final IllegalArgumentException e) {
+      this.showInformation.setText("Kan ikke legge til et fag flere ganger");
+    }
+  }
 
   public Label getShowInformation() {
     return this.showInformation;
@@ -183,11 +188,19 @@ public class Controller {
     pickCourseDelete.setItems(this.courseList);
   }
 
+  /**
+   * Adds time to the 
+   *
+   */
   @FXML
   public void addTime() {
     timeToAdd.setText(modifyTime.addTime(timeToAdd.getText()));
   }
 
+  /**
+   * Opens a new fxml-window with the statistics of time spent on each course.
+   *
+   */
   @FXML
   public void onOpenStatisticsClick(ActionEvent event) throws Exception {
     try {
@@ -214,14 +227,18 @@ public class Controller {
     }
   }
 
+  /**
+   * Adds the chosen time to a chosen subject.
+   *
+   */
   @FXML
   public void addStudyHours() {
     String courseChosen = pickCourse.getValue();
     if (courseChosen == null) {
       showInformation.setText("Du må velge et fag");
     } else {
-      for(var i=0; i<courseNames.size(); i++) {
-        if(courseChosen.equals(courseNames.get(i).getText())) {
+      for (var i = 0; i < courseNames.size(); i++) {
+        if (courseChosen.equals(courseNames.get(i).getText())) {
           makeStudyHours(courseNames.get(i), courseTimers.get(i));
           break;
         }
@@ -241,8 +258,13 @@ public class Controller {
     this.semester.addTimeToCourse(courseName.getText(), timeValue.get(0));
   }
 
+  /**
+   * Resets the app by clearing the semester and emptying all the fields.
+   *
+   */
   @FXML
   public void onResetButtonClick() {
+    this.remoteAccess.deleteSemester();
     for (Label label : combineLabels()) {
       label.setText("");
     }
@@ -261,10 +283,10 @@ public class Controller {
   @FXML
   public void deleteCourse() {
     String courseChosenDelete = pickCourseDelete.getValue();
-    if(courseChosenDelete == null) {
-        showInformation.setText("Du må velge et fag først");
+    if (courseChosenDelete == null) {
+      showInformation.setText("Du må velge et fag først");
     } else {
-      for(int i=0; i<courseNames.size(); i++) {
+      for (int i = 0; i < courseNames.size(); i++) {
         if (courseNames.get(i).getText().equals(courseChosenDelete)) {
           makeDeleteCourse(courseNames.get(i), courseTimers.get(i));
         }
@@ -275,7 +297,8 @@ public class Controller {
   private void makeDeleteCourse(Label courseName, Label courseTime) {
     courseList.remove(courseName.getText());
     updateCourseList();
-    this.semester.deleteCourse(courseName.getText());
+    this.remoteAccess.deleteCourse(courseName.getText());
+    this.semester.removeCourse(courseName.getText());
     this.setFieldsEmpty(courseName, courseTime);
     showInformation.setText("Faget er slettet");
   }

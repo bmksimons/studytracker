@@ -80,6 +80,5 @@ public class SemesterTest {
     assertEquals(1, this.recievedNotificationCount);
     s1.deleteCourse(c1.getCourseName());
     assertEquals(2, this.recievedNotificationCount);
-
   }
 }

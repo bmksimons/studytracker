@@ -55,7 +55,7 @@ public class Semester implements Iterable<Course> {
       Course tmp = it1.next();
       if (courseName.equals(tmp.getCourseName())) {
         this.courseList.remove(tmp);
-        this.fireSemesterChanged();
+        //this.fireSemesterChanged();
         return true;
       }
     }
