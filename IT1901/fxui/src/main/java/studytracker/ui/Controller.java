@@ -151,7 +151,7 @@ public class Controller {
           break;
         }
       }
-      for(Label courseTimer : courseTimers) {
+      for(Label courseTimer : timeSpentOnCourses) {
         if(courseTimer.getText().equals("")) {
           courseTimer.setText("0.0 t");
           break;
@@ -176,12 +176,7 @@ public class Controller {
           
         } catch (final IllegalArgumentException e) {
             this.showInformation.setText("Kan ikke legge til et fag flere ganger");
-      }
-    }
-
-    } catch (final IllegalArgumentException e) {
-      this.showInformation.setText("Kan ikke legge til et fag flere ganger");
-    }
+        }
   }
 
   public Label getShowInformation() {
@@ -262,6 +257,7 @@ public class Controller {
     List<Double> timeValue = modifyTime.makeStudyHours(timeToAdd.getText(), courseTime.getText());
     courseTime.setText(timeValue.get(2) + " t");
     this.semester.addTimeToCourse(courseName.getText(), timeValue.get(0));
+    this.remoteAccess.addTimeToCourse(courseName.getText(), timeValue.get(0));
   }
 /**
  * resets the App, all courses will be deleted, and the semester will become empty. 
@@ -307,8 +303,8 @@ public class Controller {
   private void makeDeleteCourse(Label courseName, Label courseTime) {
     courseList.remove(courseName.getText());
     updateCourseList();
+    this.semester.deleteCourse(courseName.getText());
     this.remoteAccess.deleteCourse(courseName.getText());
-    this.semester.removeCourse(courseName.getText());
     this.setFieldsEmpty(courseName, courseTime);
     showInformation.setText("Faget er slettet");
   }
