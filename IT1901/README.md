@@ -23,20 +23,20 @@ IntegrationTests:
 - **IntegrationTests/src/Test** for testing av serveren.
 
 Restserver:
-- **restserver/src/main/** for servervedlikehold.
+- **restserver/src/main/java/studytracker/restserver** for servervedlikehold.
 - **restserver/src/test/** for testkoden til både restserver og restapi.
 
 Restapi:
 - **restapi/src/main/** for behandling av serverRequest, POST,GET,DELETE,PUT.
 
-## Domenelaget
+### Domenelaget
 
 Vår app handler om å kunne legge til fag man har et semester og hvor manage timer man bruker på å jobbe med faget. Man skal kunne oppdatere timeestimatet hele tiden. For å
 håndtere tilhørende informasjon har vi Course og Semseter klasser. Disse ligger i [core.java.studytracker.core](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2066/gr2066/-/tree/master/IT1901%2Fcore%2Fsrc%2Fmain%2Fjava%2Fstudytracker%2Fcore).
 
 I domenelaget har vi klassene som omhandler logikk og objektene som applikasjoenen bruker. Dette laget fungerer uavhengig av resten av koden. 
 
-## Brukergrensesnittlaget
+### Brukergrensesnittlaget
 
 I brukergrensesnittlaget har vi klasser og logikk som er knyttet opp mot visning av appen,
 samt håndtering av informasjon brukeren legger inn. I vår app handler dette om å vise brukeren hvilke fag som er lagt inn, og hvor mye tid man har brukt på hvert fag. Det er 
@@ -45,7 +45,7 @@ I brukergrensesnittlaget ligger også koden for å håndtere inputs fra brukeren
 Koden til fxml-filen finnes i [fxui.resources.studytracker.ui](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2066/gr2066/-/tree/master/IT1901%2Ffxui%2Fsrc%2Fmain%2Fresources%2Fstudytracker%2Fui).
 
 
-## Persistenslaget
+### Persistenslaget
 
 I persistenslaget ligger klasser og logikk tilknyttet lagring og lesing fra fil. Filhåndteringen håndteres av JSON med Jacksonbibilioteket. 
 Course og Semester har sine Serializers og Deserializers klasser som beskriver hvordan man skal skrive og lese objektene fra html-format. De finnes i [core.java.studytracker.json](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2066/gr2066/-/tree/master/IT1901%2Fcore%2Fsrc%2Fmain%2Fjava%2Fstudytracker%2Fjson).
@@ -54,6 +54,11 @@ Via JSON har vi valgt implisitt lagring i stedet for dokumentmetafor. Det er mes
 Dokumentmetafor med mulighet for å bytte mellom ulike semestere er unødvendig og vil få brukeren til å få flere ting å forholde seg til. Med implisitt lagring blir appen
 enklere og mer brukervennlig.
 
+### Serverlaget
+
+I serverlaget ligger klasser og logikk tilknyttet lagring og henting av informasjon fra server. Serveren kjøres med jetty. Koden ti serveren finnes i
+[resterver.src.mainFXUI har remoteSemesterAccess-klassen som 
+sender http-request til serveren. Dette går via restapi, som er modulen som behandler slike forsespørsler. 
 ## plantUML diagramkode
 
 Trykk på bildeikonet for å åpne diagrammet:
