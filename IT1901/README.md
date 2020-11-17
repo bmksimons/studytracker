@@ -217,8 +217,7 @@ component restserver {
 	package java.studytracker.restserver
 	package resources.studytracker.restserver
 }
-studytracker.restserver ..> studytracker.restapi
-studytracker.restserver ..> studytracker.core
+java.studytracker.restserver ..> studytracker.restapi
 
 component jersey {
 }
