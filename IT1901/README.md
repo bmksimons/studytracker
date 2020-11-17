@@ -5,19 +5,29 @@ Vårt prosjekt omhandler appen StudyTracker. I appen skal brukeren kunne legge i
 Appen er en trelagsapplikasjoen som består av domenelag, brukergrensesnitt og persistens. 
 
 ## Organisering av koden
-Prosjektet er organisert to moduler, fxui og core. Hver modul har to kildekodemapper, en for koden(main) og en for test.
-
+Prosjektet er organisert i 5moduler, fxui,core, integrationTests, restApi og restServer. FXUI,core, restserver og integrationTests har to kildekodemapper, en for koden(main)
+og en for testene. Restapi har ikke en kildekodemappe for tester, da denne blir testet av testene som ligger i restserver sin testkode. 
 Fxui:
-- **fxui/src/main/java/studytracker/ui** for Controlleren og App.java
-- **fxui/src/main/resources/studytracker/ui**for FXML-filen
-- **fxui/src/test/java** for testkoden til Controlleren og App.java
-- **fxui/src/test/resources** for en enklere kopi av fxml-filen som brukes i testene til Controlleren og App.java
+- **fxui/src/main/java/studytracker/ui** for Controlleren og App.java.
+- **fxui/src/main/resources/studytracker/ui**for FXML-filen.
+- **fxui/src/test/java** for testkoden til Controlleren og App.java.
+- **fxui/src/test/resources** for en enklere kopi av fxml-filen som brukes i testene til Controlleren og App.java.
 
 Core:
-- **core/src/main/java/studytracker/core** for Semester og Course klassene
-- **core/src/main/java/studytracker/json** for Serializer, og Deserializer klassene for å håndtere fillagring via JSON og Jackson
-- **core/src/test** for testkododen til JSON, Semester og Course klassene
+- **core/src/main/java/studytracker/core** for Semester og Course klassene.
+- **core/src/main/java/studytracker/json** for Serializer, og Deserializer klassene for å håndtere fillagring via JSON og Jackson.
+- **core/src/test** for testkododen til JSON, Semester og Course klassene.
 
+IntegrationTests:
+- **IntegrationTests/src/main/WEBAPP** for å starte serveren.
+- **IntegrationTests/src/Test** for testing av serveren.
+
+Restserver:
+- **restserver/src/main/** for servervedlikehold.
+- **restserver/src/test/** for testkoden til både restserver og restapi.
+
+Restapi:
+- **restapi/src/main/** for behandling av serverRequest, POST,GET,DELETE,PUT.
 
 ## Domenelaget
 
@@ -29,7 +39,8 @@ I domenelaget har vi klassene som omhandler logikk og objektene som applikasjoen
 ## Brukergrensesnittlaget
 
 I brukergrensesnittlaget har vi klasser og logikk som er knyttet opp mot visning av appen,
-samt håndtering av informasjon brukeren legger inn. I vår app handler dette om å vise brukeren hvilke fag som er lagt inn, og hvor mye tid man har brukt på hvert fag. 
+samt håndtering av informasjon brukeren legger inn. I vår app handler dette om å vise brukeren hvilke fag som er lagt inn, og hvor mye tid man har brukt på hvert fag. Det er 
+også mulig å se statistikk over hvor mye tid man bruker på hvert fag. 
 I brukergrensesnittlaget ligger også koden for å håndtere inputs fra brukeren. Koden til kjøringen av appen og kontrolleren finnes i [fxui.java.studytracker.ui](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2066/gr2066/-/tree/master/IT1901%2Ffxui%2Fsrc%2Fmain%2Fjava%2Fstudytracker%2Fui).
 Koden til fxml-filen finnes i [fxui.resources.studytracker.ui](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2066/gr2066/-/tree/master/IT1901%2Ffxui%2Fsrc%2Fmain%2Fresources%2Fstudytracker%2Fui).
 
