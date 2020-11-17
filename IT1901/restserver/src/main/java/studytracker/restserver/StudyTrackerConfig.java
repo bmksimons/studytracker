@@ -64,21 +64,4 @@ public class StudyTrackerConfig extends ResourceConfig {
     Semester semester = new Semester();
     return semester;
     }
-
-    // private static Semester createDefaultSemester() {
-    // StudyTrackerPersistence studyTrackerPersistence = new StudyTrackerPersistence();
-    // URL url = StudyTrackerConfig.class.getResource("default-semester.json");
-    // if (url != null) {
-    //   try (Reader reader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)) {
-    //     return studyTrackerPersistence.readSemester(reader);
-    //   } catch (IOException e) {
-    //     System.out.println("Couldn't read default-semester.json, so rigging Semester manually ("
-    //         + e + ")");
-    //   }
-    // }
-    // Semester semester = new Semester();
-    // semester.addCourse(new Course("matte"));
-    // semester.addCourse(new Course("matte2"));
-    // return semester;
-    // }
 }

@@ -25,6 +25,7 @@ import studytracker.restapi.CourseResource;
 
 /**
  * The class which handles the Http-requests sent from RemoteSemesterAcces.
+ * Delegates methodes for deleteing and changing a course to CourseResource.
  */
 @Path(SemesterService.STUDYTRACKER_MODEL_SERVICE_PATH)
 public class SemesterService {
@@ -44,29 +45,55 @@ public class SemesterService {
     return this.semester;
   }
 
-  @DELETE
-  @Produces(MediaType.APPLICATION_JSON)
-  public boolean resetSemester() throws JsonGenerationException, JsonMappingException, IOException {
-    LOG.debug("resetSemester({})", semester);
-    this.semester.resetSemester(false);
-    this.studyTrackerPersistence.writeSemester(json, this.semester);
-    return true;
-  }
-
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Boolean putSemester(Semester semester) throws JsonGenerationException, JsonMappingException, IOException {
     LOG.debug("putSemester({})", semester);
     this.semester.setCourses(semester.getCourses());
-    this.studyTrackerPersistence.writeSemester(json, this.semester);
+    saveSemester();
     return true;
   }
 
+  /**
+   * Resets the semester.
+   *
+   * @return true if the code runs without errors
+   * @throws IOException
+   * @throws JsonMappingException
+   * @throws JsonGenerationException
+   */
+  @DELETE
+  @Produces(MediaType.APPLICATION_JSON)
+  public boolean resetSemester() throws JsonGenerationException, JsonMappingException, IOException {
+    LOG.debug("resetSemester({})", semester);
+    this.semester.resetSemester(false);
+    saveSemester();
+    return true;
+  }
+
+  /**
+   * Returns the Course with the given name.
+   *
+   * @param name the name of the course
+   */
   @Path("/{name}")
   public CourseResource getCourse(@PathParam("name") String courseName) {
     Course course = getSemester().getCourse(courseName);
     LOG.debug("Sub-resource for Semester :" + courseName);
     return new CourseResource(semester, courseName, course);
+  }
+
+  /**
+   * Saves the semester-object in the semester.json-file in the restserver
+   */
+  private void saveSemester() {
+    if (studyTrackerPersistence != null) {
+      try {
+        this.studyTrackerPersistence.writeSemester(json, semester);
+      } catch (IllegalStateException | IOException e) {
+        System.err.println("Could't save the semester: " + e);
+      }
+    }
   }
 }

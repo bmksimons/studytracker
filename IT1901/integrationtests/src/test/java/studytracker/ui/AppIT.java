@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.util.NoSuchElementException;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -62,6 +64,10 @@ public class AppIT extends ApplicationTest{
       assertEquals(controller.getCourseNames().stream().map(x -> x.getText()).allMatch(a -> a.equals("")), true);
     } catch (NoSuchElementException e) {
     }
-    clickOn("#reset");
   } 
+
+  @AfterEach
+  public void resetSemester(){
+    clickOn("#reset");
+  }
 }

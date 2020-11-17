@@ -1,5 +1,6 @@
 package fxui;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -61,7 +62,6 @@ public class studyTrackerAppTest extends ApplicationTest {
     clickOn("#plusTime");
     clickOn("#addTime");
     assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("0.25 h")), true);
-
   }
 
   @Test
@@ -90,19 +90,21 @@ public class studyTrackerAppTest extends ApplicationTest {
     try {
       assertEquals(controller.getCourseNames().stream().map(x -> x.getText()).allMatch(a -> a.equals("")), true);
     } catch (NoSuchElementException e) {
-      //TODO: handle exception
     }
-    clickOn("#reset");
   }
 
   @Test
-  public void testOpenStatisticView() {
+  public void testOpenAndCloseStatisticView() {
     try {
       clickOn("#statistic");
+      clickOn("#closeStatistics");
     } catch (Exception e) {
       throw e;
     }
   }
 
-  
+  @AfterEach
+  public void resetSemester(){
+    clickOn("#reset");
+  }
 }
