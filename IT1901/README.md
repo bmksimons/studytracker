@@ -9,7 +9,7 @@ Prosjektet er organisert i 5moduler, fxui,core, integrationTests, restApi og res
 og en for testene. Restapi har ikke en kildekodemappe for tester, da denne blir testet av testene som ligger i restserver sin testkode. 
 
 Fxui:
-- **fxui/src/main/java/studytracker/ui** for controllere og App.java. Det ligger også en hjelpeklasse modifyTime() som håndterer tidsbergninger for kontroller. 
+- **fxui/src/main/java/studytracker/ui** for controllere og App.java samt tilhørende hjelpeklasser. 
 - **fxui/src/main/resources/studytracker/ui**for FXML-filen.
 - **fxui/src/test/java** for testkoden til Controlleren og App.java.
 - **fxui/src/test/resources** for en enklere kopi av fxml-filen som brukes i testene til Controlleren og App.java.
