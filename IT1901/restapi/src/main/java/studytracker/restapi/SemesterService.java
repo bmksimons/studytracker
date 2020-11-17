@@ -64,9 +64,11 @@ public class SemesterService {
   }
 
   @Path("/{name}")
-  public CourseResource getCourse(@PathParam("name") String courseName) {
-    Course course = getSemester().getCourse(courseName);
-    LOG.debug("Sub-resource for Semester :" + courseName);
-    return new CourseResource(semester, courseName, course);
+  public CourseResource getCourse(@PathParam("name") String name) {
+     //Når man sender pathen til et objekt med navn som inneholder " " må man erstatte + i uri som blir sendt med mellomrom
+    name = name.replace("+", " ");
+    Course course = getSemester().getCourse(name);
+    LOG.debug("Sub-resource for Semester :" + semester);
+    return new CourseResource(semester, name, course);
   }
 }
