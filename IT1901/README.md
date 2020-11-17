@@ -100,7 +100,7 @@ fxui ..> javafx
 [Semester]..> [Course] : 0-4
 ```
 
-##plantUML klassediagram
+## plantUML klassediagram utkast1
 ```plantuml
 @startuml
 interface SemesterListener
@@ -132,6 +132,101 @@ Controller : void onResetButtonClick()
 
 @enduml
 ```
-##plantUML sekvensdiagram
+### plantUML sekvensdiagram
+``` plantuml
+@startuml
+actor user
+user -> "~#newCourse: TextField" as newCourse: write
+newCourse -> "~#addCourse: Button" as addCourse: click
+addCourse -> Controller: addCourse
+Controller -> Semester: makeCourse
 
-##plantUML diagram for pakkeløsning
+user -> "~#pickCourse: ChoiceBox" as pickCourse: click
+pickCourse -> "~#plusTime: Button" as plusTime: click
+plusTime -> "~#addTime: Button" as addTime: click
+addTime -> Controller: addStudyHours
+Controller -> Semester: makeStudyHours
+
+user -> "~#pickCourseDelete: ChoiceBox" as pickCourseDelete: click
+pickCourseDelete -> "~#delete: Button" as delete: click
+delete -> Controller: deleteCourse
+Controller -> Semester: makeDeleteCourse
+
+user -> "~#reset: Button" as reset: click
+reset -> Controller: onResetButtonClick
+
+user -> "~#statistic: Button" as statistic: click
+statistic -> Controller: onOpenStatisticsClick
+Controller -> ControllerStatistic
+
+
+Semester -> Semester: fireSemesterChanged
+Semester -> SemesterListener: semesterChanged
+
+SemesterListener -> Controller: ?autoSave?
+
+
+@enduml
+```
+
+### plantUML diagram for pakkeløsning
+```plantuml
+@startuml
+
+component restserver {
+}
+
+component core {
+	package studytracker.core
+	package studytracker.json
+}
+component jackson {
+}
+
+studytracker.json ..> jackson
+
+
+component fxui {
+	package studytracker.ui
+}
+
+component javafx {
+	component fxml {
+	}
+}
+
+fxui ..> javafx
+fxui ..> fxml
+
+studytracker.ui ..> studytracker.core
+studytracker.ui ..> studytracker.json
+
+component restapi {
+	package studytracker.restapi
+}
+
+component jaxrs {
+}
+
+restapi ..> jaxrs
+
+studytracker.restapi ..> studytracker.core
+studytracker.restapi ..> studytracker.json
+
+component restserver {
+	package studytracker.restserver
+}
+studytracker.restserver ..> studytracker.restapi
+studytracker.restserver ..> studytracker.core
+
+component jersey {
+}
+
+component StudyTrackerModuleObjectMapperProvider {
+}
+
+restserver ..> jersey
+restserver ..> StudyTrackerModuleObjectMapperProvider
+
+@enduml
+```
