@@ -40,13 +40,14 @@ public class SemesterService {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Semester getSemester() {
+    LOG.debug("getSemester({})", this.semester);
     return this.semester;
   }
 
   @DELETE
   @Produces(MediaType.APPLICATION_JSON)
   public boolean resetSemester() throws JsonGenerationException, JsonMappingException, IOException {
-    System.out.println("Delete blir kjørt i semesterservice");
+    LOG.debug("resetSemester({})", semester);
     this.semester.resetSemester(false);
     this.studyTrackerPersistence.writeSemester(json, this.semester);
     return true;
@@ -56,7 +57,7 @@ public class SemesterService {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Boolean putSemester(Semester semester) throws JsonGenerationException, JsonMappingException, IOException {
-    System.out.println("put blir kjørt");
+    LOG.debug("putSemester({})", semester);
     this.semester.setCourses(semester.getCourses());
     this.studyTrackerPersistence.writeSemester(json, this.semester);
     return true;

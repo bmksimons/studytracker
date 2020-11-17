@@ -109,7 +109,7 @@
         <module>fxui</module>
         <module>restapi</module>  
         <module>restserver</module>   
-        <module>intergrationtests</module>   
+        <module>integrationtests</module>   
     </modules>
 </project>
 

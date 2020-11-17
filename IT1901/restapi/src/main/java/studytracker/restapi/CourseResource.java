@@ -24,21 +24,21 @@ import studytracker.core.Semester;
  public class CourseResource {
 
    private final Semester semester;
-   private String name;
+   private String courseName;
    private Course course;
    private StudyTrackerPersistence studyTrackerPersistence;
    private static final Logger LOG = LoggerFactory.getLogger(SemesterService.class);
    private String json = "restserver/src/main/resources/studytracker/restserver/semester.json";
 
-   public CourseResource(Semester semester, String name, Course course) {
+   public CourseResource(Semester semester, String courseName, Course course) {
      this.studyTrackerPersistence = new StudyTrackerPersistence();
      this.semester = semester;
-     this.name = name;
+     this.courseName = courseName;
      this.course = course;
    }
 
    private void checkSemester() {
-     if (this.semester.getCourse(name)==null) {
+     if (this.semester.getCourse(courseName)==null) {
        throw new IllegalArgumentException("no course named");
      }
    }
@@ -47,6 +47,7 @@ import studytracker.core.Semester;
    @Produces(MediaType.APPLICATION_JSON)
    public Course getCourse() {
      checkSemester();
+     LOG.debug("getCourse({})", courseName);
      return this.course;
    }
 
@@ -73,7 +74,7 @@ import studytracker.core.Semester;
    public boolean addTimeToCourse(@QueryParam("addTime") String hoursToAdd)
        throws JsonGenerationException, JsonMappingException, IOException {
     checkSemester();
-    System.out.println("addTimeToCourse blir kjørt i courseResource");
+    LOG.debug("addTimeToCourse({})", courseName);
     this.semester.getCourse(this.course.getCourseName()).addTime(Double.valueOf(hoursToAdd));
     this.studyTrackerPersistence.writeSemester(json, this.semester);
     return true;
@@ -90,6 +91,7 @@ import studytracker.core.Semester;
    @Produces(MediaType.APPLICATION_JSON)
    public boolean removeCourse() throws JsonGenerationException, JsonMappingException, IOException {
      checkSemester();
+     LOG.debug("deleteCourse({})", courseName);
      this.semester.deleteCourse(this.semester.getCourse(this.course.getCourseName()).getCourseName());
      this.studyTrackerPersistence.writeSemester(json, semester);
      return true;

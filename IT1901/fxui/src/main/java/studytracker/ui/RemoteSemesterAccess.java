@@ -66,6 +66,7 @@ public class RemoteSemesterAccess {
    */
   public Semester getSemester() {
     if (this.semester == null) {
+      System.out.println("get blir kjørt i remotesemesteraccess");
       HttpRequest request = HttpRequest
         .newBuilder(this.endpointUri)
         .header("Accept", "application/json")

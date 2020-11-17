@@ -104,7 +104,7 @@ public class Controller {
 
     try {
       System.out.println("Using remote endpoint @ " + endpointUri);
-      remoteAccess = new RemoteSemesterAccess(new URI(endpointUri));
+      this.setRemoteSemesterAccess(new RemoteSemesterAccess(new URI(endpointUri)));
       this.semester = remoteAccess.getSemester();
     } catch (URISyntaxException e) {
       System.err.println(e);
@@ -127,6 +127,10 @@ public class Controller {
     }
     this.timeToAdd.setText("0 h");
     this.semester.addSemesterListener(semester -> this.saveSemester());
+  }
+
+  public void setRemoteSemesterAccess(RemoteSemesterAccess remoteAccess){
+    this.remoteAccess = remoteAccess;
   }
 
   public void saveSemester() {

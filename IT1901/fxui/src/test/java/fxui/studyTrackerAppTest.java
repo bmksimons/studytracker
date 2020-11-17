@@ -7,8 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import studytracker.core.Course;
-import studytracker.core.Semester;
 import studytracker.ui.Controller;
 import javafx.fxml.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,8 +16,6 @@ import java.util.NoSuchElementException;
 public class studyTrackerAppTest extends ApplicationTest {
 
   private Controller controller;
-  private Course course1, course2;
-  private Semester semester;
 
   @Override
   public void start(final Stage primaryStage) throws Exception {
@@ -30,21 +26,9 @@ public class studyTrackerAppTest extends ApplicationTest {
     primaryStage.show();
   }
 
-  // @Override
-  // public void start(final Stage stage) throws Exception {
-  // final FXMLLoader loader = new
-  // FXMLLoader(getClass().getResource("../studytracker/ui/fxApp.fxml"));
-  // final Parent root = loader.load();
-  // this.controller = loader.getController();
-  // stage.setScene(new Scene(root));
-  // stage.show();
-  // }
-
   @BeforeEach
   public void setup() {
     clickOn("#reset");
-    course2 = new Course("Algdat");
-    semester = new Semester();
   }
 
   @Test
@@ -96,7 +80,7 @@ public class studyTrackerAppTest extends ApplicationTest {
   }
 
   @Test
-  public void testDeleteCourseSimple() {
+  public void testDeleteCourse() {
     clickOn("#newCourse").write("matte1");
     clickOn("#addCourse");
     clickOn("#pickCourseDelete");
@@ -108,6 +92,7 @@ public class studyTrackerAppTest extends ApplicationTest {
     } catch (NoSuchElementException e) {
       //TODO: handle exception
     }
+    clickOn("#reset");
   }
 
   @Test

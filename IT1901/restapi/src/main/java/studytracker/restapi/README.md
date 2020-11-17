@@ -1,6 +1,6 @@
-# Kildekode for domenelaget
+# Kildekode for restapi
 
-Domenelaget består av to klasser Course og Semester:
+restapi består av to klasser semesterService og courseResouce:
 
-- **Course** - et fag, som består av et navn, en verdi og antall timer brukt
-- **Semester** - en samling av flere Course-objekter.
+- **semesterService** -klasse for å håndtere HTTP-requestene som skal til serveren. 
+- **courseResouce** - klasse for metoder som endrer courseobjekter. Oppgaver denne klassen utfører blir delegert fra semesterService.
