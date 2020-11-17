@@ -98,7 +98,6 @@ public class Controller {
 
     this.endpointUri = "http://localhost:8999/studytracker/";
     // this.courseList = FXCollections.observableArrayList();
-    this.courseNames = new ArrayList<>();
     this.timeSpentOnCourses = new ArrayList<>();
     addLabelsToList();
 
@@ -110,21 +109,7 @@ public class Controller {
       System.err.println(e);
       this.semester = new Semester();
     }
-    Iterator<Course> semesterIt = this.semester.iterator();
-    for (Label label : this.courseNames) {
-      if (semesterIt.hasNext()) {
-        String courseName = semesterIt.next().getCourseName();
-        label.setText(courseName);
-        this.courseList.add(courseName);
-        this.updateCourseList();
-      }
-    }
-    Iterator<Course> semesterIt2 = this.semester.iterator();
-    for (Label label : this.timeSpentOnCourses) {
-      if (semesterIt2.hasNext()) {
-        label.setText(String.valueOf(semesterIt2.next().getTimeSpent()));
-      }
-    }
+    this.createCourseNames();
     this.timeToAdd.setText("0 t");
     this.semester.addSemesterListener(semester -> this.saveSemester());
   }
@@ -303,7 +288,9 @@ public class Controller {
       for (int i = 0; i < courseNames.size(); i++) {
         if (courseNames.get(i).getText().equals(courseChosenDelete)) {
           makeDeleteCourse(courseNames.get(i), timeSpentOnCourses.get(i));
+
         }
+      
       }
     }
   }
@@ -378,5 +365,19 @@ public class Controller {
 
 public RemoteSemesterAccess getRemoteSemesterAccess(){
   return this.remoteAccess;
+}
+private void createCourseNames() {
+  Iterator<Course> semesterIt = this.semester.iterator();
+  int inputIndex = 0;
+  while (semesterIt.hasNext()) {
+    Course course = semesterIt.next();
+    String courseName = course.getCourseName();
+    this.courseNames.get(inputIndex).setText(courseName);
+    this.courseList.add(courseName);
+    this.timeSpentOnCourses.get(inputIndex).setText(String.valueOf(course.getTimeSpent()));
+    this.updateCourseList();
+    inputIndex += 1;
+  }
+
 }
 }
