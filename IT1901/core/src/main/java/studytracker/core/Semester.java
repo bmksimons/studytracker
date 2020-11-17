@@ -22,7 +22,7 @@ public class Semester implements Iterable<Course> {
    */
   public void addCourse(Course course) {
     if (checkIfCourseExists(course.getCourseName())) {
-      throw new IllegalArgumentException("Dette faget er allerede lagt til");
+      throw new IllegalArgumentException("The course has been added");
     }
     this.courseList.add(course);
     this.fireSemesterChanged();

@@ -60,7 +60,7 @@ public class studyTrackerAppTest extends ApplicationTest {
     type(KeyCode.ENTER);
     clickOn("#plusTime");
     clickOn("#addTime");
-    assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("0.25 t")), true);
+    assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("0.25 h")), true);
 
   }
 
@@ -76,7 +76,7 @@ public class studyTrackerAppTest extends ApplicationTest {
     }
     clickOn("#minusTime");
     clickOn("#addTime");
-    assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("2.25 t")), true);
+    assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("2.25 h")), true);
   }
 
   @Test
@@ -90,8 +90,19 @@ public class studyTrackerAppTest extends ApplicationTest {
     try {
       assertEquals(controller.getCourseNames().stream().map(x -> x.getText()).allMatch(a -> a.equals("")), true);
     } catch (NoSuchElementException e) {
+      //TODO: handle exception
     }
     clickOn("#reset");
   }
 
+  @Test
+  public void testOpenStatisticView() {
+    try {
+      clickOn("#statistic");
+    } catch (Exception e) {
+      throw e;
+    }
+  }
+
+  
 }

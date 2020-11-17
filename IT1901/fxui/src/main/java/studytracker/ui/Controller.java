@@ -125,7 +125,7 @@ public class Controller {
         label.setText(String.valueOf(semesterIt2.next().getTimeSpent()));
       }
     }
-    this.timeToAdd.setText("0 t");
+    this.timeToAdd.setText("0 h");
     this.semester.addSemesterListener(semester -> this.saveSemester());
   }
 
@@ -143,9 +143,9 @@ public class Controller {
   @FXML
   public void addCourse() {
     if (newCourse.getText() == "") {
-      showInformation.setText("Du må skrive inn et fag");
+      showInformation.setText("You have to write a course name");
     } else if (currentNumberCourses == maxCourses) {
-      showInformation.setText("Du kan kun legge til " + maxCourses + " fag");
+      showInformation.setText("you can only have " + maxCourses + " courses");
     } else {
       for (var i = 0; i < courseNames.size(); i++) {
         if (courseNames.get(i).getText().equals("")) {
@@ -156,7 +156,7 @@ public class Controller {
       }
       for (Label courseTimer : timeSpentOnCourses) {
         if (courseTimer.getText().equals("")) {
-          courseTimer.setText("0.0 t");
+          courseTimer.setText("0.0 h");
           break;
         }
       }
@@ -181,7 +181,7 @@ public class Controller {
       updateCourseList();
 
     } catch (final IllegalArgumentException e) {
-      this.showInformation.setText("Kan ikke legge til et fag flere ganger");
+      this.showInformation.setText("You cannot add several copies of the same course");
     }
   }
 
@@ -231,7 +231,7 @@ public class Controller {
   @FXML
   public void reduceTimeToAdd() {
     String time = modifyTime.removeTime(timeToAdd.getText());
-    if (time == "kan ikke legge til negativt antall timer") {
+    if (time == "it is not possible to add a negative amount of hours") {
       showInformation.setText(time);
     } else {
       timeToAdd.setText(time);
@@ -245,7 +245,7 @@ public class Controller {
   public void addStudyHours() {
     String courseChosen = pickCourse.getValue();
     if (courseChosen == null) {
-      showInformation.setText("Du må velge et fag");
+      showInformation.setText("You must choose a course");
     } else {
       for (var i = 0; i < courseNames.size(); i++) {
         if (courseChosen.equals(courseNames.get(i).getText())) {
@@ -253,8 +253,7 @@ public class Controller {
           break;
         }
       }
-      timeToAdd.setText("0 t");
-      pickCourse.setValue("");
+      timeToAdd.setText("0 h");
     }
   }
 
@@ -267,7 +266,7 @@ public class Controller {
   @FXML
   private void makeStudyHours(Label courseName, Label courseTime) {
     List<Double> timeValue = modifyTime.makeStudyHours(timeToAdd.getText(), courseTime.getText());
-    courseTime.setText(timeValue.get(2) + " t");
+    courseTime.setText(timeValue.get(2) + " h");
     this.semester.addTimeToCourse(courseName.getText(), timeValue.get(0));
     this.remoteAccess.addTimeToCourse(courseName.getText(), timeValue.get(0));
   }
@@ -282,7 +281,7 @@ public class Controller {
     for (Label label : combineLabels()) {
       label.setText("");
     }
-    timeToAdd.setText("0 t");
+    timeToAdd.setText("0 h");
     courseList.clear();
     updateCourseList();
     this.semester.resetSemester(false);
@@ -302,7 +301,7 @@ public class Controller {
   public void deleteCourse() {
     String courseChosenDelete = pickCourseDelete.getValue();
     if (courseChosenDelete == null) {
-      showInformation.setText("Du må velge et fag først");
+      showInformation.setText("You have to choose a course");
     } else {
       for (int i = 0; i < courseNames.size(); i++) {
         if (courseNames.get(i).getText().equals(courseChosenDelete)) {
@@ -325,7 +324,7 @@ public class Controller {
     this.semester.deleteCourse(courseName.getText());
     this.remoteAccess.deleteCourse(courseName.getText());
     this.setFieldsEmpty(courseName, courseTime);
-    showInformation.setText("Faget er slettet");
+    showInformation.setText("The course has been deleted");
   }
 
   private ArrayList<Label> combineLabels() {
@@ -378,9 +377,9 @@ public class Controller {
     this.timeSpentOnCourses.add(this.timeSpentOnCourse2);
     this.timeSpentOnCourses.add(this.timeSpentOnCourse3);
     this.timeSpentOnCourses.add(this.timeSpentOnCourse4);
-  }
+}
 
-  public RemoteSemesterAccess getRemoteSemesterAccess() {
-    return this.remoteAccess;
-  }
+public RemoteSemesterAccess getRemoteSemesterAccess(){
+  return this.remoteAccess;
+}
 }
