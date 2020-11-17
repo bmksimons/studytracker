@@ -29,10 +29,10 @@ public class RemoteSemesterAccess {
   }
 
   /**
- * Encodes the input-string to an URL
+ * Encodes the input-string to an URL.
  * 
- * @param s the string to be encoded
- * @return String the encoded string
+ * @param s the string to be encoded.
+ * @return String the encoded string.
  */
   private String uriParam(String s) {
     return URLEncoder.encode(s, StandardCharsets.UTF_8);
@@ -66,7 +66,6 @@ public class RemoteSemesterAccess {
    */
   public Semester getSemester() {
     if (this.semester == null) {
-      System.out.println("get blir kjørt i remotesemesteraccess");
       HttpRequest request = HttpRequest
         .newBuilder(this.endpointUri)
         .header("Accept", "application/json")
@@ -92,7 +91,6 @@ public class RemoteSemesterAccess {
   public void putSemester(Semester semester) {
     try {
       String json = objectMapper.writeValueAsString(semester);
-      System.out.println("hello" + json);
       HttpRequest request = HttpRequest
           .newBuilder(this.endpointUri)
           .header("Accept", "application/json")
@@ -132,38 +130,12 @@ public class RemoteSemesterAccess {
       String responseString = response.body();
       Boolean removed = objectMapper.readValue(responseString, Boolean.class);
       if (removed == true) {
-        System.out.println("delete blir kjørt i remotesemesteraccess");
+        this.semester.resetSemester(false);
       }
     } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
     }
   }
-
-  // public void putCourse(Course course) {
-  //   try {
-  //     String json = objectMapper.writeValueAsString(course);
-  //     System.out.println(json);
-  //     HttpRequest request = HttpRequest.newBuilder(courseUri(course.getCourseName()))
-  //         .header("Accept", "application/json")
-  //         .header("Content-Type", "application/json")
-  //         .PUT(BodyPublishers.ofString(json))
-  //         .build();
-  //     System.out.println(json);
-  //     final HttpResponse<String> response = HttpClient.newBuilder()
-  //         .build().send(request,
-  //         HttpResponse.BodyHandlers.ofString());
-  //     String responseString = response.body();
-  //     System.out.println(json);
-  //     Boolean add = objectMapper.readValue(responseString, Boolean.class);
-  //     System.out.println(json);
-  //     if (add == true) {
-  //       System.out.println("putcourse blir kjørt i remotesemesteraccess");
-  //     }
-  //     this.semester.addCourse(course);
-  //   } catch (IOException e) { //IOException | InterruptedException e
-  //     throw new RuntimeException(e);
-  //   }
-  // }
 
   /**
    * Adds time to a given Course.
@@ -173,11 +145,10 @@ public class RemoteSemesterAccess {
    */
   public void addTimeToCourse(String courseName, Double hoursToAdd) { 
     try {
-      System.out.println(courseName);
       HttpRequest request = HttpRequest
           .newBuilder(courseUri(courseName, String.valueOf(hoursToAdd))) 
           .header("Accept", "application/json")
-          .GET()
+          .POST(BodyPublishers.ofString(""))
           .build();
       final HttpResponse<String> response =
           HttpClient
@@ -186,15 +157,9 @@ public class RemoteSemesterAccess {
           .send(request, 
           HttpResponse.BodyHandlers.ofString());
       String responseString = response.body();
-      System.out.println(courseUri(courseName, String.valueOf(hoursToAdd)));
-      System.out.println(courseName);
-      System.out.println("addTimeToCourse blir kjørt i remoteacces");
       Boolean changedTime = objectMapper.readValue(responseString, Boolean.class);
-      System.out.println(courseName);
       if (changedTime == true) {
-        System.out.println(courseName);
-        System.out.println("addTimeToCourse blir kjørt i remoteacces");
-        this.semester.getCourse(courseName).addTime(hoursToAdd);;
+        this.semester.getCourse(courseName).addTime(hoursToAdd);
       }
     } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
@@ -221,7 +186,7 @@ public class RemoteSemesterAccess {
       String responseString = response.body();
       Boolean removed = objectMapper.readValue(responseString, Boolean.class);
       if (removed == true) {
-        System.out.println("deleteCourse blir kjørt i remotesemesteraccess");
+        this.semester.deleteCourse(courseName);
       }
     } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
