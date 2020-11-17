@@ -99,3 +99,39 @@ fxui ..> javafx
 [Course] ..> [Semester] : owner:1
 [Semester]..> [Course] : 0-4
 ```
+
+##plantUML klassediagram
+```plantuml
+@startuml
+interface SemesterListener
+class Course
+class Semester
+class CourseSerializer
+class CourseDeserializer
+class Controller
+
+Course "1" -- "Semester: 0-4" Semester
+Controller ..|> SemesterListener
+Semester -- "SemesterListener *" SemesterListener
+Course -- CourseSerializer
+Course -- CourseDeserializer
+Controller --> Semester
+
+Course : String courseName
+Course : String timeSpent
+Semester : List<Course> courseList
+Semester : Collection<SemesterListener> semesterListeners
+Semester : void fireSemesterChanged()
+SemesterListener : void semesterChanged(semester)
+Controller : Semester semester
+Controller : ObservableList<String> courseList
+Controller : void addCourse()
+Controller : void deleteCourse()
+Controller : void addTime()
+Controller : void onResetButtonClick()
+
+@enduml
+```
+##plantUML sekvensdiagram
+
+##plantUML diagram for pakkeløsning
