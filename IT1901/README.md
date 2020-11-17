@@ -24,6 +24,7 @@ IntegrationTests:
 
 Restserver:
 - **restserver/src/main/java/studytracker/restserver** for servervedlikehold.
+- **restserver/src/resources/studytracker/restserver** for JSON-filene.
 - **restserver/src/test/** for testkoden til både restserver og restapi.
 
 Restapi:
@@ -57,7 +58,7 @@ enklere og mer brukervennlig.
 ### Serverlaget
 
 I serverlaget ligger klasser og logikk tilknyttet lagring og henting av informasjon fra server. Serveren kjøres med jetty. Koden ti serveren finnes i
-[resterver.src.mainFXUI har remoteSemesterAccess-klassen som 
+[resterver/java/studytracker/restserver](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2066/gr2066/-/tree/master/IT1901/restserver/src/main/java/studytracker/restserver).FXUI har remoteSemesterAccess-klassen som 
 sender http-request til serveren. Dette går via restapi, som er modulen som behandler slike forsespørsler. 
 ## plantUML diagramkode
 
