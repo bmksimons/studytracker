@@ -10,14 +10,14 @@ og en for testene. Restapi har ikke en kildekodemappe for tester, da denne blir 
 
 Fxui:
 - **fxui/src/main/java/studytracker/ui** for controllere og App.java samt tilhørende hjelpeklasser. 
-- **fxui/src/main/resources/studytracker/ui**for FXML-filen.
+- **fxui/src/main/resources/studytracker/ui** for FXML-filen.
 - **fxui/src/test/java** for testkoden til Controlleren og App.java.
 - **fxui/src/test/resources** for en enklere kopi av fxml-filen som brukes i testene til Controlleren og App.java.
 
 Core:
 - **core/src/main/java/studytracker/core** for Semester og Course klassene.
 - **core/src/main/java/studytracker/json** for Serializer, og Deserializer klassene for å håndtere fillagring via JSON og Jackson.
-- **core/src/test** for testkododen til JSON, Semester og Course klassene.
+- **core/src/test** for testkoden til JSON, Semester og Course klassene.
 
 IntegrationTests:
 - **IntegrationTests/src/main/WEBAPP** for å starte serveren.
