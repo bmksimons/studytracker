@@ -214,7 +214,8 @@ studytracker.restapi ..> studytracker.core
 studytracker.restapi ..> studytracker.json
 
 component restserver {
-	package studytracker.restserver
+	package java.studytracker.restserver
+	package resources.studytracker.restserver
 }
 studytracker.restserver ..> studytracker.restapi
 studytracker.restserver ..> studytracker.core
@@ -222,11 +223,14 @@ studytracker.restserver ..> studytracker.core
 component jersey {
 }
 
-component StudyTrackerModuleObjectMapperProvider {
+restserver ..> jersey
+
+component integrationTests {
+    package main.WEBAPP
 }
 
-restserver ..> jersey
-restserver ..> StudyTrackerModuleObjectMapperProvider
+main.WEBAPP ..> restserver
+resources.studytracker.restserver ..> studytracker.json
 
 @enduml
 ```
