@@ -1,14 +1,14 @@
 package studytracker.ui;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import studytracker.core.Semester;
 import studytracker.json.StudyTrackerModule;
 
@@ -32,6 +32,7 @@ public class RemoteSemesterAccess {
  * Encodes the input-string to an URL.
  * 
  * @param s the string to be encoded.
+ *
  * @return String the encoded string.
  */
   private String uriParam(String s) {
@@ -44,15 +45,17 @@ public class RemoteSemesterAccess {
  * @param courseName the name of the course.
  * @return URI the URI made in the method.
  */
-  private URI courseUri(String courseName){
-        return endpointUri.resolve(uriParam(courseName));
+  private URI courseUri(String courseName) {
+    return endpointUri.resolve(uriParam(courseName));
   }
 
   /**
  * Makes an URI for the AddTimeToCourse-method.
- * 
+ *
  * @param courseName the name of the course.
+ * 
  * @param hoursToAdd the amount of time we want to add to the course.
+ * 
  * @return URI the URI made in the method.
  */
   private URI courseUri(String courseName, String hoursToAdd) {
@@ -67,10 +70,10 @@ public class RemoteSemesterAccess {
   public Semester getSemester() {
     if (this.semester == null) {
       HttpRequest request = HttpRequest
-        .newBuilder(this.endpointUri)
-        .header("Accept", "application/json")
-        .GET()
-        .build();
+          .newBuilder(this.endpointUri)
+          .header("Accept", "application/json")
+          .GET()
+          .build();
       try {
         final HttpResponse<String> response = HttpClient.newBuilder().build().send(request,
             HttpResponse.BodyHandlers.ofString());
@@ -86,7 +89,7 @@ public class RemoteSemesterAccess {
   /**
    * Puts a semester to the server.
    *
-   * @param Semester the Semester in the controller with direct access to the App.
+   * @param semester the Semester in the controller with direct access to the App.
    */
   public void putSemester(Semester semester) {
     try {
@@ -113,7 +116,6 @@ public class RemoteSemesterAccess {
   /**
    * Deletes the semester by clearing all the courses.
    *
-   * @param the Semester in the controller with direct access to the App.
    */
   public void deleteSemester() { 
     try {

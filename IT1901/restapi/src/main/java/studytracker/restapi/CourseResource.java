@@ -66,7 +66,7 @@ public class CourseResource {
   @POST
   @Path("/newTime")
   @Produces(MediaType.APPLICATION_JSON)
-  public boolean addTimeToCourse(@QueryParam("addTime") String hoursToAdd)
+  public Boolean addTimeToCourse(@QueryParam("addTime") String hoursToAdd)
       throws JsonGenerationException, JsonMappingException, IOException {
     checkSemester();
     LOG.debug("addTimeToCourse({})", courseName);
@@ -85,7 +85,7 @@ public class CourseResource {
    */
   @DELETE
   @Produces(MediaType.APPLICATION_JSON)
-  public boolean removeCourse() throws JsonGenerationException, JsonMappingException, IOException {
+  public Boolean deleteCourse() throws JsonGenerationException, JsonMappingException, IOException {
     checkSemester();
     LOG.debug("deleteCourse({})", courseName);
     this.semester.deleteCourse(this.semester.getCourse(this.course.getCourseName()).getCourseName());

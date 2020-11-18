@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -20,7 +19,7 @@ public class StudyTrackerConfig extends ResourceConfig {
   /**
    * Initialize this StudyTrackerConfig.
    *
-   * @param Semester semester instance to serve
+   * @param semester semester instance to serve
    */
   public StudyTrackerConfig(Semester semester) {
     setSemester(semester);
@@ -63,5 +62,5 @@ public class StudyTrackerConfig extends ResourceConfig {
     }
     Semester semester = new Semester();
     return semester;
-    }
+  }
 }

@@ -11,15 +11,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import studytracker.core.Course;
 import studytracker.core.Semester;
-import javafx.scene.Node;
-import javafx.event.ActionEvent;
 
 public class Controller {
 
@@ -199,7 +199,7 @@ public class Controller {
   }
 
   /**
-   * methode for updating the dropdown listview with new courses
+   * methode for updating the dropdown listview with new courses.
    */
   @FXML
   private void updateDropDownMenus() {
@@ -270,8 +270,10 @@ public class Controller {
   /**
    * Method for adding and updating time spent on a course.
    * 
-   * @param courseName,CourseTime labels to get information from and update with
-   *                              new info.
+   * @param courseName 
+   * 
+   * @param labels 
+   * 
    */
   @FXML
   private void makeStudyHours(Label courseName, Label courseTime) {
@@ -330,7 +332,9 @@ public class Controller {
    * inputlabels to empty.
    * 
    * @param courseName label to get the course name
+   * 
    * @param courseTime label to get the course time
+   * 
    */
   private void makeDeleteCourse(Label courseName, Label courseTime) {
     this.semester.deleteCourse(courseName.getText());
@@ -354,6 +358,7 @@ public class Controller {
    * Used for testing.
    * 
    * @return a list of string
+   * 
    */
   public List<String> gettimeSpentOnCoursesList() {
     List<String> tmp = new ArrayList<>();
@@ -374,7 +379,7 @@ public class Controller {
   }
 
   /**
-   * methode for passing the labels to the testclass
+   * methode for passing the labels to the testclass.
    * 
    * @return a list with relevant labels.
    */
@@ -383,6 +388,9 @@ public class Controller {
     return labelsForTesting;
   }
 
+ /**
+  * combines the labels to their own list. One for coursenames and one for time spent on courses
+  */
   public void addLabelsToList() {
     this.courseNames.add(this.courseName1);
     this.courseNames.add(this.courseName2);
