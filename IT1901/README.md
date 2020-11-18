@@ -128,27 +128,35 @@ Semester : List<Course> courseList
 Semester : Collection<SemesterListener> semesterListeners
 Semester : void fireSemesterChanged()
 SemesterListener : void semesterChanged(semester)
+
 Controller : Semester semester
 Controller : ObservableList<String> courseList
+Controller : void initialize()
 Controller : void addCourse()
 Controller : void deleteCourse()
-Controller : void addTime()
+Controller : void addStudyHours()
 Controller : void onResetButtonClick()
+Controller : void onOpenStatisticsClick(ActionEvent)
+
+
 ControllerStatistic : NumberAxis naHours
 ControllerStatistic : CategoryAxis caHours
 ControllerStatistic : BarChart<String, Number> barchart
 ControllerStatistic : void initialize()
 ControllerStatistic : void onCloseStatisticsClick()
+
 RemoteSemesterAccess : URI endpointUri
 RemoteSemesterAccess : ObjectMapper objectMapper
 RemoteSemesterAccess : Semester semester
 RemoteSemesterAccess : Semester getSemester()
-RemoteSemesterAccess : void putSemester()
+RemoteSemesterAccess : void putSemester(Semester)
 RemoteSemesterAccess : void deleteSemester()
-RemoteSemesterAccess : void addTimeToCourse()
-RemoteSemesterAccess : void deleteCourse()
+RemoteSemesterAccess : void addTimeToCourse(String, Double)
+RemoteSemesterAccess : void deleteCourse(String)
 
-
+ModifyTime : String addTime(String)
+ModifyTime : String removeTime(String)
+ModifyTime : List<Double> makeStudyHours(String, String)
 
 @enduml
 ```
