@@ -1,23 +1,23 @@
 package studytracker.ui;
 
-import javafx.fxml.FXML;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.Node;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import java.util.HashMap;
-import java.util.Map;
-import java.net.URI;
-import java.net.URISyntaxException;
 import studytracker.core.Course;
 import studytracker.core.Semester;
 
@@ -29,6 +29,14 @@ public class ControllerStatistic implements Initializable {
   @FXML
   private BarChart<String, Number> barchart;
 
+
+  /**
+   * method for closing the statisticpage and opening the homepage.
+   * 
+   * @param event , will close the statisticwindow and open the homepage.
+   * 
+   * @throws Exception hvis det ikke går å åpne homepage kastes en feilmelding.
+   */
   @FXML
   public void onCloseStatisticsClick(ActionEvent event) throws Exception {
     try {

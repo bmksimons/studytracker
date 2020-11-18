@@ -65,7 +65,7 @@ public class SemesterService {
    */
   @DELETE
   @Produces(MediaType.APPLICATION_JSON)
-  public boolean resetSemester() throws JsonGenerationException, JsonMappingException, IOException {
+  public Boolean resetSemester() throws JsonGenerationException, JsonMappingException, IOException {
     LOG.debug("resetSemester({})", semester);
     this.semester.resetSemester(false);
     saveSemester();
