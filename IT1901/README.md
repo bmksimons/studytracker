@@ -110,14 +110,17 @@ class CourseSerializer
 class CourseDeserializer
 class Controller
 class ControllerStatistic
+class RemoteSemesterAccess
+class ModifyTime
 
 Course "1" -- "Semester: 0-4" Semester
 Controller ..|> SemesterListener
 Semester -- "SemesterListener *" SemesterListener
 Course -- CourseSerializer
 Course -- CourseDeserializer
-Controller --> Semester
-ControllerStatistic --> Semester
+Controller --> RemoteSemesterAccess
+ControllerStatistic --> RemoteSemesterAccess
+Controller --> ModifyTime
 
 Course : String courseName
 Course : String timeSpent
@@ -136,6 +139,14 @@ ControllerStatistic : CategoryAxis caHours
 ControllerStatistic : BarChart<String, Number> barchart
 ControllerStatistic : void initialize()
 ControllerStatistic : void onCloseStatisticsClick()
+RemoteSemesterAccess : URI endpointUri
+RemoteSemesterAccess : ObjectMapper objectMapper
+RemoteSemesterAccess : Semester semester
+RemoteSemesterAccess : Semester getSemester()
+RemoteSemesterAccess : void putSemester()
+RemoteSemesterAccess : void deleteSemester()
+RemoteSemesterAccess : void addTimeToCourse()
+RemoteSemesterAccess : void deleteCourse()
 
 
 
