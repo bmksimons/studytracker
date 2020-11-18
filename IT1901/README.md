@@ -1,7 +1,7 @@
 # Studytracker
 =====
 
-Vårt prosjekt omhandler appen StudyTracker. I appen skal brukeren kunne legge inn fag, og sette antall timer man jobber med hvet enkelt fag.
+Vårt prosjekt omhandler appen StudyTracker. I appen skal brukeren kunne legge inn fag, og sette antall timer man jobber med hvet enkelt fag. I tillegg skal man kunne vise statistikk for antallet timer man har studert 
 Appen er en trelagsapplikasjoen som består av domenelag, brukergrensesnitt og persistens. 
 
 ## Organisering av koden
@@ -20,8 +20,8 @@ Core:
 - **core/src/test** for testkoden til JSON, Semester og Course klassene.
 
 IntegrationTests:
-- **IntegrationTests/src/main/WEBAPP** for å starte serveren.
-- **IntegrationTests/src/Test** for testing av serveren.
+- **integrationtests/src/main/WEBAPP** for å starte serveren.
+- **integrationtests/src/Test** for testing av serveren.
 
 Restserver:
 - **restserver/src/main/java/studytracker/restserver** for servervedlikehold.
