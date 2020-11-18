@@ -118,8 +118,8 @@ Semester -- "SemesterListener *" SemesterListener
 Controller --> RemoteSemesterAccess
 ControllerStatistic --> RemoteSemesterAccess
 Controller --> ModifyTime
-StudytrackerPersistence --> Semester
-StudytrackerPersistence --> Course
+StudyTrackerPersistence --> Semester
+StudyTrackerPersistence --> Course
 
 Course : String courseName
 Course : String timeSpent
@@ -156,8 +156,8 @@ ModifyTime : String addTime(String)
 ModifyTime : String removeTime(String)
 ModifyTime : List<Double> makeStudyHours(String, String)
 
-StudytrackerPersistence : void writeSemester(String, Semester)
-StudytrackerPersistence : Semester readSemester(Reader)
+StudyTrackerPersistence : void writeSemester(String, Semester)
+StudyTrackerPersistence : Semester readSemester(Reader)
 
 @enduml
 ```
