@@ -221,6 +221,9 @@ studytracker.restserver ..> studytracker.restapi
 component jersey {
 }
 
+component grizzly2 {
+}
+
 restserver ..> jersey
 restserver ..> grizzly2
 
