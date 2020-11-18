@@ -106,12 +106,11 @@ fxui ..> javafx
 interface SemesterListener
 class Course
 class Semester
-class CourseSerializer
-class CourseDeserializer
 class Controller
 class ControllerStatistic
 class RemoteSemesterAccess
 class ModifyTime
+class StudyTrackerPersistence
 
 Course "1" -- "Semester: 0-4" Semester
 Controller ..|> SemesterListener
@@ -121,6 +120,9 @@ Course -- CourseDeserializer
 Controller --> RemoteSemesterAccess
 ControllerStatistic --> RemoteSemesterAccess
 Controller --> ModifyTime
+
+StudytrackerPersistence --> Semester
+StudytrackerPersistence --> Courses
 
 Course : String courseName
 Course : String timeSpent
@@ -137,7 +139,6 @@ Controller : void deleteCourse()
 Controller : void addStudyHours()
 Controller : void onResetButtonClick()
 Controller : void onOpenStatisticsClick(ActionEvent)
-
 
 ControllerStatistic : NumberAxis naHours
 ControllerStatistic : CategoryAxis caHours
@@ -157,6 +158,9 @@ RemoteSemesterAccess : void deleteCourse(String)
 ModifyTime : String addTime(String)
 ModifyTime : String removeTime(String)
 ModifyTime : List<Double> makeStudyHours(String, String)
+
+StudytrackerPersistence : void writeSemester(String, Semester)
+StudytrackerPersistence : Semester readSemester(Reader)
 
 @enduml
 ```
