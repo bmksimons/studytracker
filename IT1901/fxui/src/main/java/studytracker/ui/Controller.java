@@ -130,12 +130,12 @@ public class Controller {
       for (var i = 0; i < courseNames.size(); i++) {
         if (courseNames.get(i).getText().equals("")) {
           added = makeCourse(courseNames.get(i));
-          this.currentNumberCourses += 1;
           break;
         }
       }
       // checks if a course is added succsessfully
       if (added == true) {
+        this.currentNumberCourses += 1;
         for (Label courseTimer : timeSpentOnCourses) {
           if (courseTimer.getText().equals("")) {
             courseTimer.setText("0.0 h");
@@ -296,13 +296,15 @@ public class Controller {
       for (int i = 0; i < courseNames.size(); i++) {
         if (courseNames.get(i).getText().equals(courseChosenDelete)) {
           makeDeleteCourse(courseNames.get(i), timeSpentOnCourses.get(i));
-          if (courseNames.get(i+1).getText() != "" ){
+          while (courseNames.get(i+1).getText() != "" ) {
             courseNames.get(i).setText(courseNames.get(i+1).getText());
             courseNames.get(i+1).setText("");
+            timeSpentOnCourses.get(i).setText(timeSpentOnCourses.get(i+1).getText());
+            timeSpentOnCourses.get(i+1).setText("");
+            i += 1;
           }
-
+          break;
         }
-      
       }
     }
   }
@@ -382,21 +384,21 @@ public class Controller {
     this.timeSpentOnCourses.add(this.timeSpentOnCourse4);
   }
 
-public RemoteSemesterAccess getRemoteSemesterAccess(){
-  return this.remoteAccess;
-}
-private void createCourseNames() {
-  Iterator<Course> semesterIt = this.semester.iterator();
-  int inputIndex = 0;
-  while (semesterIt.hasNext()) {
-    Course course = semesterIt.next();
-    String courseName = course.getCourseName();
-    this.courseNames.get(inputIndex).setText(courseName);
-    this.courseList.add(courseName);
-    this.timeSpentOnCourses.get(inputIndex).setText(String.valueOf(course.getTimeSpent()));
-    this.updateDropDownMenus();
-    inputIndex += 1;
+  public RemoteSemesterAccess getRemoteSemesterAccess(){
+    return this.remoteAccess;
   }
 
-}
+  private void createCourseNames() {
+    Iterator<Course> semesterIt = this.semester.iterator();
+    int inputIndex = 0;
+    while (semesterIt.hasNext()) {
+      Course course = semesterIt.next();
+      String courseName = course.getCourseName();
+      this.courseNames.get(inputIndex).setText(courseName);
+      this.courseList.add(courseName);
+      this.timeSpentOnCourses.get(inputIndex).setText(String.valueOf(course.getTimeSpent()));
+      this.updateDropDownMenus();
+      inputIndex += 1;
+    }
+  }
 }
