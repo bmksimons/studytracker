@@ -64,43 +64,7 @@ sender http-request til serveren. Dette går via restapi, som er modulen som beh
 [restapi/java/studytracker/restapi](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2066/gr2066/-/tree/master/IT1901/restapi/src/main/java/studytracker/restapi)
 
 
-## plantUML diagramkode
-
-Trykk på bildeikonet for å åpne diagrammet:
-
-```plantuml
-component core {
-    package studyTracker.core{
-        [Course]
-        [Semester]
-    }
-    package studyTracker.json
-}
-
-component jackson{
-}
-
-studyTracker.json ..> jackson
-
-component fxui {
-    package studyTracker.fxui
-}
-
-studyTracker.fxui ..> studyTracker.core
-studyTracker.fxui ..> studyTracker.json
-
-component javafx{
-    component fxml{
-    }
-}
-
-fxui ..> javafx
-
-[Course] ..> [Semester] : owner:1
-[Semester]..> [Course] : 0-4
-```
-
-## plantUML klassediagram utkast1
+### Klassediagram
 ```plantuml
 @startuml
 interface SemesterListener
@@ -169,41 +133,7 @@ StudyTrackerPersistence : Semester readSemester(Reader)
 @enduml
 ```
 
-###plantUML makeCourse diagram
-``` plantuml
-@startuml
-actor user
-user -> "~#newCourse: TextField" as newCourse: write
-newCourse -> "~#addCourse: Button" as addCourse: click
-addCourse -> Controller: addCourse
-Controller -> Semester: makeCourse
-Semester -> Semester: fireSemesterChanged
-Semester -> SemesterListener: semesterChanged
-SemesterListener -> Controller: saveSemester
-Controller -> RemoteSemesterAccess: putSemester
-RemoteSemesterAccess -> SemesterService: putSemester
-SemesterService -> Semester: setCourses
-
-@enduml
-```
-
-###plantUML makeCourse diagram
-``` plantuml
-@startuml
-actor user
-user -> "~#pickCourseDelete: ChoiceBox" as pickCourseDelete: click
-pickCourseDelete -> "~#delete: Button" as delete: click
-delete -> Controller: deleteCourse
-Controller -> Semester: makeDeleteCourse
-Controller -> RemoteSemesterAccess: deleteCourse
-RemoteSemesterAccess -> SemesterService: getCourse
-SemesterService -> CourseResource: deleteCourse
-CourseResource -> Semester: deleteCourse
-
-
-@enduml
-```
-### plantUML diagram for pakkeløsning
+### Pakkeløsningsdiagram
 ```plantuml
 @startuml
 
