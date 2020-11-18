@@ -119,7 +119,7 @@ Controller --> RemoteSemesterAccess
 ControllerStatistic --> RemoteSemesterAccess
 Controller --> ModifyTime
 StudytrackerPersistence --> Semester
-StudytrackerPersistence --> Courses
+StudytrackerPersistence --> Course
 
 Course : String courseName
 Course : String timeSpent
