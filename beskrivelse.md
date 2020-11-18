@@ -1,4 +1,4 @@
-# Beskrivelse av studieplanlegger-app
+# Beskrivelse av studytracker-app
 
 Brukeren er student og vil holde oversikt over hvor mye tid en bruker på hvert fag.
 Applikasjonen skal kunne registrere fag, som legges til i databasen. Man kan også til enhver tid se antallet timer brukeren har studert per fag, og legge til/trekke fra timer. Brukeren kan også vise fram statistikk over antallet timer studert i de ulike fagene.
