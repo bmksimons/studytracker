@@ -205,6 +205,28 @@ SemesterListener -> Controller: ?autoSave?
 @enduml
 ```
 
+###plantUML makeCourse diagram
+``` plantuml
+@startuml
+actor user
+user -> "~#newCourse: TextField" as newCourse: write
+newCourse -> "~#addCourse: Button" as addCourse: click
+addCourse -> Controller: addCourse
+Controller -> Semester: makeCourse
+
+user -> "~#statistic: Button" as statistic: click
+statistic -> Controller: onOpenStatisticsClick
+Controller -> ControllerStatistic
+
+
+Semester -> Semester: fireSemesterChanged
+Semester -> SemesterListener: semesterChanged
+
+SemesterListener -> Controller: ?autoSave?
+
+
+@enduml
+```
 ### plantUML diagram for pakkeløsning
 ```plantuml
 @startuml
