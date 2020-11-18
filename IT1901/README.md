@@ -214,15 +214,15 @@ studytracker.restapi ..> studytracker.core
 studytracker.restapi ..> studytracker.json
 
 component restserver {
-	package java.studytracker.restserver
-	package resources.studytracker.restserver
+	package studytracker.restserver
 }
-java.studytracker.restserver ..> studytracker.restapi
+studytracker.restserver ..> studytracker.restapi
 
 component jersey {
 }
 
 restserver ..> jersey
+restserver ..> grizzly2
 
 component integrationTests {
     package main.WEBAPP
