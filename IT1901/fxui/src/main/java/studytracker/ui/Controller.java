@@ -249,7 +249,6 @@ public class Controller {
    * @param courseName 
    * 
    * @param labels 
-   * 
    */
   @FXML
   private void makeStudyHours(Label courseName, Label courseTime) {
@@ -296,7 +295,7 @@ public class Controller {
       for (int i = 0; i < courseNames.size(); i++) {
         if (courseNames.get(i).getText().equals(courseChosenDelete)) {
           makeDeleteCourse(courseNames.get(i), timeSpentOnCourses.get(i));
-          while (courseNames.get(i+1).getText() != "" ) {
+          while (!courseNames.get(i+1).getText().equals("")) {
             courseNames.get(i).setText(courseNames.get(i+1).getText());
             courseNames.get(i+1).setText("");
             timeSpentOnCourses.get(i).setText(timeSpentOnCourses.get(i+1).getText());
@@ -328,21 +327,25 @@ public class Controller {
     showInformation.setText("The course has been deleted");
   }
 
+  /**
+   * Methode for adding elements in courseNames and timeSepntOnCourses
+   * 
+   * @return ArrayList with all coursenames and time spent on eath of the courses.
+   */
   private ArrayList<Label> combineLabels() {
-    final ArrayList<Label> tmp = new ArrayList<>();
+    ArrayList<Label> tmp = new ArrayList<>();
     tmp.addAll(this.courseNames);
     tmp.addAll(this.timeSpentOnCourses);
     return tmp;
   }
 
   /**
-   * methode for creating a list of strings containg time spent on the courses.
+   * Methode for creating a list of strings contaning time spent on the courses.
    * Used for testing.
    * 
-   * @return a list of string
-   * 
+   * @return a list of strings
    */
-  public List<String> gettimeSpentOnCoursesList() {
+  public List<String> getTimeSpentOnCoursesList() {
     List<String> tmp = new ArrayList<>();
     Iterator<Label> iterator = timeSpentOnCourses.iterator();
 
