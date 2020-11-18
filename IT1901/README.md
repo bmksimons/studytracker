@@ -199,7 +199,6 @@ fxui ..> javafx
 fxui ..> fxml
 
 studytracker.ui ..> studytracker.core
-studytracker.ui ..> studytracker.json
 
 component restapi {
 	package studytracker.restapi
