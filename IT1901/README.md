@@ -1,7 +1,7 @@
 # Studytracker
 =====
 
-Vårt prosjekt omhandler appen StudyTracker. I appen skal brukeren kunne legge inn fag, og sette antall timer man jobber med hvet enkelt fag. I tillegg skal man kunne vise statistikk for antallet timer man har studert 
+Vårt prosjekt omhandler appen StudyTracker. I appen skal brukeren kunne legge inn fag, og sette antall timer man jobber med hvet enkelt fag. I tillegg skal man kunne vise statistikk for antallet timer man har studert.
 Appen er en trelagsapplikasjoen som består av domenelag, brukergrensesnitt og persistens. 
 
 ## Organisering av koden
@@ -58,7 +58,7 @@ enklere og mer brukervennlig.
 
 ### Serverlaget
 
-I serverlaget ligger klasser og logikk tilknyttet lagring og henting av informasjon fra server. Serveren kjøres med jetty. Koden ti serveren finnes i
+I serverlaget ligger klasser og logikk tilknyttet lagring og henting av informasjon fra server. Serveren kjøres med jetty. Koden til serveren finnes i
 [resterver/java/studytracker/restserver](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2066/gr2066/-/tree/master/IT1901/restserver/src/main/java/studytracker/restserver).FXUI har remoteSemesterAccess-klassen som 
 sender http-request til serveren. Dette går via restapi, som er modulen som behandler slike forsespørsler. Koden for hvordan vi behandler du ulike forespørselene ligger i 
 [restapi/java/studytracker/restapi](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2066/gr2066/-/tree/master/IT1901/restapi/src/main/java/studytracker/restapi)
