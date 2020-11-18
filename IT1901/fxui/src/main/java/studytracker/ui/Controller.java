@@ -5,7 +5,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,7 +16,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import jdk.nashorn.api.tree.ArrayLiteralTree;
 import studytracker.core.Course;
 import studytracker.core.Semester;
 import javafx.scene.Node;
@@ -51,7 +49,7 @@ public class Controller {
   @FXML
   Label timeSpentOnCourse4;
 
-  private List<Label> timeSpentOnCourses = new ArrayList<>();;
+  private List<Label> timeSpentOnCourses = new ArrayList<>();
 
   @FXML
   ChoiceBox<String> pickCourse;
@@ -95,23 +93,47 @@ public class Controller {
    */
   @FXML
   public void initialize() {
-
     this.endpointUri = "http://localhost:8999/studytracker/";
+<<<<<<< HEAD
     // this.courseList = FXCollections.observableArrayList();
     this.timeSpentOnCourses = new ArrayList<>();
+=======
+>>>>>>> d770dd0f963dd6186e602b73c6f311557935ada4
     addLabelsToList();
-
     try {
       System.out.println("Using remote endpoint @ " + endpointUri);
-      remoteAccess = new RemoteSemesterAccess(new URI(endpointUri));
+      this.setRemoteSemesterAccess(new RemoteSemesterAccess(new URI(endpointUri)));
       this.semester = remoteAccess.getSemester();
     } catch (URISyntaxException e) {
       System.err.println(e);
       this.semester = new Semester();
     }
+<<<<<<< HEAD
     this.createCourseNames();
     this.timeToAdd.setText("0 t");
+=======
+    Iterator<Course> semesterIt = this.semester.iterator();
+    for (Label label : this.courseNames) {
+      if (semesterIt.hasNext()) {
+        String courseName = semesterIt.next().getCourseName();
+        label.setText(courseName);
+        this.courseList.add(courseName);
+        updateDropDownMenus();
+      }
+    }
+    Iterator<Course> semesterIt2 = this.semester.iterator();
+    for (Label label : this.timeSpentOnCourses) {
+      if (semesterIt2.hasNext()) {
+        label.setText(String.valueOf(semesterIt2.next().getTimeSpent()) + " h");
+      }
+    }
+    this.timeToAdd.setText("0 h");
+>>>>>>> d770dd0f963dd6186e602b73c6f311557935ada4
     this.semester.addSemesterListener(semester -> this.saveSemester());
+  }
+
+  public void setRemoteSemesterAccess(RemoteSemesterAccess remoteAccess) {
+    this.remoteAccess = remoteAccess;
   }
 
   public void saveSemester() {
@@ -123,46 +145,52 @@ public class Controller {
    */
   @FXML
   public void addCourse() {
+    Boolean added = false;
     if (newCourse.getText() == "") {
-      showInformation.setText("Du må skrive inn et fag");
+      showInformation.setText("You have to write a course name");
     } else if (currentNumberCourses == maxCourses) {
-      showInformation.setText("Du kan kun legge til " + maxCourses + " fag");
+      showInformation.setText("you can only have " + maxCourses + " courses");
     } else {
       for (var i = 0; i < courseNames.size(); i++) {
         if (courseNames.get(i).getText().equals("")) {
-          makeCourse(courseNames.get(i));
+          added = makeCourse(courseNames.get(i));
           this.currentNumberCourses += 1;
           break;
         }
       }
-      for (Label courseTimer : timeSpentOnCourses) {
-        if (courseTimer.getText().equals("")) {
-          courseTimer.setText("0.0 t");
-          break;
+      // checks if a course is added succsessfully
+      if (added == true) {
+        for (Label courseTimer : timeSpentOnCourses) {
+          if (courseTimer.getText().equals("")) {
+            courseTimer.setText("0.0 h");
+            break;
+          }
         }
       }
       newCourse.setText("");
     }
-
   }
 
   /**
    * Methode for adding a new Course-object to the Semester and setting the text
    * for the given label to equal the new course name.
-   * 
+   *
    * @param courseNamee , the first empty label in courseNames.
+   * @return true if the course was succsessfully added, false if otherwise
    * 
    */
   @FXML
-  private void makeCourse(Label courseName) {
+  private boolean makeCourse(Label courseName) {
     try {
+      Course course = new Course(newCourse.getText());
+      this.semester.addCourse(course);
       courseName.setText(newCourse.getText());
-      this.semester.addCourse(new Course(newCourse.getText()));
       courseList.add(newCourse.getText());
-      updateCourseList();
-
+      updateDropDownMenus();
+      return true;
     } catch (final IllegalArgumentException e) {
-      this.showInformation.setText("Kan ikke legge til et fag flere ganger");
+      this.showInformation.setText("You cannot add several copies of the same course");
+      return false;
     }
   }
 
@@ -174,7 +202,7 @@ public class Controller {
    * methode for updating the dropdown listview with new courses
    */
   @FXML
-  private void updateCourseList() {
+  private void updateDropDownMenus() {
     pickCourse.setItems(this.courseList);
     pickCourseDelete.setItems(this.courseList);
   }
@@ -212,7 +240,7 @@ public class Controller {
   @FXML
   public void reduceTimeToAdd() {
     String time = modifyTime.removeTime(timeToAdd.getText());
-    if (time == "kan ikke legge til negativt antall timer") {
+    if (time == "it is not possible to add a negative amount of hours") {
       showInformation.setText(time);
     } else {
       timeToAdd.setText(time);
@@ -226,7 +254,7 @@ public class Controller {
   public void addStudyHours() {
     String courseChosen = pickCourse.getValue();
     if (courseChosen == null) {
-      showInformation.setText("Du må velge et fag");
+      showInformation.setText("You must choose a course");
     } else {
       for (var i = 0; i < courseNames.size(); i++) {
         if (courseChosen.equals(courseNames.get(i).getText())) {
@@ -234,13 +262,13 @@ public class Controller {
           break;
         }
       }
-      updateCourseList();
-      timeToAdd.setText("0 t");
+      timeToAdd.setText("0 h");
+      showInformation.setText("");
     }
   }
 
   /**
-   * method for adding and updating time spent on a course
+   * Method for adding and updating time spent on a course.
    * 
    * @param courseName,CourseTime labels to get information from and update with
    *                              new info.
@@ -248,13 +276,13 @@ public class Controller {
   @FXML
   private void makeStudyHours(Label courseName, Label courseTime) {
     List<Double> timeValue = modifyTime.makeStudyHours(timeToAdd.getText(), courseTime.getText());
-    courseTime.setText(timeValue.get(2) + " t");
     this.semester.addTimeToCourse(courseName.getText(), timeValue.get(0));
     this.remoteAccess.addTimeToCourse(courseName.getText(), timeValue.get(0));
+    courseTime.setText(timeValue.get(2) + " h");
   }
 
   /**
-   * resets the App, all courses will be deleted, and the semester will become
+   * Resets the App, all courses will be deleted, and the semester will become
    * empty.
    */
   @FXML
@@ -263,10 +291,12 @@ public class Controller {
     for (Label label : combineLabels()) {
       label.setText("");
     }
-    timeToAdd.setText("0 t");
+    timeToAdd.setText("0 h");
     courseList.clear();
-    updateCourseList();
+    updateDropDownMenus();
+    currentNumberCourses = 0;
     this.semester.resetSemester(false);
+    showInformation.setText("The semester was deleted");
   }
 
   @FXML
@@ -283,7 +313,7 @@ public class Controller {
   public void deleteCourse() {
     String courseChosenDelete = pickCourseDelete.getValue();
     if (courseChosenDelete == null) {
-      showInformation.setText("Du må velge et fag først");
+      showInformation.setText("You have to choose a course");
     } else {
       for (int i = 0; i < courseNames.size(); i++) {
         if (courseNames.get(i).getText().equals(courseChosenDelete)) {
@@ -303,12 +333,13 @@ public class Controller {
    * @param courseTime label to get the course time
    */
   private void makeDeleteCourse(Label courseName, Label courseTime) {
-    courseList.remove(courseName.getText());
-    updateCourseList();
     this.semester.deleteCourse(courseName.getText());
     this.remoteAccess.deleteCourse(courseName.getText());
+    courseList.remove(courseName.getText());
+    updateDropDownMenus();
     this.setFieldsEmpty(courseName, courseTime);
-    showInformation.setText("Faget er slettet");
+    currentNumberCourses -= 1;
+    showInformation.setText("The course has been deleted");
   }
 
   private ArrayList<Label> combineLabels() {
@@ -361,7 +392,7 @@ public class Controller {
     this.timeSpentOnCourses.add(this.timeSpentOnCourse2);
     this.timeSpentOnCourses.add(this.timeSpentOnCourse3);
     this.timeSpentOnCourses.add(this.timeSpentOnCourse4);
-}
+  }
 
 public RemoteSemesterAccess getRemoteSemesterAccess(){
   return this.remoteAccess;

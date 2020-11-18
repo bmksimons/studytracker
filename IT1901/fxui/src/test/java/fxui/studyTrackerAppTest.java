@@ -1,5 +1,6 @@
 package fxui;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -7,8 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import studytracker.core.Course;
-import studytracker.core.Semester;
 import studytracker.ui.Controller;
 import javafx.fxml.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,8 +17,6 @@ import java.util.NoSuchElementException;
 public class studyTrackerAppTest extends ApplicationTest {
 
   private Controller controller;
-  private Course course1, course2;
-  private Semester semester;
 
   @Override
   public void start(final Stage primaryStage) throws Exception {
@@ -30,21 +27,9 @@ public class studyTrackerAppTest extends ApplicationTest {
     primaryStage.show();
   }
 
-  // @Override
-  // public void start(final Stage stage) throws Exception {
-  // final FXMLLoader loader = new
-  // FXMLLoader(getClass().getResource("../studytracker/ui/fxApp.fxml"));
-  // final Parent root = loader.load();
-  // this.controller = loader.getController();
-  // stage.setScene(new Scene(root));
-  // stage.show();
-  // }
-
   @BeforeEach
   public void setup() {
     clickOn("#reset");
-    course2 = new Course("Algdat");
-    semester = new Semester();
   }
 
   @Test
@@ -76,8 +61,7 @@ public class studyTrackerAppTest extends ApplicationTest {
     type(KeyCode.ENTER);
     clickOn("#plusTime");
     clickOn("#addTime");
-    assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("0.25 t")), true);
-
+    assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("0.25 h")), true);
   }
 
   @Test
@@ -92,11 +76,11 @@ public class studyTrackerAppTest extends ApplicationTest {
     }
     clickOn("#minusTime");
     clickOn("#addTime");
-    assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("2.25 t")), true);
+    assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("2.25 h")), true);
   }
 
   @Test
-  public void testDeleteCourseSimple() {
+  public void testDeleteCourse() {
     clickOn("#newCourse").write("matte1");
     clickOn("#addCourse");
     clickOn("#pickCourseDelete");
@@ -106,18 +90,21 @@ public class studyTrackerAppTest extends ApplicationTest {
     try {
       assertEquals(controller.getCourseNames().stream().map(x -> x.getText()).allMatch(a -> a.equals("")), true);
     } catch (NoSuchElementException e) {
-      //TODO: handle exception
     }
   }
 
   @Test
-  public void testOpenStatisticView() {
+  public void testOpenAndCloseStatisticView() {
     try {
       clickOn("#statistic");
+      clickOn("#closeStatistics");
     } catch (Exception e) {
       throw e;
     }
   }
 
-  
+  @AfterEach
+  public void resetSemester(){
+    clickOn("#reset");
+  }
 }

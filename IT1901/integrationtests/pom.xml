@@ -145,9 +145,9 @@
                             <goal>verify</goal>
                         </goals>
                         <configuration>
-                            <!-- System.getProperty("todo.port") gir riktig port -->
+                            <!-- System.getProperty("studytracker.port") gir riktig port -->
                             <systemPropertyVariables>
-                                <todo.port>${jetty.port}</todo.port>
+                                <studytracker.port>${jetty.port}</studytracker.port>
                             </systemPropertyVariables>
                         </configuration>
                     </execution>

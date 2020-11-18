@@ -12,7 +12,6 @@ import org.glassfish.jersey.server.ResourceConfig;
 import studytracker.core.Semester;
 import studytracker.json.StudyTrackerPersistence;
 import studytracker.restapi.SemesterService;
-import studytracker.core.Course;
 
 public class StudyTrackerConfig extends ResourceConfig {
 
@@ -37,7 +36,7 @@ public class StudyTrackerConfig extends ResourceConfig {
   }
 
   /**
-   * Initialize this TodoConfig with a default TodoModel.
+   * Initializing the StudyTrackerConfig with the semester saved in semester.json.
    */
   public StudyTrackerConfig() {
     this(createSemester());
@@ -63,25 +62,6 @@ public class StudyTrackerConfig extends ResourceConfig {
       }
     }
     Semester semester = new Semester();
-    semester.addCourse(new Course("matte"));
-    semester.addCourse(new Course("matte2"));
-    return semester;
-    }
-
-    private static Semester createDefaultSemester() {
-    StudyTrackerPersistence studyTrackerPersistence = new StudyTrackerPersistence();
-    URL url = StudyTrackerConfig.class.getResource("default-semester.json");
-    if (url != null) {
-      try (Reader reader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)) {
-        return studyTrackerPersistence.readSemester(reader);
-      } catch (IOException e) {
-        System.out.println("Couldn't read default-semester.json, so rigging Semester manually ("
-            + e + ")");
-      }
-    }
-    Semester semester = new Semester();
-    semester.addCourse(new Course("matte"));
-    semester.addCourse(new Course("matte2"));
     return semester;
     }
 }

@@ -14,7 +14,7 @@
             <Font size="20.0" />
         </font>
     </Label>
-   <BarChart fx:id="barchart" layoutX="36.0" layoutY="84.0" prefHeight="307.0" prefWidth="384.0" title="Statistikk">
+   <BarChart fx:id="barchart" layoutX="36.0" layoutY="84.0" prefHeight="307.0" prefWidth="384.0" title="Statisticks">
      <xAxis>
        <CategoryAxis fx:id="caCourses" label="Dine fag" side="BOTTOM" />
      </xAxis>
@@ -22,5 +22,5 @@
        <NumberAxis fx:id="naHours" label="Antall Timer" side="LEFT" />
      </yAxis>
    </BarChart>
-   <Button layoutX="309.0" layoutY="413.0" mnemonicParsing="false" onAction="#onCloseStatisticsClick" text="Tilbake til hovedside" />
+   <Button fx:id="closeStatistics" layoutX="309.0" layoutY="413.0" mnemonicParsing="false" onAction="#onCloseStatisticsClick" text="Back to home page" />
 </Pane>

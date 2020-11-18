@@ -16,13 +16,13 @@ public class Semester implements Iterable<Course> {
   private Collection<SemesterListener> semesterListeners = new ArrayList<>();
 
   /**
-   * Adds a given Course to the Semester
+   * Adds a given Course to the Semester.
    *
-   * @param Course the course added to the Semester
+   * @param Course the course added to the Semester.
    */
   public void addCourse(Course course) {
     if (checkIfCourseExists(course.getCourseName())) {
-      throw new IllegalArgumentException("Dette faget er allerede lagt til");
+      throw new IllegalArgumentException("The course has already been added");
     }
     this.courseList.add(course);
     this.fireSemesterChanged();
@@ -31,8 +31,8 @@ public class Semester implements Iterable<Course> {
   /**
    * Checks if a course with the same name as the parameter already exists in the Semester.
    *
-   * @param courseName the name of the course to be checked
-   * @return true if the course already exists in the semester, false otherwise
+   * @param courseName the name of the course to be checked.
+   * @return true if the course already exists in the semester, false otherwise.
    */
   private boolean checkIfCourseExists(String courseName) {
     for (Course excistingCourse: this.courseList){
@@ -44,10 +44,10 @@ public class Semester implements Iterable<Course> {
   }
 
   /**
-   * Deletes a course if it exists in the Semester
+   * Deletes a course if it exists in the Semester.
    *
-   * @param courseName the name of course to be deleted
-   * @return true if the course was successfully deleted, false otherwise
+   * @param courseName the name of course to be deleted.
+   * @return true if the course was successfully deleted, false otherwise.
    */
   public boolean deleteCourse(String courseName) {
     Iterator<Course> it1 = this.iterator();
@@ -62,10 +62,10 @@ public class Semester implements Iterable<Course> {
   }
 
   /**
-   * Adds time spent on a course
+   * Adds time spent on a course.
    *
-   * @param courseName the name of the course that will be added time to
-   * @param timeSpent the time which to be added to the course
+   * @param courseName the name of the course that will be added time to.
+   * @param timeSpent the time which to be added to the course.
    */
   public void addTimeToCourse(String courseName, Double timeSpent) {
     for (Course course: this.courseList){
@@ -76,9 +76,9 @@ public class Semester implements Iterable<Course> {
   }
 
   /**
-   * Resets the semester by clearing the fields
+   * Resets the semester by clearing the fields.
    *
-   * @param removeListeners a boolean who tells if you want to delete the semesterlisteners
+   * @param removeListeners a boolean who tells if you want to delete the semesterlisteners.
    */
   public void resetSemester(Boolean removeListeners) {
     if (removeListeners == true){
@@ -118,18 +118,18 @@ public class Semester implements Iterable<Course> {
   }
 
   /**
-   * Adds a listener who listens to the the changes of the semester
+   * Adds a listener who listens to the the changes of the semester.
    *
-   * @param SemesterListener the listener who wants to listen to the semester
+   * @param SemesterListener the listener who wants to listen to the semester.
    */
   public void addSemesterListener(SemesterListener semesterListener) {
     this.semesterListeners.add(semesterListener);
   }
 
   /**
-   * Removes a listener
+   * Removes a listener.
    *
-   * @param SemesterListener the listener who wants will be deleted from the list of listeners
+   * @param SemesterListener the listener who wants will be deleted from the list of listeners.
    */
   public void removeSemesterListener(SemesterListener semesterListener) {
     if (!this.semesterListeners.contains(semesterListener)) {
