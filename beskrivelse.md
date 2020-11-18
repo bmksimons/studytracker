@@ -17,6 +17,24 @@ I tillegg skal man kunne lagre dataen til neste gang man åpner appen.
 *  #7 - Fillagring
 *  #6 - JavaFx utseende
 
+### Sekvensdiagram til brukerhistorie 1:
+``` plantuml
+@startuml
+actor user
+user -> "~#newCourse: TextField" as newCourse: write
+newCourse -> "~#addCourse: Button" as addCourse: click
+addCourse -> Controller: addCourse
+Controller -> Semester: makeCourse
+Semester -> Semester: fireSemesterChanged
+Semester -> SemesterListener: semesterChanged
+SemesterListener -> Controller: saveSemester
+Controller -> RemoteSemesterAccess: putSemester
+RemoteSemesterAccess -> SemesterService: putSemester
+SemesterService -> Semester: setCourses
+
+@enduml
+```
+
 ## Brukerhistorie 2:
 
 Brukeren vil slippe å måtte trykke på knapper for å lagre og laste opp tidligere lagret informasjon om semesteret og fagene. 
@@ -35,16 +53,32 @@ Det skal være mulig å velge hvilket fag du vil fjerne via en nedtrekksmeny med
 *  #14 - Slette fag
 
 
+### Sekvensdiagram for brukerhistorie 3:
+``` plantuml
+@startuml
+actor user
+user -> "~#pickCourseDelete: ChoiceBox" as pickCourseDelete: click
+pickCourseDelete -> "~#delete: Button" as delete: click
+delete -> Controller: deleteCourse
+Controller -> Semester: makeDeleteCourse
+Controller -> RemoteSemesterAccess: deleteCourse
+RemoteSemesterAccess -> SemesterService: getCourse
+SemesterService -> CourseResource: deleteCourse
+CourseResource -> Semester: deleteCourse
+
+
+@enduml
+```
 
 ## Brukerhistorie 4:
 
 Brukeren vil ha muligheten til å trykke på en knapp som viser fram statistikk for antall timer studert i hvert enkelt fag. 
 
-### Issues relatert til brukerhistorie 3:
+### Issues relatert til brukerhistorie 4:
 *  #22 - Lage nytt javafx-vindu
 *  #23 - Lage klasse for statistikk
 
-### Sekvensdiagram for brukerhistorie 4
+#### Sekvensdiagram for brukerhistorie 4
 ``` plantuml
 @startuml
 actor user
