@@ -94,11 +94,6 @@ public class Controller {
   @FXML
   public void initialize() {
     this.endpointUri = "http://localhost:8999/studytracker/";
-<<<<<<< HEAD
-    // this.courseList = FXCollections.observableArrayList();
-    this.timeSpentOnCourses = new ArrayList<>();
-=======
->>>>>>> d770dd0f963dd6186e602b73c6f311557935ada4
     addLabelsToList();
     try {
       System.out.println("Using remote endpoint @ " + endpointUri);
@@ -108,27 +103,8 @@ public class Controller {
       System.err.println(e);
       this.semester = new Semester();
     }
-<<<<<<< HEAD
     this.createCourseNames();
     this.timeToAdd.setText("0 t");
-=======
-    Iterator<Course> semesterIt = this.semester.iterator();
-    for (Label label : this.courseNames) {
-      if (semesterIt.hasNext()) {
-        String courseName = semesterIt.next().getCourseName();
-        label.setText(courseName);
-        this.courseList.add(courseName);
-        updateDropDownMenus();
-      }
-    }
-    Iterator<Course> semesterIt2 = this.semester.iterator();
-    for (Label label : this.timeSpentOnCourses) {
-      if (semesterIt2.hasNext()) {
-        label.setText(String.valueOf(semesterIt2.next().getTimeSpent()) + " h");
-      }
-    }
-    this.timeToAdd.setText("0 h");
->>>>>>> d770dd0f963dd6186e602b73c6f311557935ada4
     this.semester.addSemesterListener(semester -> this.saveSemester());
   }
 
@@ -320,6 +296,10 @@ public class Controller {
       for (int i = 0; i < courseNames.size(); i++) {
         if (courseNames.get(i).getText().equals(courseChosenDelete)) {
           makeDeleteCourse(courseNames.get(i), timeSpentOnCourses.get(i));
+          if (courseNames.get(i+1).getText() != "" ){
+            courseNames.get(i).setText(courseNames.get(i+1).getText());
+            courseNames.get(i+1).setText("");
+          }
 
         }
       
@@ -414,7 +394,7 @@ private void createCourseNames() {
     this.courseNames.get(inputIndex).setText(courseName);
     this.courseList.add(courseName);
     this.timeSpentOnCourses.get(inputIndex).setText(String.valueOf(course.getTimeSpent()));
-    this.updateCourseList();
+    this.updateDropDownMenus();
     inputIndex += 1;
   }
 
