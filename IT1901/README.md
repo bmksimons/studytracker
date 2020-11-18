@@ -115,12 +115,9 @@ class StudyTrackerPersistence
 Course "1" -- "Semester: 0-4" Semester
 Controller ..|> SemesterListener
 Semester -- "SemesterListener *" SemesterListener
-Course -- CourseSerializer
-Course -- CourseDeserializer
 Controller --> RemoteSemesterAccess
 ControllerStatistic --> RemoteSemesterAccess
 Controller --> ModifyTime
-
 StudytrackerPersistence --> Semester
 StudytrackerPersistence --> Courses
 
