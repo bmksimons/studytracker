@@ -36,3 +36,29 @@ Det skal være mulig å velge hvilket fag du vil fjerne via en nedtrekksmeny med
 
 
 
+## Brukerhistorie 4:
+
+Brukeren vil ha muligheten til å trykke på en knapp som viser fram statistikk for antall timer studert i hvert enkelt fag. 
+
+### Issues relatert til brukerhistorie 3:
+*  #22 - Lage nytt javafx-vindu
+*  #23 - Lage klasse for statistikk
+
+### Sekvensdiagram for brukerhistorie 4
+``` plantuml
+@startuml
+actor user
+
+user -> "~#statistic: Button" as statistic: click
+statistic -> Controller: onOpenStatisticsClick
+Controller -> ControllerStatistic
+ControllerStatistic -> RemoteSemesterAccess: getSemester
+RemoteSemesterAccess -> SemesterService: getSemester
+SemesterService -> Semester: getSemester
+
+
+@enduml
+```
+
+
+
