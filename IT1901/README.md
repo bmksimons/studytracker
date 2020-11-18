@@ -8,27 +8,27 @@ Appen er en trelagsapplikasjoen som består av domenelag, brukergrensesnitt og p
 Prosjektet er organisert i 5moduler, fxui,core, integrationTests, restApi og restServer. FXUI,core, restserver og integrationTests har to kildekodemapper, en for koden(main)
 og en for testene. Restapi har ikke en kildekodemappe for tester, da denne blir testet av testene som ligger i restserver sin testkode. 
 
-Fxui:
+fxui:
 - **fxui/src/main/java/studytracker/ui** for controllere og App.java samt tilhørende hjelpeklasser. 
 - **fxui/src/main/resources/studytracker/ui** for FXML-filen.
 - **fxui/src/test/java** for testkoden til Controlleren og App.java.
 - **fxui/src/test/resources** for en enklere kopi av fxml-filen som brukes i testene til Controlleren og App.java.
 
-Core:
+core:
 - **core/src/main/java/studytracker/core** for Semester og Course klassene.
 - **core/src/main/java/studytracker/json** for Serializer, og Deserializer klassene for å håndtere fillagring via JSON og Jackson.
 - **core/src/test** for testkoden til JSON, Semester og Course klassene.
 
-IntegrationTests:
+integrationtests:
 - **integrationtests/src/main/WEBAPP** for å starte serveren.
 - **integrationtests/src/Test** for testing av serveren.
 
-Restserver:
+restserver:
 - **restserver/src/main/java/studytracker/restserver** for servervedlikehold.
 - **restserver/src/resources/studytracker/restserver** for JSON-filene.
 - **restserver/src/test/** for testkoden til både restserver og restapi.
 
-Restapi:
+restapi:
 - **restapi/src/main/** for behandling av serverRequest, POST,GET,DELETE,PUT.
 
 ### Domenelaget
