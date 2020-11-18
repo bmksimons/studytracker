@@ -229,7 +229,7 @@ component integrationTests {
 }
 
 main.WEBAPP ..> restserver
-resources.studytracker.restserver ..> studytracker.json
+studytracker.restserver ..> studytracker.json
 
 @enduml
 ```
