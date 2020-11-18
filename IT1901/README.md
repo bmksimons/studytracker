@@ -76,6 +76,8 @@ class ControllerStatistic
 class RemoteSemesterAccess
 class ModifyTime
 class StudyTrackerPersistence
+class SemesterService
+class CourseResource
 
 Course "1" -- "Semester: 0-4" Semester
 Controller ..|> SemesterListener
@@ -85,12 +87,13 @@ ControllerStatistic --> RemoteSemesterAccess
 Controller --> ModifyTime
 StudyTrackerPersistence --> Semester
 StudyTrackerPersistence --> Course
+CourseResource --> StudyTrackerPersistence
 RemoteSemesterAccess --> Semester
-
-Course : String courseName
-Course : String timeSpent
-Course : void addTime(Double)
-Course : void setCourseName(String)
+CourseResource --> Semester
+SemesterService --> Semester
+CourseResource --> Course
+SemesterService --> CourseResource
+SemesterService --> StudyTrackerPersistence
 
 Semester : List<Course> courseList
 Semester : Collection<SemesterListener> semesterListeners
@@ -99,6 +102,25 @@ Semester : void deleteCourse(String)
 Semester : void addTimeToCourse(String, Double)
 Semester : void resetSemester(Boolean)
 Semester : void fireSemesterChanged()
+
+Course : String courseName
+Course : String timeSpent
+Course : void addTime(Double)
+Course : void setCourseName(String)
+
+CourseResource : Semester semester
+CourseResource : String courseName
+CourseResource : Course course
+CourseResource : StudyTrackerPersistence studyTrackerPersistence
+CourseResource : Course getCourse()
+CourseResource : Boolean addTimeToCourse(String)
+CourseResource : Boolean deleteCourse()
+
+SemesterService : Semester semester
+SemesterService : Semester getSemester()
+SemesterService : Boolean putSemester(Semester) 
+SemesterService : Boolean resetSemester()
+SemesterService : CourseResource getCourse(String)
 
 SemesterListener : void semesterChanged(semester)
 
@@ -170,18 +192,12 @@ component restapi {
 	package studytracker.restapi
 }
 
-component jaxrs {
-}
-
-restapi ..> jaxrs
-
-studytracker.restapi ..> studytracker.core
-studytracker.restapi ..> studytracker.json
+studytracker.restapi ..> core
 
 component restserver {
 	package studytracker.restserver
 }
-studytracker.restserver ..> studytracker.restapi
+
 
 component jersey {
 }
@@ -189,15 +205,20 @@ component jersey {
 component grizzly2 {
 }
 
-restserver ..> jersey
 restserver ..> grizzly2
+restserver ..> jersey
 
-component integrationTests {
+studytracker.restserver ..> studytracker.restapi
+
+
+component integrationtests {
     package main.WEBAPP
 }
 
 main.WEBAPP ..> restserver
-studytracker.restserver ..> studytracker.json
+integrationtests ..> studytracker.core
+integrationtests ..> fxui
+studytracker.restserver ..> core
 
 @enduml
 ```
