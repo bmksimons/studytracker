@@ -32,3 +32,8 @@ Hvis dette ikke fungerer kan man alternativt bruke:
 ```bash
 mvn test verify
 ```
+
+##bakgrunn for oppsett
+
+Dette prosjektet kan ikke kjøres lokalt. Det vil si at når man kjører mvn install, vil testene (som er knyttet opp mot serveren) gi feil. Derfor må vi skippe testene ved første bygging
+for å så sette opp serveren Da vil prosjektet kjøre som forventet. 
