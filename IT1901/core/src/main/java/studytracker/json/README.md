@@ -1,6 +1,6 @@
 # Kildekode for persistenslaget
 
-Domenelaget består av tre klasser Course, Semester og SemesterListener:
+Domenelaget består av seks klasser:
 
 - **CourseDeserializer** - Deserialiserer et .json-fil til et Course objekt
 - **CourseSerializer** - Serialiserer et Course objekt til en .json-fil
