@@ -120,12 +120,23 @@ ControllerStatistic --> RemoteSemesterAccess
 Controller --> ModifyTime
 StudyTrackerPersistence --> Semester
 StudyTrackerPersistence --> Course
+RemoteSemesterAccess --> Semester
 
 Course : String courseName
 Course : String timeSpent
+Course : void addTime(Double)
+Course : void setCourseName(String)
+
 Semester : List<Course> courseList
 Semester : Collection<SemesterListener> semesterListeners
+Semester : void addCourse(Course)
+Semester : void deleteCourse(String)
+Semester : void addTimeToCourse(String, Double)
+Semester : void resetSemester(Boolean)
 Semester : void fireSemesterChanged()
+Semester : void addSemesterListener(SemesterListener)
+Semester : void removeSemesterListener(SemesterListener)
+
 SemesterListener : void semesterChanged(semester)
 
 Controller : Semester semester
