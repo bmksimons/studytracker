@@ -216,13 +216,7 @@ Controller -> Semester: makeCourse
 Semester -> Semester: fireSemesterChanged
 Semester -> SemesterListener: semesterChanged
 SemesterListener -> Controller: saveSemester
-
-user -> "~#statistic: Button" as statistic: click
-statistic -> Controller: onOpenStatisticsClick
-Controller -> ControllerStatistic
-
-
-
+Controller -> RemoteSemesterAccess: putSemester
 
 @enduml
 ```
