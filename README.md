@@ -19,12 +19,12 @@ mvn -pl integrationtests jetty:run -D"jetty.port=8999"
 dette er for å sette riktig serveradresse.
 Nå kan man kjøre mvn install som vanlig eller sjekke tester. 
 
-For å kjøre app bruker man kommandoen:
+For å kjøre appen bruker man kommandoen:
 ```bash
 mvn javafx:run -f fxui/pom.xml
 ```
 
-Vi har bruk JACOC for å sjekke testdekningsgrad. For å sjekke hvor mye av koden som er testet bruker man kommandoen:
+Vi har brukt JACOC for å sjekke testdekningsgrad. For å sjekke hvor mye av koden som er testet bruker man kommandoen:
 ```bash
 mvn jacoco:report
 ```
