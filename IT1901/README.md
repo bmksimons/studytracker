@@ -117,7 +117,7 @@ Semester -- "SemesterListener *" SemesterListener
 Course -- CourseSerializer
 Course -- CourseDeserializer
 Controller --> Semester
-ControllerStatistic --> Controller
+ControllerStatistic -- Controller
 
 Course : String courseName
 Course : String timeSpent
@@ -134,6 +134,8 @@ Controller : void onResetButtonClick()
 ControllerStatistic : NumberAxis naHours
 ControllerStatistic : CategoryAxis caHours
 ControllerStatistic : BarChart<String, Number> barchart
+ControllerStatistic : void onCloseStatisticsClick()
+ControllerStatistic : void initialize()
 
 
 @enduml
