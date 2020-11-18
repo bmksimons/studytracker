@@ -213,16 +213,15 @@ user -> "~#newCourse: TextField" as newCourse: write
 newCourse -> "~#addCourse: Button" as addCourse: click
 addCourse -> Controller: addCourse
 Controller -> Semester: makeCourse
+Semester -> Semester: fireSemesterChanged
+Semester -> SemesterListener: semesterChanged
+SemesterListener -> Controller: saveSemester
 
 user -> "~#statistic: Button" as statistic: click
 statistic -> Controller: onOpenStatisticsClick
 Controller -> ControllerStatistic
 
 
-Semester -> Semester: fireSemesterChanged
-Semester -> SemesterListener: semesterChanged
-
-SemesterListener -> Controller: ?autoSave?
 
 
 @enduml
