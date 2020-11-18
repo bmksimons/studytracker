@@ -65,6 +65,7 @@ sender http-request til serveren. Dette går via restapi, som er modulen som beh
 
 
 ### Klassediagram
+Trykk på bildeikonet for å åpne diagrammet:
 ```plantuml
 @startuml
 interface SemesterListener
@@ -134,6 +135,7 @@ StudyTrackerPersistence : Semester readSemester(Reader)
 ```
 
 ### Pakkeløsningsdiagram
+Trykk på bildeikonet for å åpne diagrammet:
 ```plantuml
 @startuml
 
