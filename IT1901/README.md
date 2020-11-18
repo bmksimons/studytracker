@@ -168,19 +168,6 @@ StudyTrackerPersistence : Semester readSemester(Reader)
 
 @enduml
 ```
-### plantUML sekvensdiagram for statistikk
-``` plantuml
-@startuml
-actor user
-
-user -> "~#statistic: Button" as statistic: click
-statistic -> Controller: onOpenStatisticsClick
-Controller -> ControllerStatistic
-ControllerStatistic -> RemoteSemesterAccess
-
-
-@enduml
-```
 
 ###plantUML makeCourse diagram
 ``` plantuml
