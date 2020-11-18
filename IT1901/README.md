@@ -134,14 +134,11 @@ Semester : void deleteCourse(String)
 Semester : void addTimeToCourse(String, Double)
 Semester : void resetSemester(Boolean)
 Semester : void fireSemesterChanged()
-Semester : void addSemesterListener(SemesterListener)
-Semester : void removeSemesterListener(SemesterListener)
 
 SemesterListener : void semesterChanged(semester)
 
 Controller : Semester semester
 Controller : ObservableList<String> courseList
-Controller : void initialize()
 Controller : void addCourse()
 Controller : void deleteCourse()
 Controller : void addStudyHours()
@@ -151,7 +148,6 @@ Controller : void onOpenStatisticsClick(ActionEvent)
 ControllerStatistic : NumberAxis naHours
 ControllerStatistic : CategoryAxis caHours
 ControllerStatistic : BarChart<String, Number> barchart
-ControllerStatistic : void initialize()
 ControllerStatistic : void onCloseStatisticsClick()
 
 RemoteSemesterAccess : URI endpointUri
