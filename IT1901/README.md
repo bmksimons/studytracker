@@ -168,38 +168,15 @@ StudyTrackerPersistence : Semester readSemester(Reader)
 
 @enduml
 ```
-### plantUML sekvensdiagram
+### plantUML sekvensdiagram for statistikk
 ``` plantuml
 @startuml
 actor user
-user -> "~#newCourse: TextField" as newCourse: write
-newCourse -> "~#addCourse: Button" as addCourse: click
-addCourse -> Controller: addCourse
-Controller -> Semester: makeCourse
-
-user -> "~#pickCourse: ChoiceBox" as pickCourse: click
-pickCourse -> "~#plusTime: Button" as plusTime: click
-plusTime -> "~#addTime: Button" as addTime: click
-addTime -> Controller: addStudyHours
-Controller -> Semester: makeStudyHours
-
-user -> "~#pickCourseDelete: ChoiceBox" as pickCourseDelete: click
-pickCourseDelete -> "~#delete: Button" as delete: click
-delete -> Controller: deleteCourse
-Controller -> Semester: makeDeleteCourse
-
-user -> "~#reset: Button" as reset: click
-reset -> Controller: onResetButtonClick
 
 user -> "~#statistic: Button" as statistic: click
 statistic -> Controller: onOpenStatisticsClick
 Controller -> ControllerStatistic
-
-
-Semester -> Semester: fireSemesterChanged
-Semester -> SemesterListener: semesterChanged
-
-SemesterListener -> Controller: ?autoSave?
+ControllerStatistic -> RemoteSemesterAccess
 
 
 @enduml
@@ -217,6 +194,25 @@ Semester -> Semester: fireSemesterChanged
 Semester -> SemesterListener: semesterChanged
 SemesterListener -> Controller: saveSemester
 Controller -> RemoteSemesterAccess: putSemester
+RemoteSemesterAccess -> SemesterService: putSemester
+SemesterService -> Semester: setCourses
+
+@enduml
+```
+
+###plantUML makeCourse diagram
+``` plantuml
+@startuml
+actor user
+user -> "~#pickCourseDelete: ChoiceBox" as pickCourseDelete: click
+pickCourseDelete -> "~#delete: Button" as delete: click
+delete -> Controller: deleteCourse
+Controller -> Semester: makeDeleteCourse
+Controller -> RemoteSemesterAccess: deleteCourse
+RemoteSemesterAccess -> SemesterService: getCourse
+SemesterService -> CourseResource: deleteCourse
+CourseResource -> Semester: deleteCourse
+
 
 @enduml
 ```
