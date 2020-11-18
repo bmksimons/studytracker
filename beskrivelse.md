@@ -18,6 +18,7 @@ I tillegg skal man kunne lagre dataen til neste gang man åpner appen.
 *  #6 - JavaFx utseende
 
 ### Sekvensdiagram til brukerhistorie 1:
+Trykk på bildeikonet for å åpne diagrammet:
 ``` plantuml
 @startuml
 actor user
@@ -54,6 +55,7 @@ Det skal være mulig å velge hvilket fag du vil fjerne via en nedtrekksmeny med
 
 
 ### Sekvensdiagram for brukerhistorie 3:
+Trykk på bildeikonet for å åpne diagrammet:
 ``` plantuml
 @startuml
 actor user
@@ -79,6 +81,7 @@ Brukeren vil ha muligheten til å trykke på en knapp som viser fram statistikk 
 *  #23 - Lage klasse for statistikk
 
 #### Sekvensdiagram for brukerhistorie 4
+Trykk på bildeikonet for å åpne diagrammet:
 ``` plantuml
 @startuml
 actor user
