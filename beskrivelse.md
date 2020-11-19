@@ -8,9 +8,9 @@ Det skal være mulig å slette fag fra appen.
 ## Brukerhistorie 1
 
 Brukeren er student og vil holde oversikt over hvor mye tid en bruker på hvert fag.
-Man skal kunne se hvilke fag som er lagt til, med estimatet på antall timer man har brukt på faget.
+Brukeren skal kunne se hvilke fag som er lagt til, med estimatet på antall timer man har brukt på faget.
 Av funksjoner er det viktig å kunne legge til nye fag, legge til antall timer man har brukt på hvert fag. Timeestimatet skal alltid kunne oppdateres.
-I tillegg skal man kunne lagre dataen til neste gang man åpner appen.
+I tillegg skal brukeren kunne lagre dataen til neste gang appen åpnes.
 
 ### Issues relatert til brukerhistorie 1:
 *  #11 - Reset Button logikk
