@@ -128,7 +128,7 @@ SemesterListener : void semesterChanged(semester)
 Controller : Semester semester
 Controller : ObservableList<String> courseList
 Controller : void addCourse()
-Controller : void deleteCourse()
+Controller : void updateCourseViewAfterDeletion()
 Controller : void addStudyHours()
 Controller : void onResetButtonClick()
 Controller : void onOpenStatisticsClick(ActionEvent)
