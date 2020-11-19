@@ -37,3 +37,8 @@ mvn test verify
 
 Dette prosjektet kan ikke kjøres lokalt. Det vil si at ved bruken av kommandoen mvn install, vil testene (som er knyttet opp mot serveren) gi feil. Det er derfor nødvendig 
 å hoppe over testene ved første bygging og deretter sette opp serveren. Da vil prosjektet kjøre som forventet. 
+
+## Arbeidsvaner
+I dette prosjektet har vi brukt utviklingsoppgavene aktivt. Vi har laget en branch til hvert issue, der alle branchnavn er på formen Issue-x-issuename. Commitmeldingene starter alle 
+med #issuenr slik at commiten kommer opp i loggen til issuet. Vi har jobbet mye i par og i gruppe, og har brukt parprogrammering aktivt og på den måten forbedret 
+hverandres kode underveis.
