@@ -284,7 +284,7 @@ public class Controller {
    * Checks if a course is chosen. If a course is chosen, calls deleteCourse with the chosen course and updates the course view.
    */
   @FXML
-  public boolean updateCourseViewAfterDeletion() {
+  public void updateCourseViewAfterDeletion() {
     String courseChosenDelete = pickCourseDelete.getValue();
     if (pickCourseDelete.getValue() == null) {
       showInformation.setText("You have to choose a course");
@@ -335,7 +335,7 @@ public class Controller {
   }
 
   /**
-   * Methode for creating a list of strings contaning time spent on the courses.
+   * Method for creating a list of strings contaning time spent on the courses.
    * Used for testing.
    * 
    * @return a list of strings
