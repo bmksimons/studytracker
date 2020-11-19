@@ -32,7 +32,6 @@ public class RemoteSemesterAccess {
  * Encodes the input-string to an URL.
  * 
  * @param s the string to be encoded.
- *
  * @return String the encoded string.
  */
   private String uriParam(String s) {
@@ -53,9 +52,7 @@ public class RemoteSemesterAccess {
  * Makes an URI for the AddTimeToCourse-method.
  *
  * @param courseName the name of the course.
- * 
  * @param hoursToAdd the amount of time we want to add to the course.
- * 
  * @return URI the URI made in the method.
  */
   private URI courseUri(String courseName, String hoursToAdd) {
@@ -64,7 +61,7 @@ public class RemoteSemesterAccess {
 
   /**
    * returns the Semester saved on the resterver. 
-   *
+
    * @return The semester serialized via the Httprequest.
    */
   public Semester getSemester() {

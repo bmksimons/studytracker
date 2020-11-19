@@ -34,7 +34,6 @@ public class ControllerStatistic implements Initializable {
    * method for closing the statisticpage and opening the homepage.
    * 
    * @param event , will close the statisticwindow and open the homepage.
-   * 
    * @throws Exception hvis det ikke går å åpne homepage kastes en feilmelding.
    */
   @FXML
