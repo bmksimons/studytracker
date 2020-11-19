@@ -35,5 +35,5 @@ mvn test verify
 
 ## Bakgrunn for oppsett
 
-Dette prosjektet kan ikke kjøres lokalt. Det vil si at når man kjører mvn install, vil testene (som er knyttet opp mot serveren) gi feil. Derfor må vi skippe testene ved første bygging
-for å så sette opp serveren Da vil prosjektet kjøre som forventet. 
+Dette prosjektet kan ikke kjøres lokalt. Det vil si at ved bruken av kommandoen mvn install, vil testene (som er knyttet opp mot serveren) gi feil. Det er derfor nødvendig 
+å hoppe over testene ved første bygging og deretter sette opp serveren. Da vil prosjektet kjøre som forventet. 
