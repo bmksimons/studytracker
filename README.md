@@ -9,7 +9,7 @@ Kodeprosjektet er modularisert i fem ulike moduler: [fxui](https://gitlab.stud.i
 
 For å bygge prosjektet må man først kjøre kommandoen 
 ```bash
-mvn install -DskipTest
+mvn install -DskipTests
 ```
 Deretter må man starte serveren med 
 
