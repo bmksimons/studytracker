@@ -16,7 +16,7 @@ Deretter må serveren startes med
 ```bash
 mvn -pl integrationtests jetty:run -D"jetty.port=8999"
 ```
-dette er for å sette riktig serveradresse.
+Dette er for å sette riktig serveradresse.
 Nå er det mulig å bruke mvn install som vanlig. Tester kan kjøres. 
 
 For å kjøre appen bruker man kommandoen:
