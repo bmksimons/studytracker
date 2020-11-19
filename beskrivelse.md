@@ -61,7 +61,7 @@ Trykk på bildeikonet for å åpne diagrammet:
 actor user
 user -> "~#pickCourseDelete: ChoiceBox" as pickCourseDelete: click
 pickCourseDelete -> "~#delete: Button" as delete: click
-delete -> Controller: deleteCourse
+delete -> Controller:  updateCourseViewAfterDeletion
 Controller -> Semester: makeDeleteCourse
 Controller -> RemoteSemesterAccess: deleteCourse
 RemoteSemesterAccess -> SemesterService: getCourse
