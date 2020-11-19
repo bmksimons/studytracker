@@ -45,14 +45,14 @@ public class ModifyTime {
    * @param timeToAdd  a string that contains the time you want to add to a course 
    * @param currentTime a string with the current time spent on a course.
    * @return a list of doubles with three elements; hoursToAdd,
-   *         currentTimeStuided, and newTimeStudied which is the sum of the two
+   *         currentTimeStudied, and newTimeStudied which is the sum of the two
    *         other.
    */
-  public List<Double> makeStudyHours(String timeToAdd, String currentTime) {
-    Double HoursToAdd = Double.parseDouble(timeToAdd.split(Pattern.quote(" "))[0]);
+  public List<Double> modifyTimeSpent(String timeToAdd, String currentTime) {
+    Double hoursToAdd = Double.parseDouble(timeToAdd.split(Pattern.quote(" "))[0]);
     Double currentTimeStudied = Double.parseDouble(currentTime.split(Pattern.quote(" "))[0]);
-    Double newTimeStudied = HoursToAdd + currentTimeStudied;
-    List<Double> list = Arrays.asList(HoursToAdd, currentTimeStudied, newTimeStudied);
+    Double newTimeStudied = hoursToAdd + currentTimeStudied;
+    List<Double> list = Arrays.asList(hoursToAdd, currentTimeStudied, newTimeStudied);
     return list;
   }
 }

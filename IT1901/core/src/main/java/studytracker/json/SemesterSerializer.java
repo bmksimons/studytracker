@@ -7,6 +7,9 @@ import java.io.IOException;
 import studytracker.core.Course;
 import studytracker.core.Semester;
 
+/**
+ * Serialize a Semester containing several Course objects to a json-file.
+ */
 public class SemesterSerializer extends JsonSerializer<Semester> {
 
   /*

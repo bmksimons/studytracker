@@ -19,7 +19,7 @@ import studytracker.core.Semester;
 import studytracker.json.StudyTrackerPersistence;
 
 /**
- * This class contains the methodes for deleting and changing a course which were delegated from SemesterService.
+ * The class contains the methods for deleting and changing a course which were delegated from SemesterService.
  */
 public class CourseResource {
 
@@ -42,7 +42,7 @@ public class CourseResource {
 
   private void checkSemester() {
     if (this.semester.getCourse(courseName) == null) {
-      throw new IllegalArgumentException("no course named");
+      throw new IllegalArgumentException("No course named");
     }
   }
 
