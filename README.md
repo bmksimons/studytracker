@@ -17,9 +17,9 @@ Deretter må serveren startes med
 mvn -pl integrationtests jetty:run -D"jetty.port=8999"
 ```
 Dette er for å sette riktig serveradresse.
-Nå er det mulig å bruke mvn install som vanlig. Tester kan kjøres. 
+Nå er det mulig å bruke mvn install som vanlig og tester kan kjøres. 
 
-For å kjøre appen bruker man kommandoen:
+Prosjektet må kjøres ifra fxui-modulen. Det kan gjøres ved å enten gå inn i fxui ```bash cd fxui```.
 ```bash
 mvn javafx:run -f fxui/pom.xml
 ```
