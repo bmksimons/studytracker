@@ -24,7 +24,7 @@ Prosjektet må kjøres ifra fxui-modulen. Det kan gjøres ved å enten gå inn i
 mvn javafx:run -f fxui/pom.xml
 ```
 
-Vi har brukt JACOC for å sjekke testdekningsgrad. Testdekningsgraden kan sjekkes ved bruke av:
+Vi har brukt jacoco for å sjekke testdekningsgrad. Testdekningsgraden kan sjekkes ved bruke av:
 ```bash
 mvn jacoco:report
 ```
