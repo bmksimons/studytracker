@@ -7,17 +7,17 @@ Kodeprosjektet er modularisert i fem ulike moduler: [fxui](https://gitlab.stud.i
 
 ## Kjøring av prosjektet
 
-For å bygge prosjektet må man først kjøre kommandoen 
+Prosjektet bruker maven for bygging og kjøring. For å starte bygging av prosjektet brukes kommandoen 
 ```bash
 mvn install -DskipTests
 ```
-Deretter må man starte serveren med 
+Deretter må serveren startes med   
 
 ```bash
 mvn -pl integrationtests jetty:run -D"jetty.port=8999"
 ```
 dette er for å sette riktig serveradresse.
-Nå kan man kjøre mvn install som vanlig eller sjekke tester. 
+Nå er det mulig å bruke mvn install som vanlig. Tester kan kjøres. 
 
 For å kjøre appen bruker man kommandoen:
 ```bash
@@ -28,7 +28,7 @@ Vi har brukt JACOC for å sjekke testdekningsgrad. For å sjekke hvor mye av kod
 ```bash
 mvn jacoco:report
 ```
-Hvis dette ikke fungerer kan man alternativt bruke:
+Hvis dette ikke fungerer brukes kommandoen:
 ```bash
 mvn test verify
 ```
