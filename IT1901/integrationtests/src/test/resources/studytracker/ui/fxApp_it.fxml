@@ -58,6 +58,6 @@
    <Label fx:id="showInformation" layoutX="32.0" layoutY="355.0" prefHeight="27.0" prefWidth="350.0" />
    <Label layoutX="20.0" layoutY="241.0" text="Slette fag" />
    <ChoiceBox fx:id="pickCourseDelete" layoutX="95.0" layoutY="236.0" prefHeight="27.0" prefWidth="214.0" />
-   <Button fx:id="delete" layoutX="320.0" layoutY="236.0" mnemonicParsing="false" onAction="#deleteCourse" prefHeight="27.0" prefWidth="60.0" text="Slett" />
+   <Button fx:id="delete" layoutX="320.0" layoutY="236.0" mnemonicParsing="false" onAction="#updateCourseViewAfterDeletion" prefHeight="27.0" prefWidth="60.0" text="Slett" />
    <Button fx:id="statistic" layoutX="320.0" layoutY="404.0" mnemonicParsing="false" onAction="#onOpenStatisticsClick" prefHeight="27.0" prefWidth="140.0" text="open statistics" />
 </Pane>
