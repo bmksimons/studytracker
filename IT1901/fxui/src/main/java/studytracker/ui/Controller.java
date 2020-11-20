@@ -102,7 +102,7 @@ public class Controller {
       this.semester = new Semester();
     }
     this.initializeLabels();
-    this.timeToAdd.setText("0 h");
+    this.timeToAdd.setText("0");
     this.semester.addSemesterListener(semester -> this.saveSemester());
   }
 
@@ -117,7 +117,7 @@ public class Controller {
       String courseName = course.getCourseName();
       this.courseNames.get(inputIndex).setText(courseName);
       this.courseList.add(courseName);
-      this.timeSpentOnCourses.get(inputIndex).setText(String.valueOf(course.getTimeSpent()) + " h");
+      this.timeSpentOnCourses.get(inputIndex).setText(String.valueOf(course.getTimeSpent()));
       this.updateDropDownMenus();
       inputIndex += 1;
       currentNumberCourses += 1;
@@ -153,12 +153,12 @@ public class Controller {
           break;
         }
       }
-      // Checks if a course was added succsessfully
+      // Checks if a course was added succsessfully.
       if (added) {
         this.currentNumberCourses += 1;
         for (Label courseTimer : timeSpentOnCourses) {
           if (courseTimer.getText().equals("")) {
-            courseTimer.setText("0.0 h");
+            courseTimer.setText("0.0");
             break;
           }
         }
@@ -203,7 +203,7 @@ public class Controller {
    */
   @FXML
   public void increaseTime() {
-    timeToAdd.setText(modifyTime.addTime(timeToAdd.getText()));
+    timeToAdd.setText(modifyTime.increaseTime(timeToAdd.getText()));
   }
 
   /**
@@ -229,11 +229,11 @@ public class Controller {
    */
   @FXML
   public void reduceTimeToAdd() {
-    String time = modifyTime.removeTime(timeToAdd.getText());
-    if (time == "it is not possible to add a negative amount of hours") {
-      showInformation.setText(time);
-    } else {
-      timeToAdd.setText(time);
+    try{
+        String time = modifyTime.reduceTime(timeToAdd.getText());
+        timeToAdd.setText(time);
+    } catch (IllegalArgumentException e){
+      showInformation.setText("It is not possible to add a negative amount of hours");
     }
   }
 
@@ -243,19 +243,26 @@ public class Controller {
   @FXML
   public void addStudyHours() {
     String courseChosen = pickCourse.getValue();
+    System.out.println(courseChosen);
     if (courseChosen == null) {
       showInformation.setText("You must choose a course");
-    } else {
+    }else{
+    try {
       for (var i = 0; i < courseNames.size(); i++) {
         if (courseChosen.equals(courseNames.get(i).getText())) {
           modifyTimeSpent(courseNames.get(i), timeSpentOnCourses.get(i));
           break;
         }
       }
-      timeToAdd.setText("0 h");
+      timeToAdd.setText("0");
       showInformation.setText("");
     }
+    catch (Exception NumberFormatException ) {
+      showInformation.setText("You must add a number, not a word or a letter.");
+      timeToAdd.setText("0");
+    }
   }
+}
 
   /**
    * Method that gets called by addStudyHours to modify the semester and labels
@@ -266,10 +273,10 @@ public class Controller {
    */
   @FXML
   private void modifyTimeSpent(Label courseName, Label courseTime) {
-    List<Double> timeValue = modifyTime.modifyTimeSpent(timeToAdd.getText(), courseTime.getText());
+    List<Double> timeValue = modifyTime.calculateTimeToAdd(timeToAdd.getText(), courseTime.getText());
     this.semester.addTimeToCourse(courseName.getText(), timeValue.get(0));
     this.remoteAccess.addTimeToCourse(courseName.getText(), timeValue.get(0));
-    courseTime.setText(timeValue.get(2) + " h");
+    courseTime.setText(timeValue.get(1).toString());
   }
 
   /**
@@ -282,7 +289,7 @@ public class Controller {
     for (Label label : combineLabels()) {
       label.setText("");
     }
-    timeToAdd.setText("0 h");
+    timeToAdd.setText("0");
     courseList.clear();
     updateDropDownMenus();
     currentNumberCourses = 0;

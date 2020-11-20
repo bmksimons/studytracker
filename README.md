@@ -7,33 +7,38 @@ Kodeprosjektet er modularisert i fem ulike moduler: [fxui](https://gitlab.stud.i
 
 ## Kjøring av prosjektet
 
-For å bygge prosjektet må man først kjøre kommandoen 
+Prosjektet bruker maven for bygging og kjøring. For å starte bygging av prosjektet brukes kommandoen 
 ```bash
-mvn install -DskipTest
+mvn install -DskipTests
 ```
-Deretter må man starte serveren med 
+Deretter må serveren startes med   
 
 ```bash
 mvn -pl integrationtests jetty:run -D"jetty.port=8999"
 ```
-dette er for å sette riktig serveradresse.
-Nå kan man kjøre mvn install som vanlig eller sjekke tester. 
+Dette er for å sette riktig serveradresse.
+Nå er det mulig å bruke mvn install som vanlig og tester kan kjøres. 
 
-For å kjøre appen bruker man kommandoen:
+Prosjektet må kjøres ifra fxui-modulen. Det kan gjøres ved å enten gå inn i fxui ```cd fxui```, eller ved å bruke kommandoen under fra IT1901.
 ```bash
 mvn javafx:run -f fxui/pom.xml
 ```
 
-Vi har brukt JACOC for å sjekke testdekningsgrad. For å sjekke hvor mye av koden som er testet bruker man kommandoen:
+Vi har brukt jacoco for å sjekke testdekningsgrad. Testdekningsgraden kan sjekkes ved bruke av:
 ```bash
 mvn jacoco:report
 ```
-Hvis dette ikke fungerer kan man alternativt bruke:
+Hvis dette ikke fungerer brukes kommandoen:
 ```bash
 mvn test verify
 ```
 
 ## Bakgrunn for oppsett
 
-Dette prosjektet kan ikke kjøres lokalt. Det vil si at når man kjører mvn install, vil testene (som er knyttet opp mot serveren) gi feil. Derfor må vi skippe testene ved første bygging
-for å så sette opp serveren Da vil prosjektet kjøre som forventet. 
+Dette prosjektet kan ikke kjøres lokalt. Det vil si at ved bruken av kommandoen mvn install, vil testene (som er knyttet opp mot serveren) gi feil. Det er derfor nødvendig 
+å hoppe over testene ved første bygging og deretter sette opp serveren. Da vil prosjektet kjøre som forventet. 
+
+## Arbeidsvaner
+I dette prosjektet har vi brukt utviklingsoppgavene aktivt. Vi har laget en branch til hvert issue, der alle branchnavn er på formen Issue-x-issuename. Commitmeldingene starter alle 
+med #issuenr slik at commiten kommer opp i loggen til issuet. Vi har jobbet mye i par og i gruppe, og har brukt parprogrammering aktivt og på den måten forbedret 
+hverandres kode underveis.
