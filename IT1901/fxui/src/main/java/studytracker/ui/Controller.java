@@ -243,19 +243,26 @@ public class Controller {
   @FXML
   public void addStudyHours() {
     String courseChosen = pickCourse.getValue();
+    System.out.println(courseChosen);
     if (courseChosen == null) {
       showInformation.setText("You must choose a course");
-    } else {
+    }else{
+    try {
       for (var i = 0; i < courseNames.size(); i++) {
         if (courseChosen.equals(courseNames.get(i).getText())) {
           modifyTimeSpent(courseNames.get(i), timeSpentOnCourses.get(i));
           break;
         }
       }
-      timeToAdd.setText("0 h");
+      timeToAdd.setText("0");
       showInformation.setText("");
     }
+    catch (Exception NumberFormatException ) {
+      showInformation.setText("You must add a number, not a word or a letter.");
+      timeToAdd.setText("0");
+    }
   }
+}
 
   /**
    * Method that gets called by addStudyHours to modify the semester and labels
@@ -269,7 +276,7 @@ public class Controller {
     List<Double> timeValue = modifyTime.modifyTimeSpent(timeToAdd.getText(), courseTime.getText());
     this.semester.addTimeToCourse(courseName.getText(), timeValue.get(0));
     this.remoteAccess.addTimeToCourse(courseName.getText(), timeValue.get(0));
-    courseTime.setText(timeValue.get(2) + " h");
+    courseTime.setText(timeValue.get(2).toString());
   }
 
   /**
@@ -282,7 +289,7 @@ public class Controller {
     for (Label label : combineLabels()) {
       label.setText("");
     }
-    timeToAdd.setText("0 h");
+    timeToAdd.setText("0");
     courseList.clear();
     updateDropDownMenus();
     currentNumberCourses = 0;

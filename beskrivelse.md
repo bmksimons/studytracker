@@ -1,16 +1,16 @@
 # Beskrivelse av studytracker-app
 
 Brukeren er student og vil holde oversikt over hvor mye tid en bruker på hvert fag.
-Applikasjonen skal kunne registrere fag, som legges til i databasen. Man kan også til enhver tid se antallet timer brukeren har studert per fag, og legge til/trekke fra timer. Brukeren kan også vise fram statistikk over antallet timer studert i de ulike fagene.
-Det skal være mulig å nullstille all data, slik at antall timer studert i alle fag = 0 (nyttig når man starter en ny uke / ny studieperiode).
-Man skal kunne slette fag, som skal oppdateres i databasen.
+Applikasjonen skal kunne registrere fag, som legges til i databasen. Til enhver tid skal brukeren kunne se antallet timer som har blitt brukt på hvert fag, og legge til/trekke fra timer. Brukeren kan også vise fram statistikk over antallet timer studert i de ulike fagene.
+Det skal være mulig å nullstille all data, slik at antall timer studert i alle fag = 0. Dette er nyttig hvis det er starten på en ny uke eller et nytt semester.
+Det skal være mulig å slette fag fra appen. 
 
 ## Brukerhistorie 1
 
 Brukeren er student og vil holde oversikt over hvor mye tid en bruker på hvert fag.
-Man skal kunne se hvilke fag som er lagt til, med estimatet på antall timer man har brukt på faget.
+Brukeren skal kunne se hvilke fag som er lagt til, med estimatet på antall timer man har brukt på faget.
 Av funksjoner er det viktig å kunne legge til nye fag, legge til antall timer man har brukt på hvert fag. Timeestimatet skal alltid kunne oppdateres.
-I tillegg skal man kunne lagre dataen til neste gang man åpner appen.
+I tillegg skal brukeren kunne lagre dataen til neste gang appen åpnes.
 
 ### Issues relatert til brukerhistorie 1:
 *  #11 - Reset Button logikk
@@ -61,7 +61,7 @@ Trykk på bildeikonet for å åpne diagrammet:
 actor user
 user -> "~#pickCourseDelete: ChoiceBox" as pickCourseDelete: click
 pickCourseDelete -> "~#delete: Button" as delete: click
-delete -> Controller: deleteCourse
+delete -> Controller:  updateCourseViewAfterDeletion
 Controller -> Semester: makeDeleteCourse
 Controller -> RemoteSemesterAccess: deleteCourse
 RemoteSemesterAccess -> SemesterService: getCourse
