@@ -34,20 +34,20 @@
          <Font size="13.0" />
       </font>
    </Label>
-   <ChoiceBox fx:id="pickCourse" layoutX="95.0" layoutY="273.0" prefHeight="27.0" prefWidth="214.0" />
+   <ChoiceBox fx:id="pickCourseDelete" layoutX="95.0" layoutY="236.0" prefHeight="27.0" prefWidth="170.0" />
+   <ChoiceBox fx:id="pickCourse" layoutX="95.0" layoutY="273.0" prefHeight="27.0" prefWidth="170.0" />
    <Label layoutX="5.0" layoutY="206.0" text="Add course">
       <font>
          <Font size="13.0" />
       </font>
    </Label>
-   <Button fx:id="addCourse" layoutX="320.0" layoutY="201.0" mnemonicParsing="false" onAction="#addCourse" prefHeight="27.0" prefWidth="80.0" text="Add" />
+   <Button fx:id="addCourse" layoutX="340.0" layoutY="201.0" mnemonicParsing="false" onAction="#addCourse" prefHeight="27.0" prefWidth="80.0" text="Add" />
    <Button fx:id="reset" layoutX="23.0" layoutY="404.0" mnemonicParsing="false" onAction="#onResetButtonClick" text="Reset" />
-   <TextField fx:id="newCourse" layoutX="95.0" layoutY="201.0" prefHeight="27.0" prefWidth="214.0" />
-   <TextField fx:id="timeToAdd" layoutX="320.0" layoutY="273.0" onAction="#initialize" prefHeight="27.0" prefWidth="60.0" />
-   <Button fx:id="addTime" layoutX="320.0" layoutY="307.0" mnemonicParsing="false" onAction="#addStudyHours" prefHeight="27.0" prefWidth="80.0" text="Add time" />
+   <TextField fx:id="newCourse" layoutX="95.0" layoutY="201.0" prefHeight="27.0" prefWidth="170.0" />
+   <TextField fx:id="timeToAdd" layoutX="280.0" layoutY="273.0" onAction="#initialize" prefHeight="27.0" prefWidth="50.0" />
+   <Button fx:id="addTime" layoutX="340.0" layoutY="273.0" mnemonicParsing="false" onAction="#addStudyHours" prefHeight="27.0" prefWidth="80.0" text="Add time" />
    <Label fx:id="showInformation" layoutX="32.0" layoutY="355.0" prefHeight="27.0" prefWidth="350.0" />
    <Label layoutX="5.0" layoutY="241.0" text="Delete course" />
-   <ChoiceBox fx:id="pickCourseDelete" layoutX="95.0" layoutY="236.0" prefHeight="27.0" prefWidth="214.0" />
-   <Button fx:id="delete" layoutX="320.0" layoutY="236.0" mnemonicParsing="false" onAction="#updateCourseViewAfterDeletion" prefHeight="27.0" prefWidth="80.0" text="Delete" />
+   <Button fx:id="delete" layoutX="340.0" layoutY="236.0" mnemonicParsing="false" onAction="#updateCourseViewAfterDeletion" prefHeight="27.0" prefWidth="80.0" text="Delete" />
    <Button fx:id="statistic" layoutX="320.0" layoutY="404.0" mnemonicParsing="false" onAction="#onOpenStatisticsClick" prefHeight="27.0" prefWidth="140.0" text="Open statistics" />
 </Pane>
