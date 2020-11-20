@@ -1,10 +1,13 @@
 package studytracker.ui;
 
+import java.lang.reflect.Array;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -104,6 +107,8 @@ public class Controller {
       this.semester = new Semester();
     }
     this.createCourseNames();
+    this.pickCourse.setValue("- Pick a course -");
+    this.pickCourseDelete.setValue("- Pick a course -");
     this.timeToAdd.setText("0");
     this.semester.addSemesterListener(semester -> this.saveSemester());
   }
@@ -117,35 +122,44 @@ public class Controller {
   }
 
   /**
-   * methode for adding a course to the app, and displayng it.
+   * Method for adding a course to the app, and displayng it.
    */
   @FXML
   public void addCourse() {
     Boolean added = false;
-    if (newCourse.getText() == "") {
-      showInformation.setText("You have to write a course name");
-    } else if (currentNumberCourses == maxCourses) {
-      showInformation.setText("you can only have " + maxCourses + " courses");
-    } else {
-      for (var i = 0; i < courseNames.size(); i++) {
-        if (courseNames.get(i).getText().equals("")) {
-          added = makeCourse(courseNames.get(i));
-          break;
-        }
-      }
+   
+        if(Pattern.matches("^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$", newCourse.getText())) {
+          if (newCourse.getText() == "") {
+              showInformation.setText("You have to write a course name");
+          } else if (currentNumberCourses == maxCourses) {
+              showInformation.setText("you can only have " + maxCourses + " courses");
+          } else {
+              for (var j = 0; j < courseNames.size(); j++) {
+                if (courseNames.get(j).getText().equals("")) {
+                added = makeCourse(courseNames.get(j));
+                break;
+                }
+              }   
       // checks if a course is added succsessfully
-      if (added == true) {
-        this.currentNumberCourses += 1;
-        for (Label courseTimer : timeSpentOnCourses) {
-          if (courseTimer.getText().equals("")) {
-            courseTimer.setText("0.0 h");
-            break;
-          }
-        }
-      }
+              if (added == true) {
+                this.currentNumberCourses += 1;
+                for (Label courseTimer : timeSpentOnCourses) {
+                  if (courseTimer.getText().equals("")) {
+                    courseTimer.setText("0.0 h");
+                    break;
+                  }
+                }
+              }
       newCourse.setText("");
-    }
+          }
+
+      } else {
+          showInformation.setText("You cannot have special characters in the course name");
+        }
+    
   }
+   
+  
 
   /**
    * Methode for adding a new Course-object to the Semester and setting the text
@@ -179,8 +193,8 @@ public class Controller {
    */
   @FXML
   private void updateDropDownMenus() {
-    pickCourse.setItems(this.courseList);
-    pickCourseDelete.setItems(this.courseList);
+    this.pickCourse.setItems(this.courseList);
+    this.pickCourseDelete.setItems(this.courseList);
   }
 
   /**
