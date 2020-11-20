@@ -228,7 +228,8 @@ public class Controller {
    */
   @FXML
   public void addStudyHours() {
-    String courseChosen = pickCourse.getValue().strip();
+    String courseChosen = pickCourse.getValue();
+    System.out.println(courseChosen);
     if (courseChosen == null) {
       showInformation.setText("You must choose a course");
     }else{

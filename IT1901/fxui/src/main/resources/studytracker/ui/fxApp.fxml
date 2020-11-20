@@ -29,7 +29,7 @@
    <Label fx:id="timeSpentOnCourse2" alignment="CENTER_RIGHT" layoutX="227.0" layoutY="103.0" prefHeight="17.0" prefWidth="208.0" style="-fx-background-color: #6495ED;" />
    <Label fx:id="timeSpentOnCourse3" alignment="CENTER_RIGHT" layoutX="227.0" layoutY="131.0" prefHeight="17.0" prefWidth="208.0" style="-fx-background-color: #98FB98;" />
    <Label fx:id="timeSpentOnCourse4" alignment="CENTER_RIGHT" layoutX="227.0" layoutY="158.0" prefHeight="17.0" prefWidth="208.0" style="-fx-background-color: #9370DB;" />
-   <Label layoutX="5.0" layoutY="278.0" text="add hours">
+   <Label layoutX="5.0" layoutY="278.0" text="Add hours">
       <font>
          <Font size="13.0" />
       </font>
