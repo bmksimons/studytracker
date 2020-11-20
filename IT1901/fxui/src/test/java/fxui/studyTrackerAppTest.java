@@ -41,8 +41,8 @@ public class studyTrackerAppTest extends ApplicationTest {
   public void testAddNewCourse() {
     clickOn("#newCourse").write("IT1901");
     clickOn("#addCourse");
-    //check if one ofe the course name matches IT1901
-    assertEquals(controller.getCourseNames().stream().map(x -> x.getText()).anyMatch(a -> a.equals("IT1901")), true); 
+    // Checks if one of the course name matches IT1901
+    assertEquals(controller.getCourseNames().stream().map(x -> x.getText()).anyMatch(a -> a.equals("IT1901")), true);
   }
 
   @Test
@@ -54,31 +54,36 @@ public class studyTrackerAppTest extends ApplicationTest {
   }
 
   @Test
-  public void testAddTimePlusButton() {
-    clickOn("#newCourse").write("matte");
+  public void testAddStudyHours() {
+    clickOn("#newCourse").write("matte1");
     clickOn("#addCourse");
+    clickOn("#timeToAdd").write("2.0");
     clickOn("#pickCourse");
     type(KeyCode.DOWN);
     type(KeyCode.ENTER);
-    clickOn("#plusTime");
     clickOn("#addTime");
-    assertEquals(true, controller.getTimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("0.25")));
+    assertTrue(controller.getTimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("2.0")));
   }
 
+  /**
+   * Checks if the view of courses gets updated after deleting a course in the
+   * middle of the view.
+   */
   @Test
-  public void testAddTimeMinusButton() {
-    clickOn("#newCourse").write("matte");
+  public void testUpdateViewAfterDeletion() {
+    clickOn("#newCourse").write("matte1");
     clickOn("#addCourse");
-    clickOn("#pickCourse");
-    type(KeyCode.DOWN);
+    clickOn("#newCourse").write("matte2");
+    clickOn("#addCourse");
+    clickOn("#pickCourseDelete");
     type(KeyCode.ENTER);
-    for (int i = 0; i < 10; i++) {
-      clickOn("#plusTime");
+    clickOn("#delete");
+    try {
+      // checks is all the labels are set to an empty string
+      assertTrue(controller.getCourseNames().get(0).getText().equals("matte2"));
+    } catch (NoSuchElementException e) {
     }
-    clickOn("#minusTime");
-    clickOn("#addTime");
-    //Checks if any timelabel match 2.25 h
-    assertEquals(true, controller.getTimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("2.25")));
+
   }
 
   @Test
@@ -90,7 +95,7 @@ public class studyTrackerAppTest extends ApplicationTest {
     type(KeyCode.ENTER);
     clickOn("#delete");
     try {
-      //checks is all the labels are set to an empty string
+      //Checks is all the labels are set to an empty string
       assertEquals(controller.getCourseNames().stream().map(x -> x.getText()).allMatch(a -> a.equals("")), true);
     } catch (NoSuchElementException e) {
     }
@@ -107,7 +112,7 @@ public class studyTrackerAppTest extends ApplicationTest {
   }
 
   @AfterEach
-  public void resetSemester(){
+  public void resetSemester() {
     clickOn("#reset");
   }
 }
