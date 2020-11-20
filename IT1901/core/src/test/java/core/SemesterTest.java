@@ -81,4 +81,12 @@ public class SemesterTest {
     s1.deleteCourse(c1.getCourseName());
     assertEquals(1, this.recievedNotificationCount);
   }
+
+  @Test
+  public void testGetCourse() {
+    Course course = new Course("matte");
+    s1.addCourse(course);
+    Course course2 = s1.getCourse("matte");
+    assertEquals(course, course2);
+  }
 }

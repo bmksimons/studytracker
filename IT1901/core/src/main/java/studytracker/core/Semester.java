@@ -36,7 +36,8 @@ public class Semester implements Iterable<Course> {
    */
   private boolean checkIfCourseExists(String courseName) {
     for (Course excistingCourse: this.courseList){
-      if (courseName.equals(excistingCourse.getCourseName())){
+      if (courseName.toLowerCase().equals(excistingCourse.getCourseName().toLowerCase())) {
+        
         return true;
       }
     }
