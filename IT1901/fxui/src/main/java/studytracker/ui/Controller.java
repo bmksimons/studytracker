@@ -152,7 +152,7 @@ public class Controller {
           } else {
               for (var j = 0; j < courseNames.size(); j++) {
                 if (courseNames.get(j).getText().equals("")) {
-                added = makeCourse(courseNames.get(j));
+                added = createCourse(courseNames.get(j));
                 break;
                 }
               }   
