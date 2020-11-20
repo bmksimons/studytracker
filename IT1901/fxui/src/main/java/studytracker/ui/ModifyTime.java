@@ -8,13 +8,14 @@ import java.util.regex.Pattern;
  * Class for calculating time-related issues for the controller.
  */
 public class ModifyTime {
+
   /**
-   * Method for adding time to a course.
+   * Method for converting a string containing.
    * 
-   * @param time take in a string and transform it into a double.
-   * @return a string with new time +"t" for a given course.
+   * @param time string with the current time.
+   * @return a string with new time for a given course.
    */
-  public String addTime(String time) {
+  public String increaseTime(String time) {
     String[] partition = time.split(Pattern.quote(" "));
     Double currentTime = Double.parseDouble(partition[0]);
     currentTime = currentTime + 0.25;
@@ -27,12 +28,11 @@ public class ModifyTime {
    * @param time string with the current time.
    * @return string with the new time.
    */
-  public String removeTime(String time) {
+  public String reduceTime(String time) {
     String[] partition = time.split(Pattern.quote(" "));
     Double currentTime = Double.parseDouble(partition[0]);
-
     if (currentTime == 0) {
-      return ("it is not possible to add a negative amount of hours");
+      throw new IllegalArgumentException("It is not possible to add a negative amount of hours");
     } else {
       currentTime = currentTime - 0.25;
       return (currentTime.toString());
@@ -42,17 +42,16 @@ public class ModifyTime {
   /**
    * Method for converting a string into double and calculate studied time.
    * 
-   * @param timeToAdd  a string that contains the time you want to add to a course 
+   * @param timeToAdd   a string that contains the time you want to add to a
+   *                    course.
    * @param currentTime a string with the current time spent on a course.
-   * @return a list of doubles with three elements; hoursToAdd,
-   *         currentTimeStudied, and newTimeStudied which is the sum of the two
-   *         other.
+   * @return a list of doubles with two elements; hoursToAdd and newTimeStudied.
    */
-  public List<Double> modifyTimeSpent(String timeToAdd, String currentTime) {
-    Double hoursToAdd = Double.parseDouble(timeToAdd.split(Pattern.quote(" "))[0]);
+  public List<Double> calculateTimeToAdd(String timeToAdd, String currentTime) {
+    Double hoursToAdd = Double.valueOf(timeToAdd.strip());
     Double currentTimeStudied = Double.parseDouble(currentTime.split(Pattern.quote(" "))[0]);
     Double newTimeStudied = hoursToAdd + currentTimeStudied;
-    List<Double> list = Arrays.asList(hoursToAdd, currentTimeStudied, newTimeStudied);
+    List<Double> list = Arrays.asList(hoursToAdd, newTimeStudied);
     return list;
   }
 }
