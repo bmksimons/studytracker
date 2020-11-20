@@ -35,16 +35,6 @@
       </font>
    </Label>
    <ChoiceBox fx:id="pickCourse" layoutX="95.0" layoutY="273.0" prefHeight="27.0" prefWidth="214.0" />
-   <Button fx:id="minusTime" layoutX="382.0" layoutY="274.0" mnemonicParsing="false" onAction="#reduceTimeToAdd" prefHeight="25.0" prefWidth="24.0" text="-">
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font>
-   </Button>
-   <Button fx:id="plusTime" layoutX="406.0" layoutY="274.0" mnemonicParsing="false" onAction="#increaseTime" prefHeight="25.0" prefWidth="24.0" text="+">
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font>
-   </Button>
    <Label layoutX="5.0" layoutY="206.0" text="Add course">
       <font>
          <Font size="13.0" />

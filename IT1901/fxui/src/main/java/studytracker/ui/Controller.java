@@ -59,10 +59,6 @@ public class Controller {
   @FXML
   TextField timeToAdd;
   @FXML
-  Button plusTime;
-  @FXML
-  Button minusTime;
-  @FXML
   Button addTime;
   @FXML
   Button statistic;
@@ -110,7 +106,8 @@ public class Controller {
   }
 
   /**
-   * Sets the correct name and time spent on the labels while initializing the app.
+   * Sets the correct name and time spent on the labels while initializing the
+   * app.
    */
   private void initializeLabels() {
     Iterator<Course> semesterIt = this.semester.iterator();
@@ -127,12 +124,13 @@ public class Controller {
     }
   }
 
-  private void setRemoteSemesterAccess(RemoteSemesterAccess remoteAccess){
+  private void setRemoteSemesterAccess(RemoteSemesterAccess remoteAccess) {
     this.remoteAccess = remoteAccess;
   }
 
   /**
-   * Delegates saving the semester in the restserver by calling putSemester in RemoteSemesterAccess.
+   * Delegates saving the semester in the restserver by calling putSemester in
+   * RemoteSemesterAccess.
    */
   public void saveSemester() {
     this.remoteAccess.putSemester(this.semester);
@@ -211,14 +209,6 @@ public class Controller {
   }
 
   /**
-   * Method for increasing the time you want to add.
-   */
-  @FXML
-  public void increaseTime() {
-    timeToAdd.setText(modifyTime.increaseTime(timeToAdd.getText()));
-  }
-
-  /**
    * Opens a new fxml-window with the statistics of time spent on each course.
    */
   @FXML
@@ -237,19 +227,6 @@ public class Controller {
   }
 
   /**
-   * Method for reducing time to add.
-   */
-  @FXML
-  public void reduceTimeToAdd() {
-    try{
-        String time = modifyTime.reduceTime(timeToAdd.getText());
-        timeToAdd.setText(time);
-    } catch (IllegalArgumentException e){
-      showInformation.setText("It is not possible to add a negative amount of hours");
-    }
-  }
-
-  /**
    * Checks if a course is chosen. If so, calls modifyTimeSpent.
    */
   @FXML
@@ -258,23 +235,22 @@ public class Controller {
     System.out.println(courseChosen);
     if (courseChosen == null) {
       showInformation.setText("You must choose a course");
-    }else{
-    try {
-      for (var i = 0; i < courseNames.size(); i++) {
-        if (courseChosen.equals(courseNames.get(i).getText())) {
-          modifyTimeSpent(courseNames.get(i), timeSpentOnCourses.get(i));
-          break;
+    } else {
+      try {
+        for (var i = 0; i < courseNames.size(); i++) {
+          if (courseChosen.equals(courseNames.get(i).getText())) {
+            modifyTimeSpent(courseNames.get(i), timeSpentOnCourses.get(i));
+            break;
+          }
         }
+        timeToAdd.setText("0");
+        showInformation.setText("");
+      } catch (Exception NumberFormatException) {
+        showInformation.setText("You must add a number, not a word or a letter.");
+        timeToAdd.setText("0");
       }
-      timeToAdd.setText("0");
-      showInformation.setText("");
-    }
-    catch (Exception NumberFormatException ) {
-      showInformation.setText("You must add a number, not a word or a letter.");
-      timeToAdd.setText("0");
     }
   }
-}
 
   /**
    * Method that gets called by addStudyHours to modify the semester and labels
@@ -309,10 +285,16 @@ public class Controller {
     showInformation.setText("The semester was deleted");
   }
 
-  @FXML
-  private void setFieldsEmpty(Label courseName, Label courseTime) {
-    courseName.setText("");
-    courseTime.setText("");
+  /**
+   * Method for adding elements in courseNames and timeSepntOnCourses
+   * 
+   * @return ArrayList with all coursenames and time spent on each of the courses.
+   */
+  private ArrayList<Label> combineLabels() {
+    ArrayList<Label> tmp = new ArrayList<>();
+    tmp.addAll(this.courseNames);
+    tmp.addAll(this.timeSpentOnCourses);
+    return tmp;
   }
 
   /**
@@ -360,21 +342,15 @@ public class Controller {
     showInformation.setText("The course has been deleted");
   }
 
-  /**
-   * Method for adding elements in courseNames and timeSepntOnCourses
-   * 
-   * @return ArrayList with all coursenames and time spent on each of the courses.
-   */
-  private ArrayList<Label> combineLabels() {
-    ArrayList<Label> tmp = new ArrayList<>();
-    tmp.addAll(this.courseNames);
-    tmp.addAll(this.timeSpentOnCourses);
-    return tmp;
+  @FXML
+  private void setFieldsEmpty(Label courseName, Label courseTime) {
+    courseName.setText("");
+    courseTime.setText("");
   }
 
   /**
-   * Combines the labels to their own list. One for coursenames and one for time
-   * spent on courses
+   * CAdds the labels to two seperate lists. One for coursenames and one for time
+   * spent on courses.
    */
   public void addLabelsToList() {
     this.courseNames.add(this.courseName1);
@@ -387,41 +363,18 @@ public class Controller {
     this.timeSpentOnCourses.add(this.timeSpentOnCourse4);
   }
 
-
   /**
    * All methods below are for testing purposes.
    */
-
-   public RemoteSemesterAccess getRemoteSemesterAccess() {
+  public RemoteSemesterAccess getRemoteSemesterAccess() {
     return this.remoteAccess;
-  } 
+  }
 
   /**
    * @return courseNames
    */
   public List<Label> getCourseNames() {
     return this.courseNames;
-  }
-
-  /**
-   * @return timeSpentOnCourses
-   */
-  public List<Label> gettimeSpentOnCourses() {
-    return this.timeSpentOnCourses;
-  }
-
-  /**
-   * Method for passing the labels to the testclass.
-   * 
-   * @return a list with relevant labels.
-   */
-  public List<Label> labelsForTesting() {
-    List<Label> labelsForTesting = combineLabels();
-    return labelsForTesting;
-  }
-
-  public Label getShowInformation() {
-    return this.showInformation;
   }
 
   /**
