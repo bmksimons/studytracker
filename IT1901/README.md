@@ -6,31 +6,32 @@ I tillegg skal det kunne vises statistikk for antallet timer som har blitt stude
 Appen er en trelagsapplikasjoen som består av domenelag, brukergrensesnitt og persistens. 
 
 ## Organisering av koden
-Prosjektet er organisert i 5 moduler, fxui,core, integrationTests, restApi og restServer. FXUI,core, restserver og integrationTests har to kildekodemapper, en for koden(main)
+Prosjektet er organisert i 5 moduler: fxui, core, integrationtests, restapi og restserver. FXUI, core, restserver og integrationtests har to kildekodemapper, en for koden(main)
 og en for testene. Restapi har ikke en kildekodemappe for tester, da denne blir testet av testene som ligger i restserver sin testkode. 
 
 fxui:
 - **fxui/src/main/java/studytracker/ui** for controllere og App.java samt tilhørende hjelpeklasser. 
 - **fxui/src/main/resources/studytracker/ui** for FXML-filen.
-- **fxui/src/test/java** for testkoden til Controlleren og App.java.
-- **fxui/src/test/resources** for en enklere kopi av fxml-filen som brukes i testene til Controlleren og App.java.
+- **fxui/src/test/java/fxui** for testkoden til Controlleren og App.java.
+- **fxui/src/test/resources/studytracker/ui** for en enklere kopi av fxml-filen som brukes i testene til Controlleren og App.java.
 
 core:
 - **core/src/main/java/studytracker/core** for Semester og Course klassene.
 - **core/src/main/java/studytracker/json** for Serializer, og Deserializer klassene for å håndtere fillagring via JSON og Jackson.
-- **core/src/test** for testkoden til JSON, Semester og Course klassene.
+- **core/src/test/java** for testkoden til JSON, Semester og Course klassene.
 
 integrationtests:
-- **integrationtests/src/main/WEBAPP** for å starte serveren.
-- **integrationtests/src/Test** for testing av serveren.
-
-restserver:
-- **restserver/src/main/java/studytracker/restserver** for servervedlikehold.
-- **restserver/src/resources/studytracker/restserver** for JSON-filene.
-- **restserver/src/test/** for testkoden til både restserver og restapi.
+- **integrationtests/src/main/webapp/WEB-INF** for å starte serveren.
+- **integrationtests/src/test/java/studytracker/ui** for testing av serveren.
+- **integrationtests/src/test/resources/studytracker/ui** for kopi av fxml-filen for testing inne i integrationtests.
 
 restapi:
-- **restapi/src/main/** for behandling av serverRequest, POST,GET,DELETE,PUT.
+- **restapi/src/main/java/stduytracker/restapi** to klasser behandling av serverrequests; POST, PUT, DELETE og GET.
+
+restserver:
+- **restserver/src/main/java/studytracker/restserver** for å sette opp og konfigurere serveren.
+- **restserver/src/resources/studytracker/restserver** for JSON-filen appen lagres i.
+- **restserver/src/test/java/restserver** for testkoden til både restserver og restapi.
 
 ### Domenelaget
 
@@ -60,8 +61,8 @@ enklere og mer brukervennlig.
 ### Serverlaget
 
 I serverlaget ligger klasser og logikk tilknyttet lagring og henting av informasjon fra server. Serveren kjøres med jetty. Koden til serveren finnes i
-[resterver/java/studytracker/restserver](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2066/gr2066/-/tree/master/IT1901/restserver/src/main/java/studytracker/restserver).FXUI har remoteSemesterAccess-klassen som 
-sender http-request til serveren. Dette går via restapi, som er modulen som behandler slike forsespørsler. Koden for hvordan vi behandler du ulike forespørselene ligger i 
+[resterver/java/studytracker/restserver](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2066/gr2066/-/tree/master/IT1901/restserver/src/main/java/studytracker/restserver).FXUI har RemoteSemesterAccess-klassen som 
+sender http-request til serveren. Dette går via restapi, som er modulen som behandler slike forespørsler. Koden for hvordan vi behandler du ulike forespørselene ligger i 
 [restapi/java/studytracker/restapi](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2066/gr2066/-/tree/master/IT1901/restapi/src/main/java/studytracker/restapi)
 
 
