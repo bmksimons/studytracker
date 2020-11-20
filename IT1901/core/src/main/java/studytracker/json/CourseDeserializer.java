@@ -12,6 +12,9 @@ import com.fasterxml.jackson.databind.node.TextNode;
 import java.io.IOException;
 import studytracker.core.Course;
 
+/**
+ * Deserialize a json-file to a Course object.
+ */
 public class CourseDeserializer extends JsonDeserializer<Course> {
 
   @Override
@@ -21,6 +24,9 @@ public class CourseDeserializer extends JsonDeserializer<Course> {
     return this.deserialize((JsonNode) treeNode);
   }
 
+  /*
+   * format: { "courseName": "...", "courseTimer": Double }
+   */
   public Course deserialize(JsonNode jsonNode) {
     if (jsonNode instanceof ObjectNode) {
       ObjectNode objectNode = (ObjectNode) jsonNode;
