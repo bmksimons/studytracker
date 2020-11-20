@@ -17,7 +17,7 @@ Deretter må serveren startes med
 mvn -pl integrationtests jetty:run -D"jetty.port=8999"
 ```
 Dette er for å sette riktig serveradresse.
-Nå er det mulig å bruke mvn install som vanlig og tester kan kjøres. 
+Nå er det mulig å bruke ```mvn install``` som vanlig og tester kan kjøres. 
 
 Prosjektet må kjøres ifra fxui-modulen. Det kan gjøres ved å enten gå inn i fxui ```cd fxui```, eller ved å bruke kommandoen under fra IT1901.
 ```bash
