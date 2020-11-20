@@ -50,20 +50,6 @@ public class AppIT extends ApplicationTest{
     clickOn("#addCourse");
     clickOn("#newCourse").write("Matte");
     assertEquals(controller.getRemoteSemesterAccess().getSemester().getCourses().size(), 1);
-  }
-
-  @Test
-  public void testDeleteCourseSimple() {
-    clickOn("#newCourse").write("matte1");
-    clickOn("#addCourse");
-    clickOn("#pickCourseDelete");
-    type(KeyCode.DOWN);
-    type(KeyCode.ENTER);
-    clickOn("#delete");
-    try {
-      assertEquals(controller.getCourseNames().stream().map(x -> x.getText()).allMatch(a -> a.equals("")), true);
-    } catch (NoSuchElementException e) {
-    }
   } 
 
   @AfterEach
