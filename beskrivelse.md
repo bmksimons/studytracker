@@ -1,7 +1,7 @@
 # Beskrivelse av studytracker-app
 
 Brukeren er student og vil holde oversikt over hvor mye tid en bruker på hvert fag.
-Applikasjonen skal kunne registrere fag, som legges til i databasen. Til enhver tid skal brukeren kunne se antallet timer som har blitt brukt på hvert fag, og legge til/trekke fra timer. Brukeren kan også vise fram statistikk over antallet timer studert i de ulike fagene.
+Applikasjonen skal kunne registrere fag, som legges til i databasen. Til enhver tid skal brukeren kunne se antallet timer som har blitt brukt på hvert fag, og legge til timer. Brukeren kan også vise fram statistikk over antallet timer studert i de ulike fagene.
 Det skal være mulig å nullstille all data, slik at antall timer studert i alle fag = 0. Dette er nyttig hvis det er starten på en ny uke eller et nytt semester.
 Det skal være mulig å slette fag fra appen. 
 
@@ -25,7 +25,7 @@ actor user
 user -> "~#newCourse: TextField" as newCourse: write
 newCourse -> "~#addCourse: Button" as addCourse: click
 addCourse -> Controller: addCourse
-Controller -> Semester: makeCourse
+Controller -> Semester: createCourse
 Semester -> Semester: fireSemesterChanged
 Semester -> SemesterListener: semesterChanged
 SemesterListener -> Controller: saveSemester
