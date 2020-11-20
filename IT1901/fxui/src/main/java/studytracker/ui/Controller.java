@@ -104,7 +104,7 @@ public class Controller {
       this.semester = new Semester();
     }
     this.createCourseNames();
-    this.timeToAdd.setText("0 t");
+    this.timeToAdd.setText("0");
     this.semester.addSemesterListener(semester -> this.saveSemester());
   }
 
@@ -228,20 +228,26 @@ public class Controller {
    */
   @FXML
   public void addStudyHours() {
-    String courseChosen = pickCourse.getValue();
+    String courseChosen = pickCourse.getValue().strip();
     if (courseChosen == null) {
       showInformation.setText("You must choose a course");
-    } else {
+    }else{
+    try {
       for (var i = 0; i < courseNames.size(); i++) {
         if (courseChosen.equals(courseNames.get(i).getText())) {
           makeStudyHours(courseNames.get(i), timeSpentOnCourses.get(i));
           break;
         }
       }
-      timeToAdd.setText("0 h");
+      timeToAdd.setText("0");
       showInformation.setText("");
     }
+    catch (Exception NumberFormatException ) {
+      showInformation.setText("You must add a double, not a string.");
+      timeToAdd.setText("0");
+    }
   }
+}
 
   /**
    * Method for adding and updating time spent on a course.
@@ -256,7 +262,7 @@ public class Controller {
     List<Double> timeValue = modifyTime.makeStudyHours(timeToAdd.getText(), courseTime.getText());
     this.semester.addTimeToCourse(courseName.getText(), timeValue.get(0));
     this.remoteAccess.addTimeToCourse(courseName.getText(), timeValue.get(0));
-    courseTime.setText(timeValue.get(2) + " h");
+    courseTime.setText(timeValue.get(2).toString());
   }
 
   /**
@@ -269,7 +275,7 @@ public class Controller {
     for (Label label : combineLabels()) {
       label.setText("");
     }
-    timeToAdd.setText("0 h");
+    timeToAdd.setText("0");
     courseList.clear();
     updateDropDownMenus();
     currentNumberCourses = 0;
@@ -296,7 +302,7 @@ public class Controller {
       for (int i = 0; i < courseNames.size(); i++) {
         if (courseNames.get(i).getText().equals(courseChosenDelete)) {
           makeDeleteCourse(courseNames.get(i), timeSpentOnCourses.get(i));
-          while (courseNames.get(i+1).getText() != "" ) {
+          while (!courseNames.get(i+1).getText().equals("")) {
             courseNames.get(i).setText(courseNames.get(i+1).getText());
             courseNames.get(i+1).setText("");
             timeSpentOnCourses.get(i).setText(timeSpentOnCourses.get(i+1).getText());

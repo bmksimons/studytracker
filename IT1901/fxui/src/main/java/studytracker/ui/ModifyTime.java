@@ -19,7 +19,7 @@ public class ModifyTime {
     String[] partition = time.split(Pattern.quote(" "));
     Double currentTime = Double.parseDouble(partition[0]);
     currentTime = currentTime + 0.25;
-    return (currentTime + " h");
+    return (currentTime.toString());
   }
 
   /**
@@ -37,7 +37,7 @@ public class ModifyTime {
       return ("it is not possible to add a negative amount of hours");
     } else {
       currentTime = currentTime - 0.25;
-      return (currentTime + " t");
+      return (currentTime.toString());
     }
   }
 
