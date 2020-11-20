@@ -12,11 +12,17 @@ import java.io.IOException;
 import studytracker.core.Course;
 import studytracker.core.Semester;
 
+/**
+ * Deserialize a json-file to a Semester object with several Course objects.
+ */
 public class SemesterDeserializer extends JsonDeserializer<Semester> {
 
   private CourseDeserializer courseDeserializer = new CourseDeserializer();
   private Semester semester;
 
+  /*
+   * format: { "courses" : [ { "courseName" : "..." , "courseTimer" : Double}, ... , ] }
+   */
   @Override
   public Semester deserialize(JsonParser parser, DeserializationContext ctxt)
       throws IOException, JsonProcessingException {

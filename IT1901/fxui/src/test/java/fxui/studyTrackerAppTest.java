@@ -42,7 +42,7 @@ public class studyTrackerAppTest extends ApplicationTest {
     clickOn("#newCourse").write("IT1901");
     clickOn("#addCourse");
     //check if one ofe the course name matches IT1901
-    assertEquals(controller.getCourseNames().stream().map(x -> x.getText()).anyMatch(a -> a.equals("IT1901")), true); 
+    assertTrue(controller.getCourseNames().stream().map(x -> x.getText()).anyMatch(a -> a.equals("IT1901"))); 
   }
 
   @Test
@@ -62,7 +62,7 @@ public class studyTrackerAppTest extends ApplicationTest {
     type(KeyCode.ENTER);
     clickOn("#plusTime");
     clickOn("#addTime");
-    assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("0.25")), true);
+    assertTrue(controller.gettimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("0.25")));
   }
 
   @Test
@@ -78,7 +78,7 @@ public class studyTrackerAppTest extends ApplicationTest {
     clickOn("#minusTime");
     clickOn("#addTime");
     //Checks if any timelabel match 2.25 h
-    assertEquals(controller.gettimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("2.25")), true);
+    assertTrue(controller.gettimeSpentOnCoursesList().stream().anyMatch(a -> a.equals("2.25")));
   }
 
   @Test
@@ -91,7 +91,7 @@ public class studyTrackerAppTest extends ApplicationTest {
     clickOn("#delete");
     try {
       //checks is all the labels are set to an empty string
-      assertEquals(controller.getCourseNames().stream().map(x -> x.getText()).allMatch(a -> a.equals("")), true);
+      assertTrue(controller.getCourseNames().stream().map(x -> x.getText()).allMatch(a -> a.equals("")));
     } catch (NoSuchElementException e) {
     }
   }

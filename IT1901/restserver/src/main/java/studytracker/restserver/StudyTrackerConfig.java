@@ -19,7 +19,7 @@ public class StudyTrackerConfig extends ResourceConfig {
   /**
    * Initialize this StudyTrackerConfig.
    *
-   * @param semester semester instance to serve
+   * @param semester semester instance to serve.
    */
   public StudyTrackerConfig(Semester semester) {
     setSemester(semester);
@@ -56,8 +56,7 @@ public class StudyTrackerConfig extends ResourceConfig {
       try (Reader reader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)) {
         return studyTrackerPersistence.readSemester(reader);
       } catch (IOException e) {
-        System.out.println("Couldn't read semester.json, so rigging Semester manually ("
-            + e + ")");
+        System.err.println("Couldn't read semester.json so rigging semester manually" + e);
       }
     }
     Semester semester = new Semester();
