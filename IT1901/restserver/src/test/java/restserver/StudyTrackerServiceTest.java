@@ -24,6 +24,11 @@ import studytracker.restapi.SemesterService;
 import studytracker.restserver.StudyTrackerConfig;
 import studytracker.restserver.StudyTrackerModuleObjectMapperProvider;
 
+
+/**
+ * Tests setting up the Semester with StudyTrackerConfig. 
+ * Tests the methods in restapi. 
+ */
 public class StudyTrackerServiceTest extends JerseyTest {
 
   @Override

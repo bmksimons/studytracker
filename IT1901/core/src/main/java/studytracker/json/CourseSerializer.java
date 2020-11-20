@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import java.io.IOException;
 import studytracker.core.Course;
 
+/**
+ * Serialize a Course object to a json-file.
+ */
 public class CourseSerializer extends JsonSerializer<Course> {
 
   /*

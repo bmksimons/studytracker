@@ -29,7 +29,6 @@ public class Course {
  * Adds time to the course
  * 
  * @param timeSpent the time which to be added to the course
- *
  */
   public void addTime(Double timeSpent) {
     if (timeSpent < 0) {
