@@ -148,7 +148,7 @@ public class Controller {
           if (newCourse.getText() == "") {
               showInformation.setText("You have to write a course name");
           } else if (currentNumberCourses == maxCourses) {
-              showInformation.setText("you can only have " + maxCourses + " courses");
+              showInformation.setText("You can only have " + maxCourses + " courses");
           } else {
               for (var j = 0; j < courseNames.size(); j++) {
                 if (courseNames.get(j).getText().equals("")) {
@@ -161,22 +161,22 @@ public class Controller {
                 this.currentNumberCourses += 1;
                 for (Label courseTimer : timeSpentOnCourses) {
                   if (courseTimer.getText().equals("")) {
-                    courseTimer.setText("0.0 h");
+                    courseTimer.setText("0.0");
+                    showInformation.setText("The course has been added");
                     break;
                   }
                 }
               }
       newCourse.setText("");
+      
           }
 
       } else {
-          showInformation.setText("You cannot have special characters in the course name");
+          showInformation.setText("You cannot have special characters in course name");
         }
     
   }
    
-  
-
   /**
    * Method for adding a new Course-object to the Semester and setting the text
    * for the given label to equal the new course name.
@@ -191,6 +191,7 @@ public class Controller {
       this.semester.addCourse(course);
       courseName.setText(newCourse.getText());
       courseList.add(newCourse.getText());
+      System.out.println(courseList.add(newCourse.getText()));
       updateDropDownMenus();
       return true;
     } catch (final IllegalArgumentException e) {
@@ -232,7 +233,6 @@ public class Controller {
   @FXML
   public void addStudyHours() {
     String courseChosen = pickCourse.getValue();
-    System.out.println(courseChosen);
     if (courseChosen == null) {
       showInformation.setText("You must choose a course");
     } else {
