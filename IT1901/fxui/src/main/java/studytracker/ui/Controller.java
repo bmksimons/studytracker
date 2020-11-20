@@ -244,7 +244,7 @@ public class Controller {
       showInformation.setText("");
     }
     catch (Exception NumberFormatException ) {
-      showInformation.setText("You must add a double, not a string.");
+      showInformation.setText("You must add a number, not a word or a letter.");
       timeToAdd.setText("0");
     }
   }
